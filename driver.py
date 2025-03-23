@@ -1,6 +1,6 @@
-from compiler.parser import parse
-from compiler.codegen import compile_program
-import vm
+from parser import parse
+from codegen import compile_program
+import vm as vm
 
 def main():
     # Example source code in your language.
