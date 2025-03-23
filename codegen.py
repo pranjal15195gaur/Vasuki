@@ -1,4 +1,4 @@
-from compiler.top import Int, BinOp, Program
+from top import Int, BinOp, Program
 
 # Opcodes (must match vm.py definitions)
 OP_ADD  = 0  # add
