@@ -1,4 +1,3 @@
-# lexer.py
 from collections.abc import Iterator
 from dataclasses import dataclass
 
@@ -25,22 +24,15 @@ class KeywordToken(Token):
 class ParenToken(Token):
     w: str
 
-# NEW: Token for identifiers (variable names)
-@dataclass
-class IdentifierToken(Token):
-    name: str
-
 def lex(s: str) -> Iterator[Token]:
     i = 0
     while True:
-        # Skip whitespace
         while i < len(s) and s[i].isspace():
             i += 1
 
         if i == len(s):
             return
 
-        # Numbers (integer or float)
         if s[i].isdigit():
             t = s[i]
             i += 1
@@ -53,26 +45,26 @@ def lex(s: str) -> Iterator[Token]:
                     isFloat = True
                 t += s[i]
                 i += 1
-
-            if not isValid:
-                raise ValueError(f"Invalid number token found: {t}")
-
-            if isFloat:
+            if not isValid: 
+                raise ValueError('Invalid number token found :- {}'.format(t))
+            if isFloat: 
                 yield FloatToken(t)
-            else:
+            else: 
                 yield IntToken(t)
 
-        # Identifiers (variable names) and keywords
-        elif s[i].isalpha() or s[i] == '_':
+        elif s[i].isalpha():
             t = s[i]
             i += 1
-            while i < len(s) and (s[i].isalnum() or s[i] == '_'):
+            while i < len(s) and s[i].isalpha():
                 t += s[i]
                 i += 1
-            if t in ['if', 'else']:
-                yield KeywordToken(t)
-            else:
-                yield IdentifierToken(t)
+            match t:
+                case 'if' | 'else':
+                    if i < len(s) and s[i] == '{':
+                        raise ValueError("Condition missing after '{}' keyword".format(t))
+                    yield KeywordToken(t)
+                case _:
+                    yield KeywordToken(t)
 
         elif s[i] == '(':
             i += 1
@@ -90,12 +82,6 @@ def lex(s: str) -> Iterator[Token]:
             i += 1
             yield OperatorToken('}')
 
-        # NEW: Semicolon for statement separation
-        elif s[i] == ';':
-            i += 1
-            yield OperatorToken(';')
-
-        # Operators (including two-character operators)
         elif s[i] in '+-*/<>=!':
             if s[i:i+2] in ['<=', '>=', '==', '!=', '**']:
                 yield OperatorToken(s[i:i+2])
@@ -104,5 +90,14 @@ def lex(s: str) -> Iterator[Token]:
                 yield OperatorToken(s[i])
                 i += 1
 
+        elif s[i] == ';':
+            i += 1
+            yield OperatorToken(';')
+        elif s[i] == '%':  # modulo operator
+            i += 1
+            yield OperatorToken('%')
+        elif s[i] == ',':
+            i += 1
+            yield OperatorToken(',')
         else:
-            raise ValueError(f"Unexpected character: {s[i]}")
+            raise ValueError('Unexpected character found :- {}'.format(s[i]))
