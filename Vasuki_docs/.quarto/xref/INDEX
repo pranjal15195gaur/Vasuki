@@ -1,0 +1,20 @@
+{
+  "index.qmd": {
+    "index.html": "f7549015"
+  },
+  "about.qmd": {
+    "about.html": "f2d072aa"
+  },
+  "about-beginners.qmd": {
+    "about-beginners.html": "4b0256dd"
+  },
+  "about-seasoned.qmd": {
+    "about-seasoned.html": "92fbbe38"
+  },
+  "advanced.qmd": {
+    "advanced.html": "38b37eab"
+  },
+  "beginner.qmd": {
+    "beginner.html": "a049a9c7"
+  }
+}
