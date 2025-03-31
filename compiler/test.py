@@ -130,29 +130,29 @@ class TestRunTests(unittest.TestCase):
         self.assertEqual(output, "3\n")
         self.assertEqual(result, 3)
 
-    # def test_goandreturn_dynamic_scope(self):
-    #     """
-    #     Tests that local overshadowing doesn't overwrite outer variables.
-    #     Every statement is explicitly terminated by a semicolon.
-    #     """
-    #     code = """
-    #     var a = 10;
+    def test_goandreturn_dynamic_scope(self):
+        """
+        Tests that local overshadowing doesn't overwrite outer variables.
+        Every statement is explicitly terminated by a semicolon.
+        """
+        code = """
+        var a = 10;
 
-    #     func f(){
-    #         label:
-    #             var a = 5;
+        def f(){
+            label:
+                var a = 5;
 
-    #         label return;
-    #     };
+            label return;
+        };
 
-    #     goandreturn label;
+        goandreturn label;
 
-    #     print(a);
+        print(a);
 
-    #     """
-    #     ast = parse(code)
-    #     result = e(ast)
-    #     self.assertEqual(result, 5)
+        """
+        ast = parse(code)
+        result = e(ast)
+        self.assertEqual(result, 5)
 
 def run_tests():
     unittest.main(verbosity=2)

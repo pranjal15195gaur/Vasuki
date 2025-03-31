@@ -294,35 +294,42 @@ def e(tree: AST, env=None) -> int:
 
 
 def find_label_block(label_name: str):
-    """
-    Searches the global program statements for a matching label.
-    Collects statements until a matching LabelReturn is found.
-    Returns the collected statements or None if not found.
-    """
     global_program = getattr(builtins, 'global_program', None)
     if not global_program or not isinstance(global_program, Program):
         return None
+    return _find_label_block_in(global_program, label_name)
 
-    in_block = False
-    block_stmts = []
-    for stmt in global_program.statements:
-        if isinstance(stmt, Label) and stmt.name == label_name:
-            in_block = True
-            continue
-        if in_block:
-            if isinstance(stmt, LabelReturn) and stmt.name == label_name:
-                return block_stmts
-            block_stmts.append(stmt)
+def _find_label_block_in(node: AST, label_name: str):
+    # If it's a Program, check each statement, and also recurse within statements
+    if isinstance(node, Program):
+        in_block = False
+        collected = []
+        for stmt in node.statements:
+            # Start collecting after matching Label
+            if isinstance(stmt, Label) and stmt.name == label_name:
+                in_block = True
+                collected = []
+                continue
+            # Stop collecting at matching LabelReturn
+            if in_block:
+                if isinstance(stmt, LabelReturn) and stmt.name == label_name:
+                    return collected
+                collected.append(stmt)
+            # Recurse into nested statements
+            found = _find_label_block_in(stmt, label_name)
+            if found is not None:
+                return found
+
+    # If it's a FunctionDef, recurse into its body
+    elif isinstance(node, FunctionDef):
+        return _find_label_block_in(node.body, label_name)
+
+    # Otherwise, not found here
     return None
 
 def run_label_block(stmts, label_name, env):
-    """
-    Executes the statements collected by find_label_block
-    until a LabelReturn with the same name or the end.
-    """
     if not stmts:
         return None
-
     for stmt in stmts:
         if isinstance(stmt, LabelReturn) and stmt.name == label_name:
             return None
