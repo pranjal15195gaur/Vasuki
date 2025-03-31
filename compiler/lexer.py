@@ -57,7 +57,9 @@ def lex(s: str) -> Iterator[Token]:
         elif s[i].isalpha():
             t = s[i]
             i += 1
-            while i < len(s) and s[i].isalpha():
+            while i < len(s) and s[i].isalpha() or s[i].isdigit() or s[i] == '_':
+                if s[i].isdigit() and t[-1] == '_':
+                    raise ValueError("Invalid identifier token found :- {}".format(t))
                 t += s[i]
                 i += 1
             match t:
