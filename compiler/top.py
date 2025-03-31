@@ -107,14 +107,52 @@ class LabelReturn(AST):
 class GoAndReturn(AST):
     name: str
 
+# New AST nodes for arrays
+@dataclass
+class ArrayLiteral(AST):
+    elements: list[AST]
+
+@dataclass
+class ArrayIndex(AST):
+    array: AST
+    index: AST
+
+@dataclass
+class FunctionDef(AST):
+    name: str
+    params: list[str]
+    body: AST
+
+# A helper to represent a user‐defined function (its parameter names, body, and the closure in which it was defined)
+@dataclass
+class UserFunction:
+    params: list[str]
+    body: AST
+    closure: Environment
+
+@dataclass
+class Return(AST):
+    value: AST
+
+class ReturnException(Exception):
+    def __init__(self, value):
+        self.value = value
+
+
 def e(tree: AST, env=None) -> int:
     if env is None:
         env = Environment()
 
     match tree:
+
+        case FunctionDef(name, params, body):
+            uf = UserFunction(params, body, env)
+            env.declare(name, uf)
+            return uf
+        
+
         case Program(stmts):
             result = None
-            # Evaluate statements in the global environment
             for stmt in stmts:
                 result = e(stmt, env)
             return result
@@ -145,10 +183,10 @@ def e(tree: AST, env=None) -> int:
                 case "**": return left_val ** right_val
                 case "*": return left_val * right_val
                 case "/":
-                    if isinstance(left_val, int) and left_val%(right_val)==0 :
+                    if isinstance(left_val, int) and left_val % right_val == 0:
                         return left_val // right_val
                     return left_val / right_val
-                case "%": return left_val % right_val       # support for modulo operator
+                case "%": return left_val % right_val
                 case "+": return left_val + right_val
                 case "-": return left_val - right_val
                 case "<": return left_val < right_val
@@ -157,8 +195,8 @@ def e(tree: AST, env=None) -> int:
                 case ">=": return left_val >= right_val
                 case "==": return left_val == right_val
                 case "!=": return left_val != right_val
-                case "and": return (left_val and right_val)    # logical and
-                case "or": return (left_val or right_val)      # logical or
+                case "and": return (left_val and right_val)
+                case "or": return (left_val or right_val)
                 case _: raise ValueError(f"Unsupported binary operator: {op}")
 
         case Parentheses(expp): 
@@ -171,26 +209,19 @@ def e(tree: AST, env=None) -> int:
                 if elseif_cond is None:
                     raise ValueError("Condition missing in 'elseif' statement")
             if e(cond, env):
-                # Create a new static (child) environment for the then block
                 return e(then, Environment(env))
             for elseif_cond, elseif_then in elseif_branches:
                 if e(elseif_cond, env):
-                    # New child environment for elseif block
                     return e(elseif_then, Environment(env))
             if elsee is not None:
-                # New child environment for else block
                 return e(elsee, Environment(env))
             return None
 
         case For(init, condition, increment, body):
-            # Evaluate initialization in current env
             e(init, env)
             result = None
-            # Loop while condition is true
             while e(condition, env):
-                # Execute body in a new child environment for static scoping
                 result = e(body, Environment(env))
-                # Execute increment in current env
                 e(increment, env)
             return result
 
@@ -207,13 +238,44 @@ def e(tree: AST, env=None) -> int:
 
         case FunctionCall(name, args):
             evaluated_args = [e(a, env) for a in args]
-            if name == "max":
+            try:
+                func = env.lookup(name)
+            except ValueError:
+                func = None
+            if func is not None and isinstance(func, UserFunction):
+                if len(evaluated_args) != len(func.params):
+                    raise ValueError(f"Function {name} expects {len(func.params)} arguments, got {len(evaluated_args)}")
+                new_env = Environment(func.closure)
+                for param, arg in zip(func.params, evaluated_args):
+                    new_env.declare(param, arg)
+                try:
+                    return e(func.body, new_env)
+                except ReturnException as re:
+                    return re.value
+            elif name == "max":
                 return max(*evaluated_args)
             elif name == "min":
                 return min(*evaluated_args)
             else:
                 raise ValueError(f"Unknown function {name}")
 
+        case Return(expr):
+            # When a return is encountered, evaluate the expression and raise an exception to exit the function.
+            raise ReturnException(e(expr, env))
+
+        # New evaluation rules for arrays
+        case ArrayLiteral(elements):
+            return [e(el, env) for el in elements]
+        case ArrayIndex(array, index):
+            arr = e(array, env)
+            idx = e(index, env)
+            if not isinstance(idx, int):
+                raise ValueError("Array index must be an integer")
+            # One-based indexing: adjust for Python's zero-based lists.
+            return arr[idx - 1]
+
+        
+                
         case Label(name):
             # Just a marker, do nothing
             return None
