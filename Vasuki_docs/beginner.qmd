@@ -1,0 +1,8 @@
+---
+title: "Vasuki Beginner Documentation"
+format: html
+---
+
+# Getting Started with Vasuki
+
+Welcome to the beginner track! Here you'll find easy-to-follow guides, tutorials, and examples to get you started with Vasuki.

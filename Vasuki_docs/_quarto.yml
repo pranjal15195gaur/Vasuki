@@ -1,0 +1,23 @@
+project:
+  type: website
+  title: "Vasuki Documentation"
+
+website:
+  favicon: assets/logo.png
+  navbar:
+    left:
+      - text: Home
+        href: index.qmd
+      - text: Beginner
+        href: beginner.qmd
+      - text: Advanced
+        href: advanced.qmd
+
+format:
+  html:
+    theme:
+      light: flatly
+      dark: darkly
+      
+    css: assets/custom.css
+    js: assets/custom.js

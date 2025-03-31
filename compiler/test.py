@@ -31,7 +31,7 @@ class TestRunTests(unittest.TestCase):
         tests_error = [
             "if 1 == 1 { 5",                          # missing closing brace
             "if 2 < 3 { 4 } else if { 5 }",           # missing condition after 'else if'
-            "var x = 10 x + 5",                       # missing semicolon between statements
+            "var x = 10 x + 5",                       # Operator missing
             "x + 5"                                   # using undefined variable
         ]
         for code in tests_error:
@@ -104,6 +104,55 @@ class TestRunTests(unittest.TestCase):
 
         # Project Euler problem 3
 
+    def test_goandreturn(self):
+        import io
+        from contextlib import redirect_stdout
+
+        code = """
+        var a = 0;
+
+        mycustomlabel:
+        a = a + 1;
+
+        mycustomlabel return;
+
+        a = a + 1;
+
+        goandreturn mycustomlabel;
+
+        print(a);
+        """
+        f = io.StringIO()
+        with redirect_stdout(f):
+            ast = parse(code)
+            result = e(ast)
+        output = f.getvalue()
+        self.assertEqual(output, "3\n")
+        self.assertEqual(result, 3)
+
+    # def test_goandreturn_dynamic_scope(self):
+    #     """
+    #     Tests that local overshadowing doesn't overwrite outer variables.
+    #     Every statement is explicitly terminated by a semicolon.
+    #     """
+    #     code = """
+    #     var a = 10;
+
+    #     func f(){
+    #         label:
+    #             var a = 5;
+
+    #         label return;
+    #     };
+
+    #     goandreturn label;
+
+    #     print(a);
+
+    #     """
+    #     ast = parse(code)
+    #     result = e(ast)
+    #     self.assertEqual(result, 5)
 
 def run_tests():
     unittest.main(verbosity=2)

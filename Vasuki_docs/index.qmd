@@ -1,0 +1,17 @@
+---
+title: "Welcome to Vasuki"
+format: html
+---
+
+<div class="header-logo" style="text-align: center; margin: 20px;">
+  <img src="assets/og_logo.png" alt="Vasuki Logo" width="350"/>
+</div>
+
+# Welcome to Vasuki Documentation
+
+Vasuki is a modern programming language designed to empower both beginners and seasoned programmers. Please choose your track below:
+
+<div class="track-options" style="text-align: center; margin-top: 30px;">
+  <a class="btn btn-primary" href="beginner.qmd" style="margin: 0 10px; padding: 10px 20px; font-size: 1.2em;">Beginner Track</a>
+  <a class="btn btn-secondary" href="advanced.qmd" style="margin: 0 10px; padding: 10px 20px; font-size: 1.2em;">Advanced Track</a>
+</div>

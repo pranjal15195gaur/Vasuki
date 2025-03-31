@@ -1,0 +1,72 @@
+[
+  {
+    "objectID": "about.html",
+    "href": "about.html",
+    "title": "About",
+    "section": "",
+    "text": "About this site"
+  },
+  {
+    "objectID": "about.html#beginners",
+    "href": "about.html#beginners",
+    "title": "About",
+    "section": "For Absolute Beginners",
+    "text": "For Absolute Beginners\nLearn the basics in a step-by-step manner:\n\nIntroduction to Syntax\n\nWorking with Variables\n\nRunning Your First Program\n\n\nBeginner Tutorial\nFollow these steps to write and run your first program: 1. … 2. … 3. …"
+  },
+  {
+    "objectID": "about.html#seasoned",
+    "href": "about.html#seasoned",
+    "title": "About",
+    "section": "For Seasoned Programmers",
+    "text": "For Seasoned Programmers\nAdvanced concepts and optimizations:\n\nLanguage Internals\nPerformance Tuning\nDebugging Techniques"
+  },
+  {
+    "objectID": "index.html",
+    "href": "index.html",
+    "title": "Welcome to Vasuki",
+    "section": "",
+    "text": "Welcome to Vasuki Documentation\nVasuki is a modern programming language designed to empower both beginners and seasoned programmers. Please choose your track below:\n\nBeginner Track Advanced Track"
+  },
+  {
+    "objectID": "about-seasoned.html",
+    "href": "about-seasoned.html",
+    "title": "Advanced Track",
+    "section": "",
+    "text": "Advanced concepts and optimizations:\n\nLanguage Internals\nPerformance Tuning\nDebugging Techniques"
+  },
+  {
+    "objectID": "about-seasoned.html#for-seasoned-programmers",
+    "href": "about-seasoned.html#for-seasoned-programmers",
+    "title": "Advanced Track",
+    "section": "",
+    "text": "Advanced concepts and optimizations:\n\nLanguage Internals\nPerformance Tuning\nDebugging Techniques"
+  },
+  {
+    "objectID": "about-beginners.html",
+    "href": "about-beginners.html",
+    "title": "Beginner Track",
+    "section": "",
+    "text": "Learn the basics in a step-by-step manner:\n\nIntroduction to Syntax\n\nWorking with Variables\n\nRunning Your First Program\n\n\n\nFollow these steps to write and run your first program: 1. … 2. … 3. …"
+  },
+  {
+    "objectID": "about-beginners.html#for-absolute-beginners",
+    "href": "about-beginners.html#for-absolute-beginners",
+    "title": "Beginner Track",
+    "section": "",
+    "text": "Learn the basics in a step-by-step manner:\n\nIntroduction to Syntax\n\nWorking with Variables\n\nRunning Your First Program\n\n\n\nFollow these steps to write and run your first program: 1. … 2. … 3. …"
+  },
+  {
+    "objectID": "beginner.html",
+    "href": "beginner.html",
+    "title": "Vasuki Beginner Documentation",
+    "section": "",
+    "text": "Getting Started with Vasuki\nWelcome to the beginner track! Here you’ll find easy-to-follow guides, tutorials, and examples to get you started with Vasuki."
+  },
+  {
+    "objectID": "advanced.html",
+    "href": "advanced.html",
+    "title": "Vasuki Advanced Documentation",
+    "section": "",
+    "text": "Vasuki for Seasoned Programmers\nThis section covers advanced topics, performance tips, and deep dives into Vasuki’s internals for experienced developers."
+  }
+]

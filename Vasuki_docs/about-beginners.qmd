@@ -1,0 +1,16 @@
+---
+title: "Beginner Track"
+---
+
+## For Absolute Beginners
+Learn the basics in a step-by-step manner:
+
+1. Introduction to Syntax  
+2. Working with Variables  
+3. Running Your First Program  
+
+### Beginner Tutorial
+Follow these steps to write and run your first program:
+1. ...
+2. ...
+3. ...

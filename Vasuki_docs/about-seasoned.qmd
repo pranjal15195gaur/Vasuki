@@ -1,0 +1,10 @@
+---
+title: "Advanced Track"
+---
+
+## For Seasoned Programmers
+Advanced concepts and optimizations:
+
+- Language Internals
+- Performance Tuning
+- Debugging Techniques

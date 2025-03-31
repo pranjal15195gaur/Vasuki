@@ -1,0 +1,8 @@
+---
+title: "Vasuki Advanced Documentation"
+format: html
+---
+
+# Vasuki for Seasoned Programmers
+
+This section covers advanced topics, performance tips, and deep dives into Vasuki’s internals for experienced developers.

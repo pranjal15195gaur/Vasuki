@@ -1,4 +1,5 @@
 from dataclasses import dataclass
+import builtins
 
 class AST:
     pass
@@ -93,6 +94,18 @@ class Print(AST):
 class FunctionCall(AST):
     name: str
     args: list[AST]
+
+@dataclass
+class Label(AST):
+    name: str
+
+@dataclass
+class LabelReturn(AST):
+    name: str
+
+@dataclass
+class GoAndReturn(AST):
+    name: str
 
 def e(tree: AST, env=None) -> int:
     if env is None:
@@ -201,5 +214,55 @@ def e(tree: AST, env=None) -> int:
             else:
                 raise ValueError(f"Unknown function {name}")
 
+        case Label(name):
+            # Just a marker, do nothing
+            return None
+        case LabelReturn(name):
+            # Also just a marker, do nothing
+            return None
+        case GoAndReturn(name):
+            # Interpret the labeled block again, reusing same env
+            labeled_ast = find_label_block(name)
+            if not labeled_ast:
+                raise ValueError(f"Label {name} not found")
+            return run_label_block(labeled_ast, name, env)
+
         case _:
             raise ValueError("Unsupported node type")
+
+
+def find_label_block(label_name: str):
+    """
+    Searches the global program statements for a matching label.
+    Collects statements until a matching LabelReturn is found.
+    Returns the collected statements or None if not found.
+    """
+    global_program = getattr(builtins, 'global_program', None)
+    if not global_program or not isinstance(global_program, Program):
+        return None
+
+    in_block = False
+    block_stmts = []
+    for stmt in global_program.statements:
+        if isinstance(stmt, Label) and stmt.name == label_name:
+            in_block = True
+            continue
+        if in_block:
+            if isinstance(stmt, LabelReturn) and stmt.name == label_name:
+                return block_stmts
+            block_stmts.append(stmt)
+    return None
+
+def run_label_block(stmts, label_name, env):
+    """
+    Executes the statements collected by find_label_block
+    until a LabelReturn with the same name or the end.
+    """
+    if not stmts:
+        return None
+
+    for stmt in stmts:
+        if isinstance(stmt, LabelReturn) and stmt.name == label_name:
+            return None
+        e(stmt, env)
+    return None

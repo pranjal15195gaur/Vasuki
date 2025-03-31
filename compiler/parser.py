@@ -1,11 +1,12 @@
-from top import BinOp, UnOp, Float, Int, If, Parentheses, Program, VarDecl, VarReference, Assignment, AST, For, While, Print, FunctionCall
+from top import BinOp, UnOp, Float, Int, If, Parentheses, Program, VarDecl, VarReference, Assignment, AST, For, While, Print, FunctionCall, Label, LabelReturn, GoAndReturn
 from lexer import IntToken, FloatToken, OperatorToken, KeywordToken, ParenToken, Token, lex
+import builtins
+from more_itertools import peekable
 
 class ParseError(Exception):
     pass
 
 def parse(s: str) -> AST:
-    from more_itertools import peekable
     t = peekable(lex(s))
 
     def expect(what: Token):
@@ -152,6 +153,10 @@ def parse(s: str) -> AST:
         return Program(statements) if len(statements) > 1 else statements[0]
     
     def parse_statement():
+        # Skip any leading semicolons
+        while t.peek(None) == OperatorToken(';'):
+            next(t)
+
         match t.peek(None):
             case KeywordToken("print"):
                 next(t)  # consume "print"
@@ -171,7 +176,7 @@ def parse(s: str) -> AST:
                     expect(ParenToken('('))
                 except ParseError:
                     raise ParseError("Expected '(' after 'for'")
-                init = parse_statement()  # allow var-decl/assignment in initialization
+                init = parse_statement()
                 try:
                     expect(OperatorToken(';'))
                 except ParseError:
@@ -181,12 +186,12 @@ def parse(s: str) -> AST:
                     expect(OperatorToken(';'))
                 except ParseError:
                     raise ParseError("Expected ';' after for-loop condition")
-                increment = parse_statement()  # allow assignment in increment
+                increment = parse_statement()
                 try:
                     expect(ParenToken(')'))
                 except ParseError:
                     raise ParseError("Expected ')' after for-loop increment")
-                body = parse_block()  # use block parser for loop body
+                body = parse_block()
                 return For(init, condition, increment, body)
             case KeywordToken("while"):
                 next(t)  # consume "while"
@@ -199,12 +204,12 @@ def parse(s: str) -> AST:
                     expect(ParenToken(')'))
                 except ParseError:
                     raise ParseError("Expected ')' after while-loop condition")
-                body = parse_block()  # use block parser for loop body
+                body = parse_block()
                 return While(condition, body)
             case KeywordToken("var"):
                 next(t)  # consume "var"
                 token = t.peek(None)
-                if not (isinstance(token, KeywordToken) and token.w not in ["if", "else", "var", "for", "while", "and", "or", "print"]):
+                if not (isinstance(token, KeywordToken) and token.w not in ["if", "else", "var", "for", "while", "and", "or", "print", "goandreturn"]):
                     raise ParseError("Expected variable name after 'var'")
                 var_name = token.w
                 next(t)
@@ -214,6 +219,33 @@ def parse(s: str) -> AST:
                     raise ParseError("Expected '=' after variable name in declaration")
                 expr = parse_logic_or()
                 return VarDecl(var_name, expr)
+            case KeywordToken("goandreturn"):
+                next(t)
+                label_name_token = t.peek(None)
+                if not isinstance(label_name_token, KeywordToken):
+                    raise ParseError("Expected label name after 'goandreturn'")
+                label_name = label_name_token.w
+                next(t)
+                return GoAndReturn(label_name)
+            case KeywordToken(label_name):
+                # Consume the keyword token
+                label_token = next(t)
+                next_token = t.peek(None)
+                if isinstance(next_token, OperatorToken) and next_token.o == ':':
+                    next(t)  # consume ':'
+                    return Label(label_name)
+                elif isinstance(next_token, KeywordToken) and next_token.w == 'return':
+                    next(t)
+                    return LabelReturn(label_name)
+                else:
+                    # Put label_token back and parse expression
+                    t.prepend(label_token)
+                    expr = parse_logic_or()
+                    if isinstance(expr, VarReference) and t.peek(None) == OperatorToken('='):
+                        next(t)
+                        rhs = parse_logic_or()
+                        return Assignment(expr.name, rhs)
+                    return expr
             case _:
                 expr = parse_logic_or()
                 if isinstance(expr, VarReference) and t.peek(None) == OperatorToken('='):
@@ -225,14 +257,18 @@ def parse(s: str) -> AST:
     def parse_program():
         statements = []
         while t.peek(None) is not None:
-            statements.append(parse_statement())
+            stmt = parse_statement()
+            statements.append(stmt)
             if t.peek(None) is not None:
-                # Enforce semicolon between statements
-                if t.peek(None) == OperatorToken(';'):
-                    next(t)
-                else:
-                    raise ParseError("Missing semicolon between statements")
+                # Exempt label, label return, and goandreturn from semicolon enforcement.
+                if not isinstance(stmt, (Label, LabelReturn, GoAndReturn)):
+                    if t.peek(None) == OperatorToken(';'):
+                        next(t)
+                    else:
+                        raise ParseError("Missing semicolon between statements")
         return statements[0] if len(statements) == 1 else Program(statements)
 
     result = parse_program()
+    final_ast = result if isinstance(result, Program) else Program([result])
+    setattr(builtins, 'global_program', final_ast)
     return result

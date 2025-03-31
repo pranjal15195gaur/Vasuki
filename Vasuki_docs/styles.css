@@ -1,0 +1,21 @@
+/* css styles */
+body {
+  background-color: #f9f9f9;
+  font-family: 'Segoe UI', Tahoma, sans-serif;
+}
+code {
+  background: #f5f2f0;
+  color: #c7254e;
+  padding: 3px 5px;
+  border-radius: 3px;
+}
+
+.dark-mode {
+  background-color: #2f2f2f;
+  color: #eee;
+}
+
+.dark-mode code {
+  background-color: #444;
+  color: #ffcc66;
+}
