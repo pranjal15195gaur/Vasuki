@@ -256,6 +256,26 @@ def e(tree: AST, env=None) -> int:
                 return max(*evaluated_args)
             elif name == "min":
                 return min(*evaluated_args)
+            elif name == "push":
+                # Expecting two arguments: the array and the element to push.
+                if len(evaluated_args) != 2:
+                    raise ValueError("push expects two arguments: push(array, element)")
+                arr, value = evaluated_args
+                if not isinstance(arr, list):
+                    raise ValueError("push: first argument must be an array")
+                arr.append(value)
+                # Optionally, you can return the modified array or its new length.
+                return arr  # or: return len(arr)
+            elif name == "pop":
+                # Expecting one argument: the array to pop from.
+                if len(evaluated_args) != 1:
+                    raise ValueError("pop expects one argument: pop(array)")
+                arr = evaluated_args[0]
+                if not isinstance(arr, list):
+                    raise ValueError("pop: argument must be an array")
+                if not arr:
+                    raise ValueError("pop: cannot pop from an empty array")
+                return arr.pop()
             else:
                 raise ValueError(f"Unknown function {name}")
 

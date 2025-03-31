@@ -1,0 +1,17 @@
+var a = 10;
+
+def f(){
+    label:
+        var a = 5;
+
+    label return;
+};
+
+goandreturn label;
+
+var a = [1, 2, 3, 4, 5];
+push(a, 6);
+print(a[5]);
+pop(a);
+
+print(a);
