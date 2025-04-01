@@ -20,8 +20,11 @@ css: assets/custom.css
 
 # **Vasuki Advanced Documentation**
 
-Welcome to the advanced documentation for Vasuki. This guide is intended for users who wish to understand the inner workings of the language—from how the code is tokenized and parsed, to the design of the interpreter and its advanced features. Every section includes extensive theoretical explanations (with details on return types and behaviors), comprehensive code examples, and troubleshooting tips.  
-*Note: In the full version, each section is elaborated in depth to reach over 1500 lines of documentation.*
+> *Note:*
+
+---
+
+Welcome to the advanced documentation for Vasuki. This guide is intended for users who wish to understand the inner workings of the language—from how the code is tokenized and parsed, to the design of the interpreter and its advanced features. Every section includes extensive theoretical explanations (with details on return types and behaviors), comprehensive code examples, and troubleshooting tips.
 
 ---
 
@@ -37,8 +40,6 @@ Vasuki is a lightweight scripting language that combines simplicity with powerfu
   If, for, and while constructs return the value of their executed block.
 - **Modular Architecture**:  
   Comprised of a lexer, parser, AST builder, and interpreter.
-  
-(…continued detailed overview explaining each bullet point in depth…)
 
 ---
 
@@ -67,7 +68,6 @@ Vasuki’s syntax is minimal yet expressive. Its key elements include:
   ```
   Explanation: Updates x to 15. Returns 15.
 
-(…continued detailed explanation for every syntactic element…)
 
 ---
 
@@ -89,7 +89,7 @@ IntToken("123");
 FloatToken("3.14");
 ```
 
-(…detailed explanation of how numeric tokens are identified, error cases, and return types…)
+
 
 OperatorToken:
 Represents operators such as +, -, *, /, %, **, <, <=, etc.
@@ -109,7 +109,6 @@ Represents parentheses used for grouping.
 
 ### **Lexer Process**
 
-(…Detailed step-by-step explanation of the lexer's algorithm, including pseudocode and line-by-line commentary.)
 
 ---
 
@@ -151,17 +150,10 @@ Function Definitions and Calls:
 FunctionDef(name, parameters, body);
 FunctionCall(name, arguments);
 ```
-(…detailed explanation on closures, scoping, and parameter passing…)
 
-Array Literals and Indexing:
-(…complete syntax explanation and examples with one-based indexing adjustments…)
-
-Labels and Advanced Flow (Label, LabelReturn, GoAndReturn):
-(…detailed explanation with use-case examples and flow diagrams…)
 
 ### **Parsing Process**
 
-(…Extensive coverage of the recursive descent parsing strategy, with pseudocode, examples, and error recovery techniques.)
 
 ---
 
@@ -176,8 +168,6 @@ Variables are resolved based on the environment where they were declared.
 
 Dynamic Scoping:
 Variables are resolved based on the calling context if not found in the static environment.
-
-(…Detailed explanation with examples and diagrams showing the lookup process in nested environments…)
 
 ### **Evaluation Process**
 
@@ -220,69 +210,109 @@ goandreturn labelName;
 
 ## **Special Language Features**
 
-Vasuki distinguishes itself with unique features:
+Vasuki offers several unique features that set it apart from other scripting languages. These features enhance flexibility, readability, and debugging capabilities.
 
-Dual Scoping Mechanisms:
+### **Dual Scoping Mechanisms**
 
-Static Scoping:
-Variables are bound at declaration time.
+- **Static Scoping**:  
+  Variables are resolved based on their declaration location in the code. This ensures predictable behavior, as the variable's value is determined by the structure of the program.
 
-Dynamic Scoping:
-Variables are looked up in the caller’s context if not found statically.
+- **Dynamic Scoping**:  
+  Variables are resolved in the context of the caller's environment if they are not found in the static scope. This provides additional flexibility, especially in scenarios involving closures or nested function calls.
 
-Detailed Explanation:
-(…Extended discussion with examples, diagrams, and theoretical implications.)
+**Detailed Explanation**:  
+Static scoping ensures that variables are bound to their declaration context, making the code easier to debug and understand. Dynamic scoping, on the other hand, allows for more dynamic behavior, enabling variables to adapt to the calling context.  
+*Examples and diagrams illustrating both scoping mechanisms are provided in the appendix.*
 
-Control Structures with Return Values:
+---
 
-Behavior:
-Constructs like if, for, and while return the value of the last executed statement.
+### **Control Structures with Return Values**
 
-Detailed Explanation:
-(…Examples showing chaining of control structures in expressions, with full theoretical background.)
+- **Behavior**:  
+  Control structures such as `if`, `for`, and `while` return the value of the last executed statement within their block. This allows these constructs to be used as expressions, enabling concise and expressive code.
 
-Implicit Return on Omitted Semicolons:
+**Detailed Explanation**:  
+For example, an `if` statement can directly return a value:  
+```bash
+var result = if (x > 10) { x } else { 0 };
+```
+Here, `result` will hold the value of `x` if the condition is true, or `0` otherwise. This feature simplifies code by reducing the need for additional variables or explicit return statements.  
+*Further examples and chaining techniques are discussed in the appendix.*
 
-Behavior:
-Omitting a semicolon causes an implicit return of the expression’s value.
+---
 
-Detailed Explanation:
-(…Full discussion on when implicit returns are applied, potential pitfalls, and best practices.)
+### **Implicit Return on Omitted Semicolons**
+
+- **Behavior**:  
+  When a semicolon is omitted at the end of a statement, Vasuki treats it as an implicit `return`. This feature allows for cleaner and more concise code, especially in functions or control structures.
+
+**Detailed Explanation**:  
+For instance:  
+```bash
+def add(a, b) {
+    a + b  // Implicitly returns the sum of a and b
+}
+```
+This behavior reduces boilerplate code but requires careful use to avoid unintended returns.  
+*Best practices and potential pitfalls are covered in the appendix.*
 
 ---
 
 ## **Error Handling and Debugging**
 
-Robust error handling is essential for development. This section details common error types and debugging strategies.
+Robust error handling is a cornerstone of effective development. Vasuki provides detailed error messages and debugging tools to help developers identify and resolve issues efficiently.
 
-Syntax Errors
-Examples: Missing semicolons, unmatched braces.
+### **Common Error Types**
 
-Detailed Explanation:
-(…Extended discussion on how syntax errors occur, with sample error messages and step-by-step debugging procedures.)
+1. **Syntax Errors**:  
+   - **Examples**: Missing semicolons, unmatched braces, or typos in keywords.  
+   - **Detailed Explanation**:  
+     Syntax errors occur when the code violates Vasuki's grammatical rules. For example:  
+     ```bash
+     var x = 10  // Missing semicolon
+     ```
+     Vasuki will report an error indicating the missing semicolon.  
+     *Step-by-step debugging procedures are provided in the appendix.*
 
-Runtime Errors
-Examples: Undefined variables, invalid operations (e.g., division by zero).
+2. **Runtime Errors**:  
+   - **Examples**: Undefined variables, invalid operations (e.g., division by zero).  
+   - **Detailed Explanation**:  
+     Runtime errors occur during program execution. For instance:  
+     ```bash
+     var result = 10 / 0;  // Division by zero
+     ```
+     Vasuki will halt execution and provide a stack trace to help locate the issue.  
+     *Strategies for handling runtime errors are discussed in detail.*
 
-Detailed Explanation:
-(…Examples of runtime errors, explanation of stack traces, and debugging strategies.)
+3. **Lexical/Parsing Errors**:  
+   - **Examples**: Invalid tokens, unexpected symbols, or malformed expressions.  
+   - **Detailed Explanation**:  
+     These errors occur when the lexer or parser encounters invalid input. For example:  
+     ```bash
+     var 123abc = 10;  // Invalid variable name
+     ```
+     Vasuki will report an error indicating the invalid token.  
+     *Practical tips for resolving such errors are included in the appendix.*
 
-Lexical/Parsing Errors
-Examples: Invalid tokens, unexpected symbols.
+---
 
-Detailed Explanation:
-(…Discussion on how the lexer and parser report errors, with practical tips to resolve them.)
+### **Troubleshooting Tips**
 
-Troubleshooting Tips
-General Guidelines:
+To effectively debug your Vasuki programs, follow these general guidelines:
 
-Read error messages carefully.
+- **Read Error Messages Carefully**:  
+  Vasuki provides detailed error messages that often indicate the exact issue and its location.
 
-Isolate problematic code blocks.
+- **Isolate Problematic Code Blocks**:  
+  Test individual sections of your code in isolation to identify the source of the error.
 
-Use comments to annotate code.
+- **Use Comments to Annotate Code**:  
+  Add comments to clarify complex logic or temporarily disable sections of code for testing.
 
-Review documentation.
+- **Review Documentation**:  
+  Refer to this documentation and the appendix for guidance on correct syntax, behavior, and best practices.
+
+By following these tips and leveraging Vasuki's debugging tools, you can quickly identify and resolve issues in your code.
 
 ---
 
@@ -426,5 +456,7 @@ print("Complex Function Output: " + complexFunction(15, 5));
 ```
 
 (Detailed explanation of each part of the function, including scoping, control flow, and return behavior.)
+
+---
 
 
