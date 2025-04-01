@@ -1,0 +1,15 @@
+var a = 10;
+
+def f(){
+    label:
+        var c = 5;
+        a = 15;
+
+    label return;
+};
+
+goandreturn label;
+
+print(c);
+
+print(a);
