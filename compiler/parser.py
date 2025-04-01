@@ -104,6 +104,46 @@ def parse(s: str) -> AST:
                 return If(cond, then_expr, elseif_branches, else_expr)
         return If(cond, then_expr, elseif_branches, None)
 
+    # 1) Extract the "while" parsing into a helper function:
+    def parse_while():
+        next(t)  # consume the 'while'
+        try:
+            expect(ParenToken('('))
+        except ParseError:
+            raise ParseError("Expected '(' after 'while'")
+        condition = parse_logic_or()
+        try:
+            expect(ParenToken(')'))
+        except ParseError:
+            raise ParseError("Expected ')' after while-loop condition")
+        body = parse_block()
+        return While(condition, body)
+
+    # 1) Extract the “for” parsing into a helper function
+    def parse_for():
+        next(t)  # consume "for"
+        try:
+            expect(ParenToken('('))
+        except ParseError:
+            raise ParseError("Expected '(' after 'for'")
+        init = parse_statement()
+        try:
+            expect(OperatorToken(';'))
+        except ParseError:
+            raise ParseError("Expected ';' after for-loop initializer")
+        condition = parse_logic_or()
+        try:
+            expect(OperatorToken(';'))
+        except ParseError:
+            raise ParseError("Expected ';' after for-loop condition")
+        increment = parse_statement()
+        try:
+            expect(ParenToken(')'))
+        except ParseError:
+            raise ParseError("Expected ')' after for-loop increment")
+        body = parse_block()
+        return For(init, condition, increment, body)
+
     def parse_atom():
         match t.peek(None):
             case IntToken(v):
@@ -148,6 +188,11 @@ def parse(s: str) -> AST:
                     node = FunctionCall(func_name, call_args)
                 else:
                     node = VarReference(func_name)
+            case KeywordToken("while"):
+                return parse_while()
+            # 2) Handle “for” here too, so “var c = for(...) { ... }” can parse
+            case KeywordToken("for"):
+                return parse_for()
             case _:
                 raise ParseError("Unexpected token in atom")
         
@@ -235,41 +280,9 @@ def parse(s: str) -> AST:
                     raise ParseError("Expected ')' after print argument")
                 return Print(expr)
             case KeywordToken("for"):
-                next(t)  # consume "for"
-                try:
-                    expect(ParenToken('('))
-                except ParseError:
-                    raise ParseError("Expected '(' after 'for'")
-                init = parse_statement()
-                try:
-                    expect(OperatorToken(';'))
-                except ParseError:
-                    raise ParseError("Expected ';' after for-loop initializer")
-                condition = parse_logic_or()
-                try:
-                    expect(OperatorToken(';'))
-                except ParseError:
-                    raise ParseError("Expected ';' after for-loop condition")
-                increment = parse_statement()
-                try:
-                    expect(ParenToken(')'))
-                except ParseError:
-                    raise ParseError("Expected ')' after for-loop increment")
-                body = parse_block()
-                return For(init, condition, increment, body)
+                return parse_for()
             case KeywordToken("while"):
-                next(t)  # consume "while"
-                try:
-                    expect(ParenToken('('))
-                except ParseError:
-                    raise ParseError("Expected '(' after 'while'")
-                condition = parse_logic_or()
-                try:
-                    expect(ParenToken(')'))
-                except ParseError:
-                    raise ParseError("Expected ')' after while-loop condition")
-                body = parse_block()
-                return While(condition, body)
+                return parse_while()
             case KeywordToken("var"):
                 next(t)  # consume "var"
                 token = t.peek(None)

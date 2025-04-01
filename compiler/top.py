@@ -221,14 +221,20 @@ def e(tree: AST, env=None) -> int:
             e(init, env)
             result = None
             while e(condition, env):
-                result = e(body, Environment(env))
+                try:
+                    result = e(body, Environment(env))
+                except ReturnException as re:
+                    return re.value
                 e(increment, env)
             return result
 
         case While(condition, body):
             result = None
             while e(condition, env):
-                result = e(body, env)
+                try:
+                    result = e(body, env)
+                except ReturnException as re:
+                    return re.value
             return result
 
         case Print(expr):

@@ -1,6 +1,7 @@
 from top import e
 from parser import parse, ParseError
 import unittest
+import coverage
 
 class TestRunTests(unittest.TestCase):
     def test_successful_tests(self):
@@ -154,8 +155,18 @@ class TestRunTests(unittest.TestCase):
         result = e(ast)
         self.assertEqual(result, 5)
 
-def run_tests():
-    unittest.main(verbosity=2)
+def coverage_main():
+    cov = coverage.Coverage(source=[
+        "/home/ruchitjagodara/Education/compilers/Vasuki/compiler/lexer.py",
+        "/home/ruchitjagodara/Education/compilers/Vasuki/compiler/parser.py",
+        "/home/ruchitjagodara/Education/compilers/Vasuki/compiler/top.py"
+    ])
+    cov.start()
+    unittest.main(verbosity=2, exit=False)
+    cov.stop()
+    cov.save()
+    cov.report()
+    cov.html_report(directory="coveragereport")
 
 if __name__ == "__main__":
-    run_tests()
+    coverage_main()
