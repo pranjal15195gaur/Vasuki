@@ -20,7 +20,7 @@ css: assets/custom.css
 
 # **Vasuki Advanced Documentation**
 
-> *Note:*
+
 
 ---
 
