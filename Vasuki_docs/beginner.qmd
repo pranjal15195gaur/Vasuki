@@ -4,18 +4,22 @@ format: html
 css: assets/custom.css
 ---
 
-[Edit on GitHub](https://github.com/YourUser/VasukiDocs/edit/main/beginners.qmd)
 
-<!-- Table of Contents -->
-- [Introduction](#introduction)
-- [Getting Started](#getting-started)
-- [Basic Syntax](#basic-syntax)
-- [Control Structures](#control-structures)
-- [Functions](#functions)
-- [Arrays](#arrays)
-- [Special Features](#special-features)
-- [Error Handling](#error-handling)
-- [Example Program Walkthrough](#example-program-walkthrough)
+<div style="position: fixed; left: 0; top: 0; width: 200px; height: 100%; background-color: #f4f4f4; padding: 10px; overflow-y: auto; border-right: 1px solid #ddd;">
+  <h3>Navigation</h3>
+  <ul style="list-style-type: none; padding: 0;">
+    <li><a href="https://github.com/YourUser/VasukiDocs/edit/main/beginners.qmd" target="_blank">Edit on GitHub</a></li>
+    <li><a href="#introduction">Introduction</a></li>
+    <li><a href="#getting-started">Getting Started</a></li>
+    <li><a href="#basic-syntax">Basic Syntax</a></li>
+    <li><a href="#control-structures">Control Structures</a></li>
+    <li><a href="#functions">Functions</a></li>
+    <li><a href="#arrays">Arrays</a></li>
+    <li><a href="#special-features">Special Features</a></li>
+    <li><a href="#error-handling">Error Handling</a></li>
+    <li><a href="#example-program-walkthrough">Example Program Walkthrough</a></li>
+  </ul>
+</div>
 
 # **Vasuki Beginner's Documentation**
 
