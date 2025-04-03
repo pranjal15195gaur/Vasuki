@@ -4,24 +4,25 @@ format: html
 css: assets/custom.css
 ---
 
-[Edit on GitHub](https://github.com/YourUser/VasukiDocs/edit/main/advanced.qmd)
+<div style="position: fixed; left: 0; top: 0; width: 200px; height: 100%; background-color: #f4f4f4; padding: 10px; overflow-y: auto; border-right: 1px solid #ddd;">
+  <h3>Navigation</h3>
+  <ul style="list-style-type: none; padding: 0;">
+    <li><a href="https://github.com/YourUser/VasukiDocs/edit/main/advanced.qmd" target="_blank">Edit on GitHub</a></li>
+    <li><a href="#overview">Overview</a></li>
+    <li><a href="#syntax-structure-overview">Syntax Structure Overview</a></li>
+    <li><a href="#lexical-analysis-lexer">Lexical Analysis (Lexer)</a></li>
+    <li><a href="#parsing-and-ast">Parsing and AST</a></li>
+    <li><a href="#interpreter-and-environment">Interpreter and Environment</a></li>
+    <li><a href="#advanced-constructs">Advanced Constructs</a></li>
+    <li><a href="#special-language-features">Special Language Features</a></li>
+    <li><a href="#error-handling-and-debugging">Error Handling and Debugging</a></li>
+    <li><a href="#example-program-walkthrough">Example Program Walkthrough</a></li>
+    <li><a href="#appendix-extended-explanations-and-examples">Appendix: Extended Explanations and Examples</a></li>
+  </ul>
+</div>
 
-<!-- Table of Contents -->
-- [Overview](#overview)
-- [Syntax Structure Overview](#syntax-structure-overview)
-- [Lexical Analysis (Lexer)](#lexical-analysis-lexer)
-- [Parsing and AST](#parsing-and-ast)
-- [Interpreter and Environment](#interpreter-and-environment)
-- [Advanced Constructs](#advanced-constructs)
-- [Special Language Features](#special-language-features)
-- [Error Handling and Debugging](#error-handling-and-debugging)
-- [Example Program Walkthrough](#example-program-walkthrough)
-- [Appendix: Extended Explanations and Examples](#appendix-extended-explanations-and-examples)
 
-# **Vasuki Advanced Documentation**
-
-
-
+ 
 ---
 
 Welcome to the advanced documentation for Vasuki. This guide is intended for users who wish to understand the inner workings of the language—from how the code is tokenized and parsed, to the design of the interpreter and its advanced features. Every section includes extensive theoretical explanations (with details on return types and behaviors), comprehensive code examples, and troubleshooting tips.
@@ -458,5 +459,6 @@ print("Complex Function Output: " + complexFunction(15, 5));
 (Detailed explanation of each part of the function, including scoping, control flow, and return behavior.)
 
 ---
+</div>
 
 
