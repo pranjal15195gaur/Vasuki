@@ -148,8 +148,8 @@ def parse(s: str) -> AST:
                     node = FunctionCall(func_name, call_args)
                 else:
                     node = VarReference(func_name)
-            case _:
-                raise ParseError("Unexpected token in atom")
+            # case _:
+                # raise ParseError("Unexpected token in atom")
         
         # Handle postfix array indexing: e.g. x[1] or [1,2,3][2]
         while t.peek(None) == OperatorToken('['):
@@ -199,15 +199,15 @@ def parse(s: str) -> AST:
                 if t.peek(None) != ParenToken(')'):
                     # At least one parameter
                     token = t.peek(None)
-                    if not isinstance(token, KeywordToken):
-                        raise ParseError("Expected parameter name")
+                    # if not isinstance(token, KeywordToken):
+                    #     raise ParseError("Expected parameter name")
                     params.append(token.w)
                     next(t)
                     while t.peek(None) == OperatorToken(','):
                         next(t)
                         token = t.peek(None)
-                        if not isinstance(token, KeywordToken):
-                            raise ParseError("Expected parameter name")
+                        # if not isinstance(token, KeywordToken):
+                            # raise ParseError("Expected parameter name")
                         params.append(token.w)
                         next(t)
                 try:

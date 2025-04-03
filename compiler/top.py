@@ -1,9 +1,7 @@
 from dataclasses import dataclass
 import builtins
-
 class AST:
     pass
-
 # New Environment class for static scoping
 class Environment:
     def __init__(self, parent=None):
@@ -25,148 +23,115 @@ class Environment:
             raise ValueError(f"Variable {name} not defined")
     def declare(self, name, value):
         self.values[name] = value
-
 @dataclass
 class BinOp(AST):
     op: str
     left: AST
     right: AST
-
 @dataclass
 class UnOp(AST):
     op: str
     num: AST
-
 @dataclass
 class Float(AST):
     val: str
-
 @dataclass
 class Int(AST):
     val: str
-
 @dataclass
 class Parentheses(AST):
     val: AST
-
 @dataclass
 class If(AST):
     cond: AST
     then: AST
     elseif_branches: list[tuple[AST, AST]]
     elsee: AST
-
 @dataclass
 class VarDecl(AST):
     name: str
     value: AST
-
 @dataclass
 class VarReference(AST):
     name: str
-
 @dataclass
 class Assignment(AST):
     name: str
     value: AST
-
 @dataclass
 class Program(AST):
     statements: list[AST]
-
 @dataclass
 class For(AST):
     init: AST
     condition: AST
     increment: AST
     body: AST
-
 @dataclass
 class While(AST):
     condition: AST
     body: AST
-
 @dataclass
 class Print(AST):
     expr: AST
-
 @dataclass
 class FunctionCall(AST):
     name: str
     args: list[AST]
-
 @dataclass
 class Label(AST):
     name: str
-
 @dataclass
 class LabelReturn(AST):
     name: str
-
 @dataclass
 class GoAndReturn(AST):
     name: str
-
 # New AST nodes for arrays
 @dataclass
 class ArrayLiteral(AST):
     elements: list[AST]
-
 @dataclass
 class ArrayIndex(AST):
     array: AST
     index: AST
-
 @dataclass
 class FunctionDef(AST):
     name: str
     params: list[str]
     body: AST
-
-# A helper to represent a user‐defined function (its parameter names, body, and the closure in which it was defined)
 @dataclass
 class UserFunction:
     params: list[str]
     body: AST
     closure: Environment
-
 @dataclass
 class Return(AST):
     value: AST
-
 class ReturnException(Exception):
     def __init__(self, value):
         self.value = value
-
-
 def e(tree: AST, env=None) -> int:
     if env is None:
         env = Environment()
-
     match tree:
-
         case FunctionDef(name, params, body):
             uf = UserFunction(params, body, env)
             env.declare(name, uf)
             return uf
-        
-
         case Program(stmts):
             result = None
             for stmt in stmts:
                 result = e(stmt, env)
             return result
-
         case VarDecl(name, value):
             result = e(value, env)
             env.declare(name, result)
             return result
-
         case Assignment(name, value):
             result = e(value, env)
             env.assign(name, result)
             return result
-
         case VarReference(name): 
             return env.lookup(name)
         case Int(v): 
@@ -175,7 +140,6 @@ def e(tree: AST, env=None) -> int:
             return float(v)
         case UnOp("-", expp): 
             return -1 * e(expp, env)
-
         case BinOp(op, l, r):
             left_val = e(l, env)
             right_val = e(r, env)
@@ -198,10 +162,8 @@ def e(tree: AST, env=None) -> int:
                 case "and": return (left_val and right_val)
                 case "or": return (left_val or right_val)
                 case _: raise ValueError(f"Unsupported binary operator: {op}")
-
         case Parentheses(expp): 
             return e(expp, env)
-
         case If(cond, then, elseif_branches, elsee):
             if cond is None:
                 raise ValueError("Condition missing in 'if' statement")
@@ -216,7 +178,6 @@ def e(tree: AST, env=None) -> int:
             if elsee is not None:
                 return e(elsee, Environment(env))
             return None
-
         case For(init, condition, increment, body):
             e(init, env)
             result = None
@@ -224,18 +185,15 @@ def e(tree: AST, env=None) -> int:
                 result = e(body, Environment(env))
                 e(increment, env)
             return result
-
         case While(condition, body):
             result = None
             while e(condition, env):
                 result = e(body, env)
             return result
-
         case Print(expr):
             value = e(expr, env)
             print(value)
             return value
-
         case FunctionCall(name, args):
             evaluated_args = [e(a, env) for a in args]
             try:
@@ -258,11 +216,9 @@ def e(tree: AST, env=None) -> int:
                 return min(*evaluated_args)
             else:
                 raise ValueError(f"Unknown function {name}")
-
         case Return(expr):
             # When a return is encountered, evaluate the expression and raise an exception to exit the function.
             raise ReturnException(e(expr, env))
-
         # New evaluation rules for arrays
         case ArrayLiteral(elements):
             return [e(el, env) for el in elements]
@@ -273,9 +229,6 @@ def e(tree: AST, env=None) -> int:
                 raise ValueError("Array index must be an integer")
             # One-based indexing: adjust for Python's zero-based lists.
             return arr[idx - 1]
-
-        
-                
         case Label(name):
             # Just a marker, do nothing
             return None
@@ -288,17 +241,13 @@ def e(tree: AST, env=None) -> int:
             if not labeled_ast:
                 raise ValueError(f"Label {name} not found")
             return run_label_block(labeled_ast, name, env)
-
         case _:
             raise ValueError("Unsupported node type")
-
-
 def find_label_block(label_name: str):
     global_program = getattr(builtins, 'global_program', None)
     if not global_program or not isinstance(global_program, Program):
         return None
     return _find_label_block_in(global_program, label_name)
-
 def _find_label_block_in(node: AST, label_name: str):
     # If it's a Program, check each statement, and also recurse within statements
     if isinstance(node, Program):
@@ -319,14 +268,11 @@ def _find_label_block_in(node: AST, label_name: str):
             found = _find_label_block_in(stmt, label_name)
             if found is not None:
                 return found
-
     # If it's a FunctionDef, recurse into its body
     elif isinstance(node, FunctionDef):
         return _find_label_block_in(node.body, label_name)
-
     # Otherwise, not found here
     return None
-
 def run_label_block(stmts, label_name, env):
     if not stmts:
         return None

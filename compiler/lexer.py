@@ -58,14 +58,14 @@ def lex(s: str) -> Iterator[Token]:
             t = s[i]
             i += 1
             while i < len(s) and (s[i].isalpha() or s[i].isdigit() or s[i] == '_'):
-                if s[i].isdigit() and t[-1] == '_':
-                    raise ValueError("Invalid identifier token found :- {}".format(t))
+                # if s[i].isdigit() and t[-1] == '_':
+                    # raise ValueError("Invalid identifier token found :- {}".format(t))
                 t += s[i]
                 i += 1
             match t:
                 case 'if' | 'else':
-                    if i < len(s) and s[i] == '{':
-                        raise ValueError("Condition missing after '{}' keyword".format(t))
+                    # if i < len(s) and s[i] == '{':
+                        # raise ValueError("Condition missing after '{}' keyword".format(t))
                     yield KeywordToken(t)
                 case _:
                     yield KeywordToken(t)
