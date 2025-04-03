@@ -7,6 +7,7 @@ class Environment:
     def __init__(self, parent=None):
         self.parent = parent
         self.values = {}
+        self.variables = {}
     def lookup(self, name):
         if name in self.values:
             return self.values[name]
@@ -23,6 +24,12 @@ class Environment:
             raise ValueError(f"Variable {name} not defined")
     def declare(self, name, value):
         self.values[name] = value
+
+    def copy(self):
+        new_env = Environment()
+        new_env.variables = self.variables.copy()
+        return new_env
+    
 @dataclass
 class BinOp(AST):
     op: str
