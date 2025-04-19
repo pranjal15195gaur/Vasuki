@@ -1,0 +1,28 @@
+// A competitive programming problem that uses multiple lines of input:
+// Given n test cases, each with a line containing integers, find the maximum value in each line.
+
+// Solution using the new input/output functions
+def main() {
+    // Read the number of test cases
+    var t = read_int();
+
+    // Process each test case
+    for (var i = 1; i <= t; i = i + 1) {
+        // Read a line of integers for this test case
+        var nums = read_ints();
+
+        // Find the maximum value
+        var max_val = nums[1];  // Start with the first element
+        for (var j = 2; j <= length(nums); j = j + 1) {
+            if (nums[j] > max_val) {
+                max_val = nums[j];
+            }
+        }
+
+        // Print the result for this test case
+        print("Case #" + i + ": " + max_val);
+    }
+};
+
+// Run the main function
+main();

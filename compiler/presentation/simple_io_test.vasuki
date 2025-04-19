@@ -1,0 +1,5 @@
+// Simple test for read_line function
+
+print("Enter your name:");
+var name = read_line();
+print("Hello, " + name + "!");

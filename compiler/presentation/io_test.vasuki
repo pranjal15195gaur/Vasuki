@@ -1,0 +1,63 @@
+// Test the input/output functions
+
+// Function to test read_line
+def test_read_line() {
+    print("Enter a line of text:");
+    var line = read_line();
+    print("You entered: " + line);
+};
+
+// Function to test read_int
+def test_read_int() {
+    print("Enter an integer:");
+    var num = read_int();
+    print("You entered: " + num);
+};
+
+// Function to test read_ints
+def test_read_ints() {
+    print("Enter multiple integers separated by spaces:");
+    var nums = read_ints();
+    print("You entered: " + nums);
+};
+
+// Function to test read_float
+def test_read_float() {
+    print("Enter a float:");
+    var num = read_float();
+    print("You entered: " + num);
+};
+
+// Function to test read_floats
+def test_read_floats() {
+    print("Enter multiple floats separated by spaces:");
+    var nums = read_floats();
+    print("You entered: " + nums);
+};
+
+// Function to test read_lines
+def test_read_lines() {
+    print("Enter 3 lines of text:");
+    var lines = read_lines(3);
+    print("You entered:");
+    for (var i = 1; i <= length(lines); i = i + 1) {
+        print(lines[i]);
+    }
+};
+
+// Main function to run the tests
+def main() {
+    print("Testing input/output functions");
+    print("------------------------------");
+
+    // Uncomment the function you want to test
+    test_read_line();
+    // test_read_int();
+    // test_read_ints();
+    // test_read_float();
+    // test_read_floats();
+    // test_read_lines();
+};
+
+// Run the main function
+main();

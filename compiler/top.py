@@ -138,6 +138,17 @@ class Dictionary:
 dynamic_variables = {}
 dynamic_functions = {}
 
+# List of built-in functions
+BUILTIN_FUNCTIONS = [
+    "max", "min", "push", "pop", "length", "substring", "uppercase", "lowercase",
+    "contains", "startswith", "endswith", "replace", "trim", "split",
+    "is_int", "is_float", "is_string", "is_char", "is_bool", "is_array", "is_function",
+    "get_type", "to_int", "to_float", "to_string", "to_bool",
+    "dict", "dict_put", "dict_get", "dict_contains", "dict_remove", "dict_keys",
+    "dict_values", "dict_items", "dict_size", "dict_clear", "is_dict",
+    "read_line", "read_int", "read_ints", "read_float", "read_floats", "read_lines", "read_all"
+]
+
 # Environment class supporting both static and dynamic scoping
 class Environment:
     def __init__(self, parent=None):
@@ -155,6 +166,11 @@ class Environment:
         # If not found in dynamic variables, check dynamic functions
         elif name in dynamic_functions:
             return dynamic_functions[name]
+        # If not found in dynamic functions, check built-in functions
+        elif name in BUILTIN_FUNCTIONS:
+            # Return a special marker to indicate this is a built-in function
+            # The actual function will be handled in the FunctionCall case
+            return "__builtin__"
         else:
             raise NameError(f"Variable or function '{name}' is not defined")
     def assign(self, name, value):
@@ -498,7 +514,414 @@ def e(tree: AST, env=None) -> int:
                 func = env.lookup(name)
             except ValueError:
                 func = None
-            if func is not None and isinstance(func, UserFunction):
+            if func == "__builtin__":
+                # Handle built-in functions directly
+                if name == "max":
+                    return max(*evaluated_args)
+                elif name == "min":
+                    return min(*evaluated_args)
+                elif name == "push":
+                    # Expecting two arguments: the array and the element to push.
+                    if len(evaluated_args) != 2:
+                        raise ValueError("push expects two arguments: push(array, element)")
+                    arr, value = evaluated_args
+                    if not isinstance(arr, list):
+                        raise ValueError("push: first argument must be an array")
+                    arr.append(value)
+                    # Optionally, you can return the modified array or its new length.
+                    return arr  # or: return len(arr)
+                elif name == "pop":
+                    # Expecting one argument: the array to pop from.
+                    if len(evaluated_args) != 1:
+                        raise ValueError("pop expects one argument: pop(array)")
+                    arr = evaluated_args[0]
+                    if not isinstance(arr, list):
+                        raise ValueError("pop: argument must be an array")
+                    if not arr:
+                        raise ValueError("pop: cannot pop from an empty array")
+                    return arr.pop()
+                # String functions
+                elif name == "length":
+                    # Get the length of a string or array
+                    if len(evaluated_args) != 1:
+                        raise ValueError("length expects one argument: length(str_or_array)")
+                    val = evaluated_args[0]
+                    if not isinstance(val, (str, list)):
+                        raise ValueError("length: argument must be a string or array")
+                    return len(val)
+                elif name == "substring":
+                    # Get a substring: substring(str, start, end)
+                    if len(evaluated_args) not in [2, 3]:
+                        raise ValueError("substring expects 2 or 3 arguments: substring(str, start[, end])")
+                    s = evaluated_args[0]
+                    start = evaluated_args[1]
+                    if not isinstance(s, str):
+                        raise ValueError("substring: first argument must be a string")
+                    if not isinstance(start, int):
+                        raise ValueError("substring: second argument must be an integer")
+                    # Adjust for 1-based indexing
+                    start = start - 1
+                    if start < 0 or start >= len(s):
+                        raise ValueError(f"substring: start index {start+1} out of range (1 to {len(s)})")
+                    if len(evaluated_args) == 3:
+                        end = evaluated_args[2]
+                        if not isinstance(end, int):
+                            raise ValueError("substring: third argument must be an integer")
+                        # Adjust for 1-based indexing
+                        end = end - 1
+                        if end < start or end >= len(s):
+                            raise ValueError(f"substring: end index {end+1} out of range ({start+1} to {len(s)})")
+                        return s[start:end+1]  # Include the end character
+                    else:
+                        return s[start:]
+                elif name == "uppercase":
+                    # Convert a string to uppercase
+                    if len(evaluated_args) != 1:
+                        raise ValueError("uppercase expects one argument: uppercase(str)")
+                    s = evaluated_args[0]
+                    if not isinstance(s, str):
+                        raise ValueError("uppercase: argument must be a string")
+                    return s.upper()
+                elif name == "lowercase":
+                    # Convert a string to lowercase
+                    if len(evaluated_args) != 1:
+                        raise ValueError("lowercase expects one argument: lowercase(str)")
+                    s = evaluated_args[0]
+                    if not isinstance(s, str):
+                        raise ValueError("lowercase: argument must be a string")
+                    return s.lower()
+                elif name == "contains":
+                    # Check if a string contains a substring
+                    if len(evaluated_args) != 2:
+                        raise ValueError("contains expects two arguments: contains(str, substr)")
+                    s = evaluated_args[0]
+                    substr = evaluated_args[1]
+                    if not isinstance(s, str) or not isinstance(substr, str):
+                        raise ValueError("contains: both arguments must be strings")
+                    return substr in s
+                elif name == "startswith":
+                    # Check if a string starts with a prefix
+                    if len(evaluated_args) != 2:
+                        raise ValueError("startswith expects two arguments: startswith(str, prefix)")
+                    s = evaluated_args[0]
+                    prefix = evaluated_args[1]
+                    if not isinstance(s, str) or not isinstance(prefix, str):
+                        raise ValueError("startswith: both arguments must be strings")
+                    return s.startswith(prefix)
+                elif name == "endswith":
+                    # Check if a string ends with a suffix
+                    if len(evaluated_args) != 2:
+                        raise ValueError("endswith expects two arguments: endswith(str, suffix)")
+                    s = evaluated_args[0]
+                    suffix = evaluated_args[1]
+                    if not isinstance(s, str) or not isinstance(suffix, str):
+                        raise ValueError("endswith: both arguments must be strings")
+                    return s.endswith(suffix)
+                elif name == "replace":
+                    # Replace occurrences of a substring
+                    if len(evaluated_args) != 3:
+                        raise ValueError("replace expects three arguments: replace(str, old, new)")
+                    s = evaluated_args[0]
+                    old = evaluated_args[1]
+                    new = evaluated_args[2]
+                    if not isinstance(s, str) or not isinstance(old, str) or not isinstance(new, str):
+                        raise ValueError("replace: all arguments must be strings")
+                    return s.replace(old, new)
+                elif name == "trim":
+                    # Remove whitespace from the beginning and end of a string
+                    if len(evaluated_args) != 1:
+                        raise ValueError("trim expects one argument: trim(str)")
+                    s = evaluated_args[0]
+                    if not isinstance(s, str):
+                        raise ValueError("trim: argument must be a string")
+                    return s.strip()
+                elif name == "split":
+                    # Split a string by a delimiter
+                    if len(evaluated_args) not in [1, 2]:
+                        raise ValueError("split expects 1 or 2 arguments: split(str[, delimiter])")
+                    s = evaluated_args[0]
+                    if not isinstance(s, str):
+                        raise ValueError("split: first argument must be a string")
+                    if len(evaluated_args) == 2:
+                        delimiter = evaluated_args[1]
+                        if not isinstance(delimiter, str):
+                            raise ValueError("split: second argument must be a string")
+                        return s.split(delimiter)
+                    else:
+                        return s.split()
+                # Type checker functions
+                elif name == "is_int":
+                    # Check if a value is an integer
+                    if len(evaluated_args) != 1:
+                        raise ValueError("is_int expects one argument: is_int(value)")
+                    return isinstance(evaluated_args[0], int) and not isinstance(evaluated_args[0], bool)
+                elif name == "is_float":
+                    # Check if a value is a floating-point number
+                    if len(evaluated_args) != 1:
+                        raise ValueError("is_float expects one argument: is_float(value)")
+                    return isinstance(evaluated_args[0], float)
+                elif name == "is_string":
+                    # Check if a value is a string
+                    if len(evaluated_args) != 1:
+                        raise ValueError("is_string expects one argument: is_string(value)")
+                    return isinstance(evaluated_args[0], str)
+                elif name == "is_char":
+                    # Check if a value is a single character (a string of length 1)
+                    if len(evaluated_args) != 1:
+                        raise ValueError("is_char expects one argument: is_char(value)")
+                    return isinstance(evaluated_args[0], str) and len(evaluated_args[0]) == 1
+                elif name == "is_bool":
+                    # Check if a value is a boolean
+                    if len(evaluated_args) != 1:
+                        raise ValueError("is_bool expects one argument: is_bool(value)")
+                    return isinstance(evaluated_args[0], bool)
+                elif name == "is_array":
+                    # Check if a value is an array
+                    if len(evaluated_args) != 1:
+                        raise ValueError("is_array expects one argument: is_array(value)")
+                    return isinstance(evaluated_args[0], list)
+                elif name == "is_function":
+                    # Check if a value is a function
+                    if len(evaluated_args) != 1:
+                        raise ValueError("is_function expects one argument: is_function(value)")
+                    return isinstance(evaluated_args[0], UserFunction)
+                elif name == "get_type":
+                    # Return the type of a value as a string
+                    if len(evaluated_args) != 1:
+                        raise ValueError("get_type expects one argument: get_type(value)")
+                    value = evaluated_args[0]
+                    if isinstance(value, int) and not isinstance(value, bool):
+                        return "int"
+                    elif isinstance(value, float):
+                        return "float"
+                    elif isinstance(value, str):
+                        if len(value) == 1:
+                            return "char"
+                        else:
+                            return "string"
+                    elif isinstance(value, bool):
+                        return "bool"
+                    elif isinstance(value, list):
+                        return "array"
+                    elif isinstance(value, Dictionary):
+                        return "dict"
+                    elif isinstance(value, UserFunction):
+                        return "function"
+                    else:
+                        return "unknown"
+                elif name == "to_int":
+                    # Convert a value to an integer if possible
+                    if len(evaluated_args) != 1:
+                        raise ValueError("to_int expects one argument: to_int(value)")
+                    value = evaluated_args[0]
+                    try:
+                        if isinstance(value, bool):
+                            return 1 if value else 0
+                        return int(value)
+                    except (ValueError, TypeError):
+                        raise ValueError(f"Cannot convert {value} to int")
+                elif name == "to_float":
+                    # Convert a value to a float if possible
+                    if len(evaluated_args) != 1:
+                        raise ValueError("to_float expects one argument: to_float(value)")
+                    value = evaluated_args[0]
+                    try:
+                        if isinstance(value, bool):
+                            return 1.0 if value else 0.0
+                        return float(value)
+                    except (ValueError, TypeError):
+                        raise ValueError(f"Cannot convert {value} to float")
+                elif name == "to_string":
+                    # Convert a value to a string
+                    if len(evaluated_args) != 1:
+                        raise ValueError("to_string expects one argument: to_string(value)")
+                    return str(evaluated_args[0])
+                elif name == "to_bool":
+                    # Convert a value to a boolean
+                    if len(evaluated_args) != 1:
+                        raise ValueError("to_bool expects one argument: to_bool(value)")
+                    value = evaluated_args[0]
+                    if isinstance(value, bool):
+                        return value
+                    elif isinstance(value, (int, float)):
+                        return value != 0
+                    elif isinstance(value, str):
+                        return len(value) > 0
+                    elif isinstance(value, list):
+                        return len(value) > 0
+                    elif isinstance(value, Dictionary):
+                        return value.size > 0
+                    else:
+                        return True  # Functions and other objects are truthy
+                # Dictionary functions
+                elif name == "dict":
+                    # Create a new dictionary
+                    return Dictionary()
+                elif name == "dict_put":
+                    # Add or update a key-value pair in a dictionary
+                    if len(evaluated_args) != 3:
+                        raise ValueError("dict_put expects three arguments: dict_put(dict, key, value)")
+                    dict_obj, key, value = evaluated_args
+                    if not isinstance(dict_obj, Dictionary):
+                        raise ValueError("dict_put: first argument must be a dictionary")
+                    dict_obj.put(key, value)
+                    return dict_obj
+                elif name == "dict_get":
+                    # Get a value from a dictionary
+                    if len(evaluated_args) not in [2, 3]:
+                        raise ValueError("dict_get expects 2 or 3 arguments: dict_get(dict, key[, default])")
+                    dict_obj = evaluated_args[0]
+                    key = evaluated_args[1]
+                    if not isinstance(dict_obj, Dictionary):
+                        raise ValueError("dict_get: first argument must be a dictionary")
+                    if len(evaluated_args) == 3:
+                        default = evaluated_args[2]
+                        return dict_obj.get(key, default)
+                    else:
+                        return dict_obj.get(key)
+                elif name == "dict_contains":
+                    # Check if a dictionary contains a key
+                    if len(evaluated_args) != 2:
+                        raise ValueError("dict_contains expects two arguments: dict_contains(dict, key)")
+                    dict_obj, key = evaluated_args
+                    if not isinstance(dict_obj, Dictionary):
+                        raise ValueError("dict_contains: first argument must be a dictionary")
+                    return dict_obj.contains(key)
+                elif name == "dict_remove":
+                    # Remove a key-value pair from a dictionary
+                    if len(evaluated_args) != 2:
+                        raise ValueError("dict_remove expects two arguments: dict_remove(dict, key)")
+                    dict_obj, key = evaluated_args
+                    if not isinstance(dict_obj, Dictionary):
+                        raise ValueError("dict_remove: first argument must be a dictionary")
+                    return dict_obj.remove(key)
+                elif name == "dict_keys":
+                    # Get all keys from a dictionary
+                    if len(evaluated_args) != 1:
+                        raise ValueError("dict_keys expects one argument: dict_keys(dict)")
+                    dict_obj = evaluated_args[0]
+                    if not isinstance(dict_obj, Dictionary):
+                        raise ValueError("dict_keys: argument must be a dictionary")
+                    return dict_obj.keys()
+                elif name == "dict_values":
+                    # Get all values from a dictionary
+                    if len(evaluated_args) != 1:
+                        raise ValueError("dict_values expects one argument: dict_values(dict)")
+                    dict_obj = evaluated_args[0]
+                    if not isinstance(dict_obj, Dictionary):
+                        raise ValueError("dict_values: argument must be a dictionary")
+                    return dict_obj.values()
+                elif name == "dict_items":
+                    # Get all key-value pairs from a dictionary
+                    if len(evaluated_args) != 1:
+                        raise ValueError("dict_items expects one argument: dict_items(dict)")
+                    dict_obj = evaluated_args[0]
+                    if not isinstance(dict_obj, Dictionary):
+                        raise ValueError("dict_items: argument must be a dictionary")
+                    return dict_obj.items()
+                elif name == "dict_size":
+                    # Get the number of key-value pairs in a dictionary
+                    if len(evaluated_args) != 1:
+                        raise ValueError("dict_size expects one argument: dict_size(dict)")
+                    dict_obj = evaluated_args[0]
+                    if not isinstance(dict_obj, Dictionary):
+                        raise ValueError("dict_size: argument must be a dictionary")
+                    return dict_obj.size
+                elif name == "dict_clear":
+                    # Clear a dictionary
+                    if len(evaluated_args) != 1:
+                        raise ValueError("dict_clear expects one argument: dict_clear(dict)")
+                    dict_obj = evaluated_args[0]
+                    if not isinstance(dict_obj, Dictionary):
+                        raise ValueError("dict_clear: argument must be a dictionary")
+                    dict_obj.clear()
+                    return dict_obj
+                elif name == "is_dict":
+                    # Check if a value is a dictionary
+                    if len(evaluated_args) != 1:
+                        raise ValueError("is_dict expects one argument: is_dict(value)")
+                    return isinstance(evaluated_args[0], Dictionary)
+                # Input/Output functions
+                elif name == "read_line":
+                    # Read a line from stdin
+                    if len(evaluated_args) != 0:
+                        raise ValueError("read_line expects no arguments")
+                    try:
+                        return input()
+                    except EOFError:
+                        return ""
+                elif name == "read_int":
+                    # Read a single integer from stdin
+                    if len(evaluated_args) != 0:
+                        raise ValueError("read_int expects no arguments")
+                    try:
+                        return int(input())
+                    except ValueError:
+                        raise ValueError("Input could not be converted to an integer")
+                    except EOFError:
+                        raise ValueError("End of file reached")
+                elif name == "read_ints":
+                    # Read multiple integers from a line
+                    if len(evaluated_args) != 0:
+                        raise ValueError("read_ints expects no arguments")
+                    try:
+                        return [int(x) for x in input().split()]
+                    except ValueError:
+                        raise ValueError("Input could not be converted to integers")
+                    except EOFError:
+                        return []
+                elif name == "read_float":
+                    # Read a single float from stdin
+                    if len(evaluated_args) != 0:
+                        raise ValueError("read_float expects no arguments")
+                    try:
+                        return float(input())
+                    except ValueError:
+                        raise ValueError("Input could not be converted to a float")
+                    except EOFError:
+                        raise ValueError("End of file reached")
+                elif name == "read_floats":
+                    # Read multiple floats from a line
+                    if len(evaluated_args) != 0:
+                        raise ValueError("read_floats expects no arguments")
+                    try:
+                        return [float(x) for x in input().split()]
+                    except ValueError:
+                        raise ValueError("Input could not be converted to floats")
+                    except EOFError:
+                        return []
+                elif name == "read_lines":
+                    # Read n lines from stdin
+                    if len(evaluated_args) != 1:
+                        raise ValueError("read_lines expects one argument: read_lines(n)")
+                    n = evaluated_args[0]
+                    if not isinstance(n, int):
+                        raise ValueError("read_lines: argument must be an integer")
+                    if n < 0:
+                        raise ValueError("read_lines: argument must be non-negative")
+                    lines = []
+                    for _ in range(n):
+                        try:
+                            lines.append(input())
+                        except EOFError:
+                            break
+                    return lines
+                elif name == "read_all":
+                    # Read all lines until EOF
+                    if len(evaluated_args) != 0:
+                        raise ValueError("read_all expects no arguments")
+                    lines = []
+                    while True:
+                        try:
+                            lines.append(input())
+                        except EOFError:
+                            break
+                    return lines
+                # If we get here, it's a built-in function we haven't handled yet
+                # This should never happen if BUILTIN_FUNCTIONS is kept in sync
+                else:
+                    raise ValueError(f"Unknown built-in function {name}")
+            elif func is not None and isinstance(func, UserFunction):
                 if len(evaluated_args) != len(func.params):
                     raise TypeError(f"Function '{name}' expects {len(func.params)} arguments, but got {len(evaluated_args)}")
                 new_env = Environment(func.closure)
@@ -509,364 +932,7 @@ def e(tree: AST, env=None) -> int:
                 except ReturnException as re:
                     # Both return and yield statements return from the function
                     return re.value
-            elif name == "max":
-                return max(*evaluated_args)
-            elif name == "min":
-                return min(*evaluated_args)
-            elif name == "push":
-                # Expecting two arguments: the array and the element to push.
-                if len(evaluated_args) != 2:
-                    raise ValueError("push expects two arguments: push(array, element)")
-                arr, value = evaluated_args
-                if not isinstance(arr, list):
-                    raise ValueError("push: first argument must be an array")
-                arr.append(value)
-                # Optionally, you can return the modified array or its new length.
-                return arr  # or: return len(arr)
-            elif name == "pop":
-                # Expecting one argument: the array to pop from.
-                if len(evaluated_args) != 1:
-                    raise ValueError("pop expects one argument: pop(array)")
-                arr = evaluated_args[0]
-                if not isinstance(arr, list):
-                    raise ValueError("pop: argument must be an array")
-                if not arr:
-                    raise ValueError("pop: cannot pop from an empty array")
-                return arr.pop()
-
-            # String functions
-            elif name == "length":
-                # Get the length of a string or array
-                if len(evaluated_args) != 1:
-                    raise ValueError("length expects one argument: length(str_or_array)")
-                val = evaluated_args[0]
-                if not isinstance(val, (str, list)):
-                    raise ValueError("length: argument must be a string or array")
-                return len(val)
-
-            elif name == "substring":
-                # Get a substring: substring(str, start, end)
-                if len(evaluated_args) not in [2, 3]:
-                    raise ValueError("substring expects 2 or 3 arguments: substring(str, start[, end])")
-                s = evaluated_args[0]
-                start = evaluated_args[1]
-                if not isinstance(s, str):
-                    raise ValueError("substring: first argument must be a string")
-                if not isinstance(start, int):
-                    raise ValueError("substring: second argument must be an integer")
-                # Adjust for 1-based indexing
-                start = start - 1
-                if start < 0 or start >= len(s):
-                    raise ValueError(f"substring: start index {start+1} out of range (1 to {len(s)})")
-                if len(evaluated_args) == 3:
-                    end = evaluated_args[2]
-                    if not isinstance(end, int):
-                        raise ValueError("substring: third argument must be an integer")
-                    # Adjust for 1-based indexing
-                    end = end - 1
-                    if end < start or end >= len(s):
-                        raise ValueError(f"substring: end index {end+1} out of range ({start+1} to {len(s)})")
-                    return s[start:end+1]  # Include the end character
-                else:
-                    return s[start:]
-
-            elif name == "uppercase":
-                # Convert a string to uppercase
-                if len(evaluated_args) != 1:
-                    raise ValueError("uppercase expects one argument: uppercase(str)")
-                s = evaluated_args[0]
-                if not isinstance(s, str):
-                    raise ValueError("uppercase: argument must be a string")
-                return s.upper()
-
-            elif name == "lowercase":
-                # Convert a string to lowercase
-                if len(evaluated_args) != 1:
-                    raise ValueError("lowercase expects one argument: lowercase(str)")
-                s = evaluated_args[0]
-                if not isinstance(s, str):
-                    raise ValueError("lowercase: argument must be a string")
-                return s.lower()
-
-            elif name == "contains":
-                # Check if a string contains a substring
-                if len(evaluated_args) != 2:
-                    raise ValueError("contains expects two arguments: contains(str, substr)")
-                s = evaluated_args[0]
-                substr = evaluated_args[1]
-                if not isinstance(s, str) or not isinstance(substr, str):
-                    raise ValueError("contains: both arguments must be strings")
-                return substr in s
-
-            elif name == "startswith":
-                # Check if a string starts with a prefix
-                if len(evaluated_args) != 2:
-                    raise ValueError("startswith expects two arguments: startswith(str, prefix)")
-                s = evaluated_args[0]
-                prefix = evaluated_args[1]
-                if not isinstance(s, str) or not isinstance(prefix, str):
-                    raise ValueError("startswith: both arguments must be strings")
-                return s.startswith(prefix)
-
-            elif name == "endswith":
-                # Check if a string ends with a suffix
-                if len(evaluated_args) != 2:
-                    raise ValueError("endswith expects two arguments: endswith(str, suffix)")
-                s = evaluated_args[0]
-                suffix = evaluated_args[1]
-                if not isinstance(s, str) or not isinstance(suffix, str):
-                    raise ValueError("endswith: both arguments must be strings")
-                return s.endswith(suffix)
-
-            elif name == "replace":
-                # Replace occurrences of a substring
-                if len(evaluated_args) != 3:
-                    raise ValueError("replace expects three arguments: replace(str, old, new)")
-                s = evaluated_args[0]
-                old = evaluated_args[1]
-                new = evaluated_args[2]
-                if not isinstance(s, str) or not isinstance(old, str) or not isinstance(new, str):
-                    raise ValueError("replace: all arguments must be strings")
-                return s.replace(old, new)
-
-            elif name == "trim":
-                # Remove whitespace from the beginning and end of a string
-                if len(evaluated_args) != 1:
-                    raise ValueError("trim expects one argument: trim(str)")
-                s = evaluated_args[0]
-                if not isinstance(s, str):
-                    raise ValueError("trim: argument must be a string")
-                return s.strip()
-
-            elif name == "split":
-                # Split a string by a delimiter
-                if len(evaluated_args) not in [1, 2]:
-                    raise ValueError("split expects 1 or 2 arguments: split(str[, delimiter])")
-                s = evaluated_args[0]
-                if not isinstance(s, str):
-                    raise ValueError("split: first argument must be a string")
-                if len(evaluated_args) == 2:
-                    delimiter = evaluated_args[1]
-                    if not isinstance(delimiter, str):
-                        raise ValueError("split: second argument must be a string")
-                    return s.split(delimiter)
-                else:
-                    return s.split()
-
-            # Type checker functions
-            elif name == "is_int":
-                # Check if a value is an integer
-                if len(evaluated_args) != 1:
-                    raise ValueError("is_int expects one argument: is_int(value)")
-                return isinstance(evaluated_args[0], int) and not isinstance(evaluated_args[0], bool)
-
-            elif name == "is_float":
-                # Check if a value is a floating-point number
-                if len(evaluated_args) != 1:
-                    raise ValueError("is_float expects one argument: is_float(value)")
-                return isinstance(evaluated_args[0], float)
-
-            elif name == "is_string":
-                # Check if a value is a string
-                if len(evaluated_args) != 1:
-                    raise ValueError("is_string expects one argument: is_string(value)")
-                return isinstance(evaluated_args[0], str)
-
-            elif name == "is_char":
-                # Check if a value is a single character (a string of length 1)
-                if len(evaluated_args) != 1:
-                    raise ValueError("is_char expects one argument: is_char(value)")
-                return isinstance(evaluated_args[0], str) and len(evaluated_args[0]) == 1
-
-            elif name == "is_bool":
-                # Check if a value is a boolean
-                if len(evaluated_args) != 1:
-                    raise ValueError("is_bool expects one argument: is_bool(value)")
-                return isinstance(evaluated_args[0], bool)
-
-            elif name == "is_array":
-                # Check if a value is an array
-                if len(evaluated_args) != 1:
-                    raise ValueError("is_array expects one argument: is_array(value)")
-                return isinstance(evaluated_args[0], list)
-
-            elif name == "is_function":
-                # Check if a value is a function
-                if len(evaluated_args) != 1:
-                    raise ValueError("is_function expects one argument: is_function(value)")
-                return isinstance(evaluated_args[0], UserFunction)
-
-            elif name == "get_type":
-                # Return the type of a value as a string
-                if len(evaluated_args) != 1:
-                    raise ValueError("get_type expects one argument: get_type(value)")
-                value = evaluated_args[0]
-                if isinstance(value, int) and not isinstance(value, bool):
-                    return "int"
-                elif isinstance(value, float):
-                    return "float"
-                elif isinstance(value, str):
-                    if len(value) == 1:
-                        return "char"
-                    else:
-                        return "string"
-                elif isinstance(value, bool):
-                    return "bool"
-                elif isinstance(value, list):
-                    return "array"
-                elif isinstance(value, Dictionary):
-                    return "dict"
-                elif isinstance(value, UserFunction):
-                    return "function"
-                else:
-                    return "unknown"
-
-            elif name == "to_int":
-                # Convert a value to an integer if possible
-                if len(evaluated_args) != 1:
-                    raise ValueError("to_int expects one argument: to_int(value)")
-                value = evaluated_args[0]
-                try:
-                    if isinstance(value, bool):
-                        return 1 if value else 0
-                    return int(value)
-                except (ValueError, TypeError):
-                    raise ValueError(f"Cannot convert {value} to int")
-
-            elif name == "to_float":
-                # Convert a value to a float if possible
-                if len(evaluated_args) != 1:
-                    raise ValueError("to_float expects one argument: to_float(value)")
-                value = evaluated_args[0]
-                try:
-                    if isinstance(value, bool):
-                        return 1.0 if value else 0.0
-                    return float(value)
-                except (ValueError, TypeError):
-                    raise ValueError(f"Cannot convert {value} to float")
-
-            elif name == "to_string":
-                # Convert a value to a string
-                if len(evaluated_args) != 1:
-                    raise ValueError("to_string expects one argument: to_string(value)")
-                return str(evaluated_args[0])
-
-            elif name == "to_bool":
-                # Convert a value to a boolean
-                if len(evaluated_args) != 1:
-                    raise ValueError("to_bool expects one argument: to_bool(value)")
-                value = evaluated_args[0]
-                if isinstance(value, bool):
-                    return value
-                elif isinstance(value, (int, float)):
-                    return value != 0
-                elif isinstance(value, str):
-                    return len(value) > 0
-                elif isinstance(value, list):
-                    return len(value) > 0
-                elif isinstance(value, Dictionary):
-                    return value.size > 0
-                else:
-                    return True  # Functions and other objects are truthy
-
-            # Dictionary functions
-            elif name == "dict":
-                # Create a new dictionary
-                return Dictionary()
-
-            elif name == "dict_put":
-                # Add or update a key-value pair in a dictionary
-                if len(evaluated_args) != 3:
-                    raise ValueError("dict_put expects three arguments: dict_put(dict, key, value)")
-                dict_obj, key, value = evaluated_args
-                if not isinstance(dict_obj, Dictionary):
-                    raise ValueError("dict_put: first argument must be a dictionary")
-                dict_obj.put(key, value)
-                return dict_obj
-
-            elif name == "dict_get":
-                # Get a value from a dictionary
-                if len(evaluated_args) not in [2, 3]:
-                    raise ValueError("dict_get expects 2 or 3 arguments: dict_get(dict, key[, default])")
-                dict_obj = evaluated_args[0]
-                key = evaluated_args[1]
-                if not isinstance(dict_obj, Dictionary):
-                    raise ValueError("dict_get: first argument must be a dictionary")
-                if len(evaluated_args) == 3:
-                    default = evaluated_args[2]
-                    return dict_obj.get(key, default)
-                else:
-                    return dict_obj.get(key)
-
-            elif name == "dict_contains":
-                # Check if a dictionary contains a key
-                if len(evaluated_args) != 2:
-                    raise ValueError("dict_contains expects two arguments: dict_contains(dict, key)")
-                dict_obj, key = evaluated_args
-                if not isinstance(dict_obj, Dictionary):
-                    raise ValueError("dict_contains: first argument must be a dictionary")
-                return dict_obj.contains(key)
-
-            elif name == "dict_remove":
-                # Remove a key-value pair from a dictionary
-                if len(evaluated_args) != 2:
-                    raise ValueError("dict_remove expects two arguments: dict_remove(dict, key)")
-                dict_obj, key = evaluated_args
-                if not isinstance(dict_obj, Dictionary):
-                    raise ValueError("dict_remove: first argument must be a dictionary")
-                return dict_obj.remove(key)
-
-            elif name == "dict_keys":
-                # Get all keys from a dictionary
-                if len(evaluated_args) != 1:
-                    raise ValueError("dict_keys expects one argument: dict_keys(dict)")
-                dict_obj = evaluated_args[0]
-                if not isinstance(dict_obj, Dictionary):
-                    raise ValueError("dict_keys: argument must be a dictionary")
-                return dict_obj.keys()
-
-            elif name == "dict_values":
-                # Get all values from a dictionary
-                if len(evaluated_args) != 1:
-                    raise ValueError("dict_values expects one argument: dict_values(dict)")
-                dict_obj = evaluated_args[0]
-                if not isinstance(dict_obj, Dictionary):
-                    raise ValueError("dict_values: argument must be a dictionary")
-                return dict_obj.values()
-
-            elif name == "dict_items":
-                # Get all key-value pairs from a dictionary
-                if len(evaluated_args) != 1:
-                    raise ValueError("dict_items expects one argument: dict_items(dict)")
-                dict_obj = evaluated_args[0]
-                if not isinstance(dict_obj, Dictionary):
-                    raise ValueError("dict_items: argument must be a dictionary")
-                return dict_obj.items()
-
-            elif name == "dict_size":
-                # Get the number of key-value pairs in a dictionary
-                if len(evaluated_args) != 1:
-                    raise ValueError("dict_size expects one argument: dict_size(dict)")
-                dict_obj = evaluated_args[0]
-                if not isinstance(dict_obj, Dictionary):
-                    raise ValueError("dict_size: argument must be a dictionary")
-                return dict_obj.size
-
-            elif name == "dict_clear":
-                # Clear a dictionary
-                if len(evaluated_args) != 1:
-                    raise ValueError("dict_clear expects one argument: dict_clear(dict)")
-                dict_obj = evaluated_args[0]
-                if not isinstance(dict_obj, Dictionary):
-                    raise ValueError("dict_clear: argument must be a dictionary")
-                dict_obj.clear()
-                return dict_obj
-
-            elif name == "is_dict":
-                # Check if a value is a dictionary
-                if len(evaluated_args) != 1:
-                    raise ValueError("is_dict expects one argument: is_dict(value)")
-                return isinstance(evaluated_args[0], Dictionary)
+            # All built-in functions are now handled in the __builtin__ case above
             else:
                 raise ValueError(f"Unknown function {name}")
 
