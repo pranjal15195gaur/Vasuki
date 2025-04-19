@@ -1,0 +1,34 @@
+dynamic var count = 0;
+
+def even(n) {
+    count = count + 1;
+    print("even called with");
+    print(n);
+    print("count =");
+    print(count);
+
+    if (n == 0) {
+        return 1;
+    };
+
+    return odd(n - 1);
+};
+
+def odd(n) {
+    count = count + 1;
+    print("odd called with");
+    print(n);
+    print("count =");
+    print(count);
+
+    if (n == 0) {
+        return 0;
+    };
+
+    return even(n - 1);
+};
+
+print("Is 5 even?");
+print(even(5));
+print("Final count:");
+print(count);

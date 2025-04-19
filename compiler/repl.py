@@ -3,6 +3,11 @@ from top import e, Environment
 
 def main():
     env = Environment()
+    print("\033[1;92m")
+    print("╔════════════════════════════════════════════╗")
+    print("║           Welcome to the Vasuki REPL!      ║")
+    print("╚════════════════════════════════════════════╝")
+    print("\033[0m")
     print("Enter 'exit' to quit.")
     while True:
         try:

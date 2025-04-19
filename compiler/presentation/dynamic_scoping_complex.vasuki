@@ -1,0 +1,42 @@
+dynamic var global_dynamic = 100;
+var global_static = 200;
+
+def first_level() {
+    dynamic var local_dynamic = 300;
+    var local_static = 400;
+
+    def second_level() {
+        dynamic var inner_dynamic = 500;
+        var inner_static = 600;
+
+        def third_level() {
+            print(global_dynamic);
+            print(local_dynamic);
+            print(inner_dynamic);
+            print(inner_static);
+
+            global_dynamic = 101;
+            local_dynamic = 301;
+            inner_dynamic = 501;
+        };
+
+        print("Before third_level");
+        print(global_dynamic);
+        print(local_dynamic);
+        print(inner_dynamic);
+
+        third_level();
+
+        print("After third_level");
+        print(global_dynamic);
+        print(local_dynamic);
+        print(inner_dynamic);
+    };
+
+    second_level();
+};
+
+first_level();
+
+print("Final global_dynamic");
+print(global_dynamic);

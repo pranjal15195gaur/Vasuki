@@ -1,0 +1,91 @@
+dynamic var counter = 0;
+
+def recursive_function(n) {
+    if (n <= 0) {
+        return counter;
+    };
+
+    counter = counter + 1;
+    return recursive_function(n - 1);
+};
+
+print("Test 1: Recursion with dynamic variables");
+print(recursive_function(5));
+print(counter);
+
+dynamic var even_count = 0;
+dynamic var odd_count = 0;
+
+def is_even(n) {
+    if (n == 0) {
+        even_count = even_count + 1;
+        return 1;
+    };
+    return is_odd(n - 1);
+};
+
+def is_odd(n) {
+    if (n == 0) {
+        odd_count = odd_count + 1;
+        return 0;
+    };
+    return is_even(n - 1);
+};
+
+print("Test 2: Mutual recursion with dynamic variables");
+print(is_even(10));
+print(even_count);
+print(odd_count);
+
+dynamic var closure_var = 0;
+
+def make_counter() {
+    def increment() {
+        closure_var = closure_var + 1;
+        return closure_var;
+    };
+
+    return increment;
+};
+
+print("Test 3: Closures with dynamic variables");
+var counter1 = make_counter();
+var counter2 = make_counter();
+
+print(counter1());
+print(counter1());
+print(counter2());
+print(counter1());
+print(closure_var);
+
+var static_var = 100;
+dynamic var dynamic_var = 200;
+
+def test_interaction() {
+    var static_var = 300;
+    print(static_var);
+    print(dynamic_var);
+
+    dynamic_var = 400;
+    static_var = 500;
+
+    print(static_var);
+    print(dynamic_var);
+};
+
+print("Test 4: Interaction between static and dynamic scoping");
+test_interaction();
+print(static_var);
+print(dynamic_var);
+
+dynamic var control_var = 0;
+
+print("Test 5: Dynamic variables in control structures");
+for (var i = 0; i < 5; i = i + 1) {
+    def increment_control() {
+        control_var = control_var + 1;
+    };
+    increment_control();
+};
+
+print(control_var);

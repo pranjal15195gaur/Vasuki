@@ -1,0 +1,8 @@
+// Single-line comment
+var x = 10;
+
+/* Multi-line comment
+   with nested /* comment */
+   end of comment */
+
+print(x);

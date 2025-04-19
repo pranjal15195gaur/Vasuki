@@ -1,5 +1,5 @@
-from parser import parse
-from top import e
+from compiler.parser import parse
+from compiler.top import e
 import sys
 
 code = sys.argv[1]

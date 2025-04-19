@@ -25,6 +25,10 @@ class KeywordToken(Token):
 class ParenToken(Token):
     w: str
 
+@dataclass
+class StringToken(Token):
+    s: str
+
 def lex(s: str) -> Iterator[Token]:
     i = 0
     while True:
@@ -46,12 +50,12 @@ def lex(s: str) -> Iterator[Token]:
                 t += s[i]
                 i += 1
 
-            if not isValid: 
+            if not isValid:
                 raise ValueError('Invalid number token found :- {}'.format(t))
 
-            if isFloat: 
+            if isFloat:
                 yield FloatToken(t)
-            else: 
+            else:
                 yield IntToken(t)
 
         elif s[i].isalpha():
@@ -86,7 +90,35 @@ def lex(s: str) -> Iterator[Token]:
             i += 1
             yield OperatorToken('}')
 
-        elif s[i] in '+-*/<>=!':
+        elif s[i] == '/' and i + 1 < len(s):
+            # Check for comments
+            if s[i+1] == '/':
+                # Single-line comment
+                i += 2  # Skip '//' characters
+                while i < len(s) and s[i] != '\n':
+                    i += 1
+                if i < len(s):  # Skip the newline character
+                    i += 1
+            elif s[i+1] == '*':
+                # Multi-line comment
+                i += 2  # Skip '/*' characters
+                nesting = 1
+                while i + 1 < len(s) and nesting > 0:
+                    if s[i] == '/' and s[i+1] == '*':
+                        nesting += 1
+                        i += 2
+                    elif s[i] == '*' and s[i+1] == '/':
+                        nesting -= 1
+                        i += 2
+                    else:
+                        i += 1
+                if nesting > 0:
+                    raise ValueError('Unterminated multi-line comment')
+            else:
+                # Regular division operator
+                yield OperatorToken('/')
+                i += 1
+        elif s[i] in '+-*<>=!':
             if s[i:i+2] in ['<=', '>=', '==', '!=', '**']:
                 yield OperatorToken(s[i:i+2])
                 i += 2
@@ -117,5 +149,16 @@ def lex(s: str) -> Iterator[Token]:
         elif s[i] == ':':
             i += 1
             yield OperatorToken(':')
+        elif s[i] == '"':
+            # Handle string literals
+            i += 1  # Skip opening quote
+            string_content = ""
+            while i < len(s) and s[i] != '"':
+                string_content += s[i]
+                i += 1
+            if i >= len(s):
+                raise ValueError('Unterminated string literal')
+            i += 1  # Skip closing quote
+            yield StringToken(string_content)
         else:
             raise ValueError('Unexpected character found :- {}'.format(s[i]))

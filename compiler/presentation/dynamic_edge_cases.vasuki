@@ -1,0 +1,84 @@
+// Test 1: Shadowing between dynamic variables and functions
+dynamic var shadow = 10;
+
+dynamic def shadow() {
+    return 20;
+};
+
+print(shadow);
+print(shadow());
+
+// Test 3: Nested dynamic declarations
+def nested_dynamic() {
+    dynamic var outer = 1;
+
+    def inner1() {
+        dynamic var outer = 2;
+        print(outer);
+
+        def inner2() {
+            dynamic var outer = 3;
+            print(outer);
+        };
+
+        inner2();
+        print(outer);
+    };
+
+    inner1();
+    print(outer);
+};
+
+nested_dynamic();
+
+// Test 4: Dynamic variables in recursive functions with side effects
+dynamic var fib_calls = 0;
+
+dynamic def fibonacci(n) {
+    fib_calls = fib_calls + 1;
+
+    if (n <= 1) {
+        return n;
+    };
+
+    return fibonacci(n - 1) + fibonacci(n - 2);
+};
+
+print(fibonacci(5));
+print(fib_calls);
+
+// Test 5: Dynamic functions that modify their own definition
+dynamic def self_modifying() {
+    print(1);
+
+    dynamic def self_modifying() {
+        print(2);
+    };
+
+    return 3;
+};
+
+print(self_modifying());
+print(self_modifying());
+
+// Test 8: Dynamic variables and functions with mutual dependencies
+dynamic var a = 1;
+dynamic var b = 2;
+
+dynamic def update_a() {
+    a = b + 1;
+    return a;
+};
+
+dynamic def update_b() {
+    b = a + 1;
+    return b;
+};
+
+print(a);
+print(b);
+print(update_a());
+print(update_b());
+print(update_a());
+print(a);
+print(b);

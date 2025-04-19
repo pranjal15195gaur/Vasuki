@@ -1,9 +1,9 @@
-from top import (BinOp, UnOp, Float, Int, If, Parentheses, Program, VarDecl,
-                 VarReference, Assignment, AST, For, While, Print, 
-                 ArrayLiteral, ArrayIndex, FunctionCall, FunctionDef, Return,  Label, LabelReturn, GoAndReturn)
+from compiler.top import (BinOp, UnOp, Float, Int, String, If, Parentheses, Program, VarDecl, DynamicVarDecl,
+                 VarReference, Assignment, AST, For, While, Print,
+                 ArrayLiteral, ArrayIndex, StringIndex, FunctionCall, FunctionDef, DynamicFunctionDef, Return, Yield, Label, LabelReturn, GoAndReturn)
 
 
-from lexer import IntToken, FloatToken, OperatorToken, KeywordToken, ParenToken, Token, lex
+from compiler.lexer import IntToken, FloatToken, StringToken, OperatorToken, KeywordToken, ParenToken, Token, lex
 import builtins
 from more_itertools import peekable
 
@@ -152,6 +152,9 @@ def parse(s: str) -> AST:
             case FloatToken(v):
                 next(t)
                 node = Float(v)
+            case StringToken(s):
+                next(t)
+                node = String(s)
             case ParenToken('('):
                 next(t)
                 node = parse_logic_or()      # full expression in parentheses
@@ -195,16 +198,20 @@ def parse(s: str) -> AST:
                 return parse_for()
             case _:
                 raise ParseError("Unexpected token in atom")
-        
-        # Handle postfix array indexing: e.g. x[1] or [1,2,3][2]
+
+        # Handle postfix array and string indexing: e.g. x[1] or [1,2,3][2] or "hello"[1]
         while t.peek(None) == OperatorToken('['):
             next(t)  # consume '['
             index_expr = parse_logic_or()
             expect(OperatorToken(']'))
-            node = ArrayIndex(node, index_expr)
+            # For simplicity, we'll determine at runtime whether it's a string or array
+            if isinstance(node, String):
+                node = StringIndex(node, index_expr)
+            else:
+                node = ArrayIndex(node, index_expr)
         return node
 
-    
+
     # New helper to parse a block of statements enclosed in '{' and '}'
     def parse_block():
         try:
@@ -221,7 +228,7 @@ def parse(s: str) -> AST:
         except ParseError:
             raise ParseError("Missing closing '}' after block")
         return Program(statements) if len(statements) > 1 else statements[0]
-    
+
     def parse_statement():
         # Skip any leading semicolons
         while t.peek(None) == OperatorToken(';'):
@@ -261,11 +268,16 @@ def parse(s: str) -> AST:
                     raise ParseError("Expected ')' after parameter list")
                 body = parse_block()  # Reuse block parsing for the function body.
                 return FunctionDef(func_name, params, body)
-            
+
             case KeywordToken("return"):
                 next(t)  # consume "return"
                 expr = parse_logic_or()  # parse the expression following 'return'
                 return Return(expr)
+
+            case KeywordToken("yield"):
+                next(t)  # consume "yield"
+                expr = parse_logic_or()  # parse the expression following 'yield'
+                return Yield(expr)
 
             case KeywordToken("print"):
                 next(t)  # consume "print"
@@ -283,10 +295,60 @@ def parse(s: str) -> AST:
                 return parse_for()
             case KeywordToken("while"):
                 return parse_while()
+            case KeywordToken("dynamic"):
+                next(t)  # consume "dynamic"
+                if t.peek(None) == KeywordToken("var"):
+                    next(t)  # consume "var"
+                    token = t.peek(None)
+                    if not (isinstance(token, KeywordToken) and token.w not in ["if", "else", "var", "for", "while", "and", "or", "print", "goandreturn", "dynamic", "def"]):
+                        raise ParseError("Expected variable name after 'dynamic var'")
+                    var_name = token.w
+                    next(t)
+                    try:
+                        expect(OperatorToken('='))
+                    except ParseError:
+                        raise ParseError("Expected '=' after variable name in dynamic declaration")
+                    expr = parse_logic_or()
+                    return DynamicVarDecl(var_name, expr)
+                elif t.peek(None) == KeywordToken("def"):
+                    next(t)  # consume "def"
+                    token = t.peek(None)
+                    if not (isinstance(token, KeywordToken) and token.w not in ["if", "else", "var", "for", "while", "and", "or", "print", "goandreturn", "dynamic", "def"]):
+                        raise ParseError("Expected function name after 'dynamic def'")
+                    func_name = token.w
+                    next(t)
+                    try:
+                        expect(ParenToken('('))
+                    except ParseError:
+                        raise ParseError("Expected '(' after function name")
+                    params = []
+                    if t.peek(None) != ParenToken(')'):
+                        # At least one parameter
+                        token = t.peek(None)
+                        if not isinstance(token, KeywordToken):
+                            raise ParseError("Expected parameter name")
+                        params.append(token.w)
+                        next(t)
+                        while t.peek(None) == OperatorToken(','):
+                            next(t)
+                            token = t.peek(None)
+                            if not isinstance(token, KeywordToken):
+                                raise ParseError("Expected parameter name")
+                            params.append(token.w)
+                            next(t)
+                    try:
+                        expect(ParenToken(')'))
+                    except ParseError:
+                        raise ParseError("Expected ')' after parameter list")
+                    body = parse_block()  # Reuse block parsing for the function body.
+                    return DynamicFunctionDef(func_name, params, body)
+                else:
+                    raise ParseError("Expected 'var' or 'def' after 'dynamic'")
+
             case KeywordToken("var"):
                 next(t)  # consume "var"
                 token = t.peek(None)
-                if not (isinstance(token, KeywordToken) and token.w not in ["if", "else", "var", "for", "while", "and", "or", "print", "goandreturn"]):
+                if not (isinstance(token, KeywordToken) and token.w not in ["if", "else", "var", "for", "while", "and", "or", "print", "goandreturn", "dynamic"]):
                     raise ParseError("Expected variable name after 'var'")
                 var_name = token.w
                 next(t)

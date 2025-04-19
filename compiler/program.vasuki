@@ -1,17 +1,10 @@
-var a = 10;
-
-def f(){
-    label:
-        var a = 5;
-
-    label return;
+def fact(n){
+    if n == 0 {
+        return 1
+    } else {
+        return n * fact(n - 1)
+    };
 };
 
-goandreturn label;
+print(fact(7));
 
-var a = [1, 2, 3, 4, 5];
-push(a, 6);
-print(a[5]);
-pop(a);
-
-print(a);

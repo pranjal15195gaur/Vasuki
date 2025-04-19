@@ -1,14 +1,15 @@
 var a = 10;
 
 def f(){
-    label:
+
+    block:
         var c = 5;
         a = 15;
 
-    label return;
+    block return;
 };
 
-goandreturn label;
+goandreturn block;
 
 print(c);
 

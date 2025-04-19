@@ -1,0 +1,109 @@
+def static_func() {
+    print("Static");
+};
+
+dynamic def dynamic_func() {
+    print("Dynamic");
+};
+
+static_func();
+dynamic_func();
+
+def shadow_test() {
+    def static_func() {
+        print("Local static");
+    };
+
+    dynamic def dynamic_func() {
+        print("Local dynamic");
+    };
+
+    static_func();
+    dynamic_func();
+};
+
+shadow_test();
+static_func();
+dynamic_func();
+
+def outer() {
+    def static_inner() {
+        print("Static inner");
+    };
+
+    dynamic def dynamic_inner() {
+        print("Dynamic inner");
+    };
+
+    def nested() {
+        dynamic_inner();
+    };
+
+    nested();
+};
+
+outer();
+
+def calculate(a, b) {
+    return a + b;
+};
+
+dynamic def dynamic_calculate(a, b) {
+    return a * b;
+};
+
+print(calculate(5, 3));
+print(dynamic_calculate(5, 3));
+
+def override_test() {
+    def calculate(a, b) {
+        return a - b;
+    };
+
+    dynamic def dynamic_calculate(a, b) {
+        return a / b;
+    };
+
+    print(calculate(5, 3));
+    print(dynamic_calculate(5, 3));
+};
+
+override_test();
+
+print(calculate(5, 3));
+print(dynamic_calculate(5, 3));
+
+dynamic def is_even(n) {
+    if (n == 0) {
+        return 1;
+    };
+
+    return is_odd(n - 1);
+};
+
+dynamic def is_odd(n) {
+    if (n == 0) {
+        return 0;
+    };
+
+    return is_even(n - 1);
+};
+
+print(is_even(10));
+print(is_odd(10));
+
+def override_recursion() {
+    dynamic def is_even(n) {
+        print("Overridden");
+        print(n);
+        if (n == 0) {
+            return 1;
+        };
+
+        return is_odd(n - 1);
+    };
+
+    print(is_even(2));
+};
+
+override_recursion();

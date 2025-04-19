@@ -1,0 +1,19 @@
+// Test complex nested comments
+var x = 10;
+
+/* Level 1 comment
+   /* Level 2 comment
+      /* Level 3 comment */
+      Back to level 2
+   */
+   Back to level 1
+*/
+
+print(x);
+
+// Test comment with division operators
+var y = 20 / 5; // Division operator
+var z = 30 / /* comment /* nested comment */ */ 6;
+
+print(y);
+print(z);

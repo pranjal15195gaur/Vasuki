@@ -1,0 +1,112 @@
+dynamic def greet() {
+    print("Hello");
+};
+
+greet();
+
+def greet() {
+    print("Static");
+};
+
+greet();
+
+def outer() {
+    dynamic def greet() {
+        print("Outer");
+    };
+
+    greet();
+
+    def inner() {
+        greet();
+    };
+
+    inner();
+};
+
+outer();
+
+dynamic def add(a, b) {
+    return a + b;
+};
+
+print(add(5, 3));
+
+def test_override() {
+    dynamic def add(a, b) {
+        return a * b;
+    };
+
+    print(add(5, 3));
+};
+
+test_override();
+print(add(5, 3));
+
+dynamic def factorial(n) {
+    if (n <= 1) {
+        return 1;
+    };
+
+    return n * factorial(n - 1);
+};
+
+print(factorial(5));
+
+dynamic def is_even(n) {
+    if (n == 0) {
+        return 1;
+    };
+
+    return is_odd(n - 1);
+};
+
+dynamic def is_odd(n) {
+    if (n == 0) {
+        return 0;
+    };
+
+    return is_even(n - 1);
+};
+
+print(is_even(10));
+print(is_odd(10));
+
+dynamic def make_adder(x) {
+    def add_x(y) {
+        return x + y;
+    };
+
+    return add_x;
+};
+
+var add5 = make_adder(5);
+print(add5(3));
+
+dynamic def calculate(a, b) {
+    return a + b;
+};
+
+def scope1() {
+    print(calculate(5, 3));
+
+    dynamic def calculate(a, b) {
+        return a - b;
+    };
+
+    print(calculate(5, 3));
+};
+
+def scope2() {
+    print(calculate(5, 3));
+
+    dynamic def calculate(a, b) {
+        return a * b;
+    };
+
+    print(calculate(5, 3));
+};
+
+scope1();
+scope2();
+print(calculate(5, 3));
