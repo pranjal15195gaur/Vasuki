@@ -1,0 +1,57 @@
+// Test default function parameters
+
+// Function with one default parameter
+def greet(name, greeting = "Hello") {
+    return greeting + ", " + name + "!";
+};
+
+print(greet("Alice"));
+print(greet("Bob", "Hi"));
+
+// Function with multiple default parameters
+def create_person(name, age = 30, city = "New York") {
+    return "Name: " + name + ", Age: " + age + ", City: " + city;
+};
+
+print(create_person("Alice"));
+print(create_person("Bob", 25));
+print(create_person("Charlie", 40, "Boston"));
+
+// Function with array default parameter
+def process_items(items = []) {
+    push(items, "new item");
+    return items;
+};
+
+print(process_items());
+print(process_items([1, 2, 3]));
+
+// Dynamic function with default parameters
+dynamic def calculate(a, b = 1, c = 2) {
+    return a + b * c;
+};
+
+print(calculate(5));
+print(calculate(5, 3));
+print(calculate(5, 3, 4));
+
+// Function with boolean default parameter
+def toggle(value, flag = true) {
+    if (flag) {
+        return value == false;
+    } else {
+        return value;
+    }
+};
+
+print(toggle(true));
+print(toggle(true, false));
+
+// Function with string default parameter
+def format_text(text, prefix = ">> ", suffix = " <<") {
+    return prefix + text + suffix;
+};
+
+print(format_text("Hello"));
+print(format_text("Hello", "** "));
+print(format_text("Hello", "** ", " **"));

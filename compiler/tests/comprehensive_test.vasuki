@@ -1,0 +1,143 @@
+// Comprehensive test of all new features
+
+// 1. Priority Queue
+print("=== Priority Queue Test ===");
+var min_pq = priority_queue(true);
+priority_queue_enqueue(min_pq, 5);
+priority_queue_enqueue(min_pq, 2);
+priority_queue_enqueue(min_pq, 8);
+print("Min Priority Queue Size: " + priority_queue_size(min_pq));
+print("Min Priority Queue Peek: " + priority_queue_peek(min_pq));
+print("Dequeued: " + priority_queue_dequeue(min_pq));
+print("Dequeued: " + priority_queue_dequeue(min_pq));
+print("Dequeued: " + priority_queue_dequeue(min_pq));
+print("Is Empty: " + priority_queue_is_empty(min_pq));
+
+// 2. Set
+print("\n=== Set Test ===");
+var s = set();
+set_add(s, 1);
+set_add(s, 2);
+set_add(s, 3);
+set_add(s, 2);  // Duplicate, should not be added
+print("Set size: " + set_size(s));
+print("Contains 2: " + set_contains(s, 2));
+print("Set as list: " + set_to_list(s));
+
+// 3. Array/String Operations
+print("\n=== Array/String Operations Test ===");
+var arr = [1, 2, 3, 4, 5];
+print("Original array: " + arr);
+print("Slice [2:4]: " + array_slice(arr, 2, 4));
+print("Slice [3:]: " + array_slice(arr, 3));
+
+var str = "Hello, World!";
+print("Original string: " + str);
+print("Slice [1:5]: " + string_slice(str, 1, 5));
+print("Slice [8:]: " + string_slice(str, 8));
+
+var words = ["Hello", "World", "from", "Vasuki"];
+print("Join with space: " + array_join(words, " "));
+
+var unsorted = [5, 2, 8, 1, 9, 3];
+print("Original array: " + unsorted);
+print("Sorted: " + array_sort(unsorted));
+print("Reversed: " + array_reverse(arr));
+
+// 4. Math Functions
+print("\n=== Math Functions Test ===");
+print("sqrt(16): " + sqrt(16));
+print("pow(2, 3): " + pow(2, 3));
+print("log(100, 10): " + log(100, 10));
+print("sin(0): " + sin(0));
+print("cos(0): " + cos(0));
+print("floor(3.7): " + floor(3.7));
+print("ceil(3.2): " + ceil(3.2));
+print("round(3.5): " + round(3.5));
+print("abs(-5): " + abs(-5));
+print("gcd(12, 18): " + gcd(12, 18));
+print("lcm(12, 18): " + lcm(12, 18));
+print("is_prime(7): " + is_prime(7));
+print("factorial(5): " + factorial(5));
+
+// 5. Random Number Generation
+print("\n=== Random Number Generation Test ===");
+print("random_int(1, 10): " + random_int(1, 10));
+print("random_float(): " + random_float());
+
+// 6. Bitwise Operations
+print("\n=== Bitwise Operations Test ===");
+print("bit_and(5, 3): " + bit_and(5, 3));
+print("bit_or(5, 3): " + bit_or(5, 3));
+print("bit_xor(5, 3): " + bit_xor(5, 3));
+print("bit_shift_left(5, 1): " + bit_shift_left(5, 1));
+print("bit_shift_right(10, 1): " + bit_shift_right(10, 1));
+
+// 7. Default Function Parameters
+print("\n=== Default Function Parameters Test ===");
+def greet(name, greeting = "Hello") {
+    return greeting + ", " + name + "!";
+};
+
+print(greet("Alice"));
+print(greet("Bob", "Hi"));
+
+def create_person(name, age = 30, city = "New York") {
+    return "Name: " + name + ", Age: " + age + ", City: " + city;
+};
+
+print(create_person("Alice"));
+print(create_person("Bob", 25));
+print(create_person("Charlie", 40, "Boston"));
+
+// 8. Competitive Programming Example
+print("\n=== Competitive Programming Example ===");
+// Find the prime numbers in a range using trial division
+def is_prime_number(n) {
+    // Use the built-in is_prime function
+    return is_prime(n);
+};
+
+def find_primes(n) {
+    var primes = [];
+    for (var i = 2; i <= n; i = i + 1) {
+        if (is_prime_number(i)) {
+            push(primes, i);
+        }
+    }
+    return primes;
+};
+
+print("Prime numbers up to 50: " + find_primes(50));
+
+// 9. Data Structure Combination
+print("\n=== Data Structure Combination Test ===");
+// Use a priority queue to sort an array
+var arr_to_sort = [5, 2, 8, 1, 9, 3];
+print("Original array: " + arr_to_sort);
+
+// Use array_sort instead
+var sorted_arr = array_sort(arr_to_sort);
+print("Sorted array: " + sorted_arr);
+
+// 10. Set Operations
+print("\n=== Set Operations Test ===");
+var set1 = set();
+var set2 = set();
+
+// Add elements to set1
+set_add(set1, 1);
+set_add(set1, 2);
+set_add(set1, 3);
+
+// Add elements to set2
+set_add(set2, 3);
+set_add(set2, 4);
+set_add(set2, 5);
+
+print("Set1: " + set_to_list(set1));
+print("Set2: " + set_to_list(set2));
+print("Union: " + set_to_list(set_union(set1, set2)));
+print("Intersection: " + set_to_list(set_intersection(set1, set2)));
+print("Difference (Set1 - Set2): " + set_to_list(set_difference(set1, set2)));
+print("Difference (Set2 - Set1): " + set_to_list(set_difference(set2, set1)));

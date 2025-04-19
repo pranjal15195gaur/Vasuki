@@ -1,0 +1,45 @@
+// Test priority queue implementation
+
+// Create a min priority queue
+var min_pq = priority_queue(true);
+
+// Add elements
+priority_queue_enqueue(min_pq, 5);
+priority_queue_enqueue(min_pq, 2);
+priority_queue_enqueue(min_pq, 8);
+priority_queue_enqueue(min_pq, 1);
+priority_queue_enqueue(min_pq, 10);
+
+print("Min Priority Queue Size: " + priority_queue_size(min_pq));
+print("Min Priority Queue Peek: " + priority_queue_peek(min_pq));
+
+// Dequeue elements
+print("Dequeued: " + priority_queue_dequeue(min_pq));
+print("Dequeued: " + priority_queue_dequeue(min_pq));
+print("Dequeued: " + priority_queue_dequeue(min_pq));
+print("Dequeued: " + priority_queue_dequeue(min_pq));
+print("Dequeued: " + priority_queue_dequeue(min_pq));
+
+print("Is Empty: " + priority_queue_is_empty(min_pq));
+
+// Create a max priority queue
+var max_pq = priority_queue(false);
+
+// Add elements
+priority_queue_enqueue(max_pq, 5);
+priority_queue_enqueue(max_pq, 2);
+priority_queue_enqueue(max_pq, 8);
+priority_queue_enqueue(max_pq, 1);
+priority_queue_enqueue(max_pq, 10);
+
+print("Max Priority Queue Size: " + priority_queue_size(max_pq));
+print("Max Priority Queue Peek: " + priority_queue_peek(max_pq));
+
+// Dequeue elements
+print("Dequeued: " + priority_queue_dequeue(max_pq));
+print("Dequeued: " + priority_queue_dequeue(max_pq));
+print("Dequeued: " + priority_queue_dequeue(max_pq));
+print("Dequeued: " + priority_queue_dequeue(max_pq));
+print("Dequeued: " + priority_queue_dequeue(max_pq));
+
+print("Is Empty: " + priority_queue_is_empty(max_pq));

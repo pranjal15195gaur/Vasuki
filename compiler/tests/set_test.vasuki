@@ -1,0 +1,52 @@
+// Test set implementation
+
+// Create a set
+var s = set();
+
+// Add elements
+set_add(s, 1);
+set_add(s, 2);
+set_add(s, 3);
+set_add(s, 2);  // Duplicate, should not be added
+
+print("Set size: " + set_size(s));
+print("Contains 2: " + set_contains(s, 2));
+print("Contains 4: " + set_contains(s, 4));
+
+// Convert to list and print
+var list = set_to_list(s);
+print("Set as list: " + list);
+
+// Remove an element
+set_remove(s, 2);
+print("After removing 2, size: " + set_size(s));
+print("Contains 2: " + set_contains(s, 2));
+
+// Create another set for set operations
+var s2 = set();
+set_add(s2, 3);
+set_add(s2, 4);
+set_add(s2, 5);
+
+// Union
+var union = set_union(s, s2);
+print("Union size: " + set_size(union));
+print("Union as list: " + set_to_list(union));
+
+// Intersection
+var intersection = set_intersection(s, s2);
+print("Intersection size: " + set_size(intersection));
+print("Intersection as list: " + set_to_list(intersection));
+
+// Difference
+var difference = set_difference(s, s2);
+print("Difference size: " + set_size(difference));
+print("Difference as list: " + set_to_list(difference));
+
+// Subset and superset
+print("s is subset of union: " + set_is_subset(s, union));
+print("union is superset of s: " + set_is_superset(union, s));
+
+// Clear the set
+set_clear(s);
+print("After clear, size: " + set_size(s));

@@ -1,6 +1,21 @@
 from dataclasses import dataclass
 import builtins
+import math
+import random
+import re
 from compiler.errors import NameError, TypeError, ValueError, IndexError, KeyError, DivisionByZeroError, RuntimeError
+from compiler.data_structures.heap import MinHeap, MaxHeap, PriorityQueue
+from compiler.data_structures.set import Set
+from compiler.math_functions import *
+from compiler.array_operations import *
+from compiler.function_handlers import (
+    handle_priority_queue_functions,
+    handle_set_functions,
+    handle_array_string_functions,
+    handle_math_functions,
+    handle_random_functions,
+    handle_bitwise_functions
+)
 
 class AST:
     pass
@@ -140,13 +155,35 @@ dynamic_functions = {}
 
 # List of built-in functions
 BUILTIN_FUNCTIONS = [
+    # Existing functions
     "max", "min", "push", "pop", "length", "substring", "uppercase", "lowercase",
     "contains", "startswith", "endswith", "replace", "trim", "split",
     "is_int", "is_float", "is_string", "is_char", "is_bool", "is_array", "is_function",
     "get_type", "to_int", "to_float", "to_string", "to_bool",
     "dict", "dict_put", "dict_get", "dict_contains", "dict_remove", "dict_keys",
     "dict_values", "dict_items", "dict_size", "dict_clear", "is_dict",
-    "read_line", "read_int", "read_ints", "read_float", "read_floats", "read_lines", "read_all"
+    "read_line", "read_int", "read_ints", "read_float", "read_floats", "read_lines", "read_all",
+
+    # Data structures
+    "priority_queue", "priority_queue_enqueue", "priority_queue_dequeue", "priority_queue_peek",
+    "priority_queue_is_empty", "priority_queue_size",
+    "set", "set_add", "set_remove", "set_contains", "set_clear", "set_size",
+    "set_union", "set_intersection", "set_difference", "set_is_subset", "set_is_superset", "set_to_list",
+
+    # Array/String operations
+    "array_slice", "string_slice", "array_join", "array_filter", "array_map", "array_reduce",
+    "array_sort", "array_reverse", "array_find", "array_find_last", "array_count", "array_unique",
+    "string_match", "string_search", "string_replace", "string_split", "string_match_all",
+
+    # Math functions
+    "sqrt", "pow", "log", "log10", "sin", "cos", "tan", "asin", "acos", "atan", "atan2",
+    "degrees", "radians", "floor", "ceil", "round", "abs", "gcd", "lcm", "is_prime", "factorial",
+
+    # Random number generation
+    "random_int", "random_float", "random_uniform",
+
+    # Bitwise operations
+    "bit_and", "bit_or", "bit_xor", "bit_not", "bit_shift_left", "bit_shift_right"
 ]
 
 # Environment class supporting both static and dynamic scoping
@@ -319,18 +356,21 @@ class DictGet(AST):
 class FunctionDef(AST):
     name: str
     params: list[str]
+    defaults: list
     body: AST
 
 @dataclass
 class DynamicFunctionDef(AST):
     name: str
     params: list[str]
+    defaults: list
     body: AST
 
 # A helper to represent a user‐defined function (its parameter names, body, and the closure in which it was defined)
 @dataclass
 class UserFunction:
     params: list[str]
+    defaults: list
     body: AST
     closure: Environment
 
@@ -354,13 +394,13 @@ def e(tree: AST, env=None) -> int:
 
     match tree:
 
-        case FunctionDef(name, params, body):
-            uf = UserFunction(params, body, env)
+        case FunctionDef(name, params, defaults, body):
+            uf = UserFunction(params, defaults, body, env)
             env.declare(name, uf)
             return uf
 
-        case DynamicFunctionDef(name, params, body):
-            uf = UserFunction(params, body, env)
+        case DynamicFunctionDef(name, params, defaults, body):
+            uf = UserFunction(params, defaults, body, env)
             env.declare_dynamic_function(name, uf)
             return uf
 
@@ -917,16 +957,53 @@ def e(tree: AST, env=None) -> int:
                         except EOFError:
                             break
                     return lines
+                # Priority Queue functions
+                elif name.startswith("priority_queue"):
+                    return handle_priority_queue_functions(name, evaluated_args)
+                # Set functions
+                elif name.startswith("set") and name != "set_up":
+                    return handle_set_functions(name, evaluated_args)
+                # Array/String operations
+                elif name.startswith("array_") or name.startswith("string_"):
+                    return handle_array_string_functions(name, evaluated_args)
+                # Math functions
+                elif name in ["sqrt", "pow", "log", "log10", "sin", "cos", "tan", "asin", "acos", "atan", "atan2",
+                             "degrees", "radians", "floor", "ceil", "round", "abs", "gcd", "lcm", "is_prime", "factorial"]:
+                    return handle_math_functions(name, evaluated_args)
+                # Random number generation
+                elif name.startswith("random_"):
+                    return handle_random_functions(name, evaluated_args)
+                # Bitwise operations
+                elif name.startswith("bit_"):
+                    return handle_bitwise_functions(name, evaluated_args)
                 # If we get here, it's a built-in function we haven't handled yet
                 # This should never happen if BUILTIN_FUNCTIONS is kept in sync
                 else:
                     raise ValueError(f"Unknown built-in function {name}")
             elif func is not None and isinstance(func, UserFunction):
-                if len(evaluated_args) != len(func.params):
-                    raise TypeError(f"Function '{name}' expects {len(func.params)} arguments, but got {len(evaluated_args)}")
+                # Check if the number of arguments is valid
+                min_args = len(func.params) - len(func.defaults)
+                max_args = len(func.params)
+                if len(evaluated_args) < min_args or len(evaluated_args) > max_args:
+                    if min_args == max_args:
+                        raise TypeError(f"Function '{name}' expects {min_args} arguments, but got {len(evaluated_args)}")
+                    else:
+                        raise TypeError(f"Function '{name}' expects between {min_args} and {max_args} arguments, but got {len(evaluated_args)}")
+
+                # Create a new environment for the function call
                 new_env = Environment(func.closure)
-                for param, arg in zip(func.params, evaluated_args):
-                    new_env.declare(param, arg)
+
+                # Assign provided arguments to parameters
+                for i, param in enumerate(func.params[:len(evaluated_args)]):
+                    new_env.declare(param, evaluated_args[i])
+
+                # Assign default values to parameters that weren't provided
+                if len(evaluated_args) < len(func.params):
+                    default_offset = len(func.defaults) - (len(func.params) - len(evaluated_args))
+                    for i, param in enumerate(func.params[len(evaluated_args):]):
+                        default_value = func.defaults[default_offset + i]
+                        new_env.declare(param, default_value)
+
                 try:
                     return e(func.body, new_env)
                 except ReturnException as re:

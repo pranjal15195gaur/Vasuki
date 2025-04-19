@@ -1,0 +1,52 @@
+// Test array and string operations
+
+// Array slicing
+var arr = [1, 2, 3, 4, 5, 6, 7, 8, 9, 10];
+print("Original array: " + arr);
+print("Slice [2:5]: " + array_slice(arr, 2, 5));
+print("Slice [3:]: " + array_slice(arr, 3));
+print("Slice [2:8:2]: " + array_slice(arr, 2, 8, 2));
+
+// String slicing
+var str = "Hello, World!";
+print("Original string: " + str);
+print("Slice [1:5]: " + string_slice(str, 1, 5));
+print("Slice [8:]: " + string_slice(str, 8));
+print("Slice [1:12:2]: " + string_slice(str, 1, 12, 2));
+
+// Array joining
+var words = ["Hello", "World", "from", "Vasuki"];
+print("Join with space: " + array_join(words, " "));
+print("Join with comma: " + array_join(words, ", "));
+
+// Note: Array filtering, mapping, and reducing require function references
+// which are not fully supported yet. Skipping these tests.
+
+// Array sorting
+var unsorted = [5, 2, 8, 1, 9, 3];
+print("Original array: " + unsorted);
+print("Sorted: " + array_sort(unsorted));
+print("Sorted descending: " + array_sort(unsorted, true));
+
+// Array reversing
+print("Reversed: " + array_reverse(arr));
+
+// Array finding
+print("Find 5: " + array_find(arr, 5));
+print("Find 11: " + array_find(arr, 11));
+
+// Array with duplicates
+var dup_arr = [1, 2, 3, 2, 4, 5, 2, 6];
+print("Array with duplicates: " + dup_arr);
+print("Find last 2: " + array_find_last(dup_arr, 2));
+print("Count 2: " + array_count(dup_arr, 2));
+print("Unique elements: " + array_unique(dup_arr));
+
+// Regular expression operations
+var text = "The quick brown fox jumps over the lazy dog";
+print("Match 'fox': " + string_match(text, "fox"));
+print("Match '^The': " + string_match(text, "^The"));
+print("Search 'fox': " + string_search(text, "fox"));
+print("Replace 'fox' with 'cat': " + string_replace(text, "fox", "cat"));
+print("Split by spaces: " + string_split(text, " "));
+print("Find all words with 'o': " + string_match_all(text, "\\w*o\\w*"));

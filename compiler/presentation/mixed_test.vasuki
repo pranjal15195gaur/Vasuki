@@ -1,0 +1,440 @@
+// mixed_test.vasuki - Comprehensive test suite for Vasuki language features
+// This file tests all the advanced features implemented in Vasuki
+
+// Helper function to assert that a condition is true
+def assert(condition, message) {
+    if (condition == false) {
+        print("ASSERTION FAILED: " + message);
+    }
+};
+
+// Helper function to assert that two values are equal
+def assert_equal(actual, expected, message) {
+    if (actual != expected) {
+        print("ASSERTION FAILED: " + message);
+        print("  Expected: " + expected);
+        print("  Actual:   " + actual);
+    }
+};
+
+// Helper function to assert that an array contains expected elements
+def assert_array_equal(actual, expected, message) {
+    if (length(actual) != length(expected)) {
+        print("ASSERTION FAILED: " + message);
+        print("  Arrays have different lengths");
+        print("  Expected: " + expected);
+        print("  Actual:   " + actual);
+        return false;
+    }
+
+    for (var i = 1; i <= length(expected); i = i + 1) {
+        if (actual[i] != expected[i]) {
+            print("ASSERTION FAILED: " + message);
+            print("  Arrays differ at index " + i);
+            print("  Expected: " + expected);
+            print("  Actual:   " + actual);
+            return false;
+        }
+    }
+    return true;
+};
+
+print("===== VASUKI LANGUAGE TEST SUITE =====");
+print("Running comprehensive tests for all language features...");
+
+// ===== PART 1: DATA STRUCTURES =====
+
+print("\n----- Testing Priority Queue -----");
+
+// Test min priority queue
+var min_pq = priority_queue(true);
+assert(priority_queue_is_empty(min_pq), "New priority queue should be empty");
+
+priority_queue_enqueue(min_pq, 5);
+priority_queue_enqueue(min_pq, 2);
+priority_queue_enqueue(min_pq, 8);
+priority_queue_enqueue(min_pq, 1);
+priority_queue_enqueue(min_pq, 10);
+
+assert_equal(priority_queue_size(min_pq), 5, "Priority queue size should be 5");
+assert_equal(priority_queue_peek(min_pq), 1, "Min priority queue peek should return 1");
+
+assert_equal(priority_queue_dequeue(min_pq), 1, "First dequeued element should be 1");
+assert_equal(priority_queue_dequeue(min_pq), 2, "Second dequeued element should be 2");
+assert_equal(priority_queue_dequeue(min_pq), 5, "Third dequeued element should be 5");
+assert_equal(priority_queue_dequeue(min_pq), 8, "Fourth dequeued element should be 8");
+assert_equal(priority_queue_dequeue(min_pq), 10, "Fifth dequeued element should be 10");
+assert(priority_queue_is_empty(min_pq), "Priority queue should be empty after all elements are dequeued");
+
+// Test max priority queue
+var max_pq = priority_queue(false);
+assert(priority_queue_is_empty(max_pq), "New priority queue should be empty");
+
+priority_queue_enqueue(max_pq, 5);
+priority_queue_enqueue(max_pq, 2);
+priority_queue_enqueue(max_pq, 8);
+priority_queue_enqueue(max_pq, 1);
+priority_queue_enqueue(max_pq, 10);
+
+assert_equal(priority_queue_size(max_pq), 5, "Priority queue size should be 5");
+assert_equal(priority_queue_peek(max_pq), 10, "Max priority queue peek should return 10");
+
+assert_equal(priority_queue_dequeue(max_pq), 10, "First dequeued element should be 10");
+assert_equal(priority_queue_dequeue(max_pq), 8, "Second dequeued element should be 8");
+assert_equal(priority_queue_dequeue(max_pq), 5, "Third dequeued element should be 5");
+assert_equal(priority_queue_dequeue(max_pq), 2, "Fourth dequeued element should be 2");
+assert_equal(priority_queue_dequeue(max_pq), 1, "Fifth dequeued element should be 1");
+assert(priority_queue_is_empty(max_pq), "Priority queue should be empty after all elements are dequeued");
+
+print("Priority Queue tests completed");
+
+print("\n----- Testing Set -----");
+
+// Test set operations
+var s = set();
+assert_equal(set_size(s), 0, "New set should be empty");
+
+set_add(s, 1);
+set_add(s, 2);
+set_add(s, 3);
+set_add(s, 2);  // Duplicate, should not be added
+
+assert_equal(set_size(s), 3, "Set size should be 3 after adding 3 unique elements");
+assert(set_contains(s, 2), "Set should contain element 2");
+assert(set_contains(s, 1), "Set should contain element 1");
+assert(set_contains(s, 3), "Set should contain element 3");
+assert(set_contains(s, 4) == false, "Set should not contain element 4");
+
+// Test set_to_list
+var list = set_to_list(s);
+assert_equal(length(list), 3, "List from set should have 3 elements");
+
+// Test remove
+assert(set_remove(s, 2), "Removing element 2 should return true");
+assert_equal(set_size(s), 2, "Set size should be 2 after removing an element");
+assert(set_contains(s, 2) == false, "Set should not contain element 2 after removal");
+
+// Create another set for set operations
+var s2 = set();
+set_add(s2, 3);
+set_add(s2, 4);
+set_add(s2, 5);
+
+// Test union
+var union_set = set_union(s, s2);
+assert_equal(set_size(union_set), 4, "Union set should have 4 elements");
+assert(set_contains(union_set, 1), "Union set should contain element 1");
+assert(set_contains(union_set, 3), "Union set should contain element 3");
+assert(set_contains(union_set, 4), "Union set should contain element 4");
+assert(set_contains(union_set, 5), "Union set should contain element 5");
+
+// Test intersection
+var intersection_set = set_intersection(s, s2);
+assert_equal(set_size(intersection_set), 1, "Intersection set should have 1 element");
+assert(set_contains(intersection_set, 3), "Intersection set should contain element 3");
+
+// Test difference
+var diff1 = set_difference(s, s2);
+assert_equal(set_size(diff1), 1, "Difference set (s - s2) should have 1 element");
+assert(set_contains(diff1, 1), "Difference set (s - s2) should contain element 1");
+
+var diff2 = set_difference(s2, s);
+assert_equal(set_size(diff2), 2, "Difference set (s2 - s) should have 2 elements");
+assert(set_contains(diff2, 4), "Difference set (s2 - s) should contain element 4");
+assert(set_contains(diff2, 5), "Difference set (s2 - s) should contain element 5");
+
+// Test subset and superset
+assert(set_is_subset(s, union_set), "s should be a subset of union_set");
+assert(set_is_superset(union_set, s), "union_set should be a superset of s");
+
+// Test clear
+set_clear(s);
+assert_equal(set_size(s), 0, "Set should be empty after clearing");
+
+print("Set tests completed");
+
+// ===== PART 2: ARRAY AND STRING OPERATIONS =====
+
+print("\n----- Testing Array Operations -----");
+
+// Test array slicing (1-based indexing)
+var arr = [1, 2, 3, 4, 5, 6, 7, 8, 9, 10];
+var slice1 = array_slice(arr, 2, 5);  // Should be [2, 3, 4]
+assert_equal(length(slice1), 3, "Slice [2:5] should have 3 elements");
+assert_equal(slice1[1], 2, "First element of slice [2:5] should be 2");
+assert_equal(slice1[2], 3, "Second element of slice [2:5] should be 3");
+assert_equal(slice1[3], 4, "Third element of slice [2:5] should be 4");
+
+var slice2 = array_slice(arr, 3);  // Should be [3, 4, 5, 6, 7, 8, 9, 10]
+assert_equal(length(slice2), 8, "Slice [3:] should have 8 elements");
+assert_equal(slice2[1], 3, "First element of slice [3:] should be 3");
+assert_equal(slice2[8], 10, "Last element of slice [3:] should be 10");
+
+var slice3 = array_slice(arr, 2, 8, 2);  // Should be [2, 4, 6]
+assert_equal(length(slice3), 3, "Slice [2:8:2] should have 3 elements");
+assert_equal(slice3[1], 2, "First element of slice [2:8:2] should be 2");
+assert_equal(slice3[2], 4, "Second element of slice [2:8:2] should be 4");
+assert_equal(slice3[3], 6, "Third element of slice [2:8:2] should be 6");
+
+// Test array joining
+var words = ["Hello", "World", "from", "Vasuki"];
+var joined1 = array_join(words, " ");
+assert_equal(joined1, "Hello World from Vasuki", "Joining with space should work correctly");
+
+var joined2 = array_join(words, ", ");
+assert_equal(joined2, "Hello, World, from, Vasuki", "Joining with comma should work correctly");
+
+// Test array sorting
+var unsorted = [5, 2, 8, 1, 9, 3];
+var sorted = array_sort(unsorted);
+assert_equal(length(sorted), 6, "Sorted array should have the same length as the original");
+assert_equal(sorted[1], 1, "First element of sorted array should be 1");
+assert_equal(sorted[6], 9, "Last element of sorted array should be 9");
+
+var sorted_desc = array_sort(unsorted, true);
+assert_equal(length(sorted_desc), 6, "Sorted array should have the same length as the original");
+assert_equal(sorted_desc[1], 9, "First element of descending sorted array should be 9");
+assert_equal(sorted_desc[6], 1, "Last element of descending sorted array should be 1");
+
+// Test array reversing
+var reversed = array_reverse(arr);
+assert_equal(length(reversed), 10, "Reversed array should have the same length as the original");
+assert_equal(reversed[1], 10, "First element of reversed array should be 10");
+assert_equal(reversed[10], 1, "Last element of reversed array should be 1");
+
+// Test array finding
+var dup_arr = [1, 2, 3, 2, 4, 5, 2, 6];
+assert_equal(array_find(dup_arr, 2), 2, "First occurrence of 2 should be at index 2");
+assert_equal(array_find(dup_arr, 6), 8, "First occurrence of 6 should be at index 8");
+assert_equal(array_find(dup_arr, 7), 0, "Finding a non-existent element should return 0");
+
+assert_equal(array_find_last(dup_arr, 2), 7, "Last occurrence of 2 should be at index 7");
+assert_equal(array_count(dup_arr, 2), 3, "Count of 2 should be 3");
+
+// Test array unique
+var unique = array_unique(dup_arr);
+assert_equal(length(unique), 6, "Unique array should have 6 elements");
+
+print("Array operations tests completed");
+
+print("\n----- Testing String Operations -----");
+
+// Test string slicing (1-based indexing)
+var str = "Hello, World!";
+var str_slice1 = string_slice(str, 1, 5);  // Should be "Hell"
+assert_equal(str_slice1, "Hell", "String slice [1:5] should be 'Hell'");
+
+var str_slice2 = string_slice(str, 8);  // Should be "World!"
+assert_equal(str_slice2, "World!", "String slice [8:] should be 'World!'");
+
+var str_slice3 = string_slice(str, 1, 12, 2);  // Should be "Hlo ol"
+assert_equal(str_slice3, "Hlo ol", "String slice [1:12:2] should be 'Hlo ol'");
+
+// Test regular expression operations
+var text = "The quick brown fox jumps over the lazy dog";
+assert(string_match(text, "^The"), "Text should match pattern '^The'");
+assert(string_match(text, "^fox") == false, "Text should not match pattern '^fox'");
+
+assert_equal(string_search(text, "fox"), 17, "Search for 'fox' should return position 17");
+assert_equal(string_search(text, "cat"), 0, "Search for non-existent 'cat' should return 0");
+
+var replaced = string_replace(text, "fox", "cat");
+assert_equal(replaced, "The quick brown cat jumps over the lazy dog", "Replace 'fox' with 'cat' should work");
+
+var split = string_split(text, " ");
+assert_equal(length(split), 9, "Splitting by space should result in 9 elements");
+
+// Test string operations
+assert_equal(length(text), 43, "Length of text should be 43");
+assert_equal(uppercase(text), "THE QUICK BROWN FOX JUMPS OVER THE LAZY DOG", "Uppercase conversion should work");
+assert_equal(lowercase(text), "the quick brown fox jumps over the lazy dog", "Lowercase conversion should work");
+assert(contains(text, "fox"), "Text should contain 'fox'");
+assert(startswith(text, "The"), "Text should start with 'The'");
+assert(endswith(text, "dog"), "Text should end with 'dog'");
+assert_equal(trim("  " + text + "  "), text, "Trim should remove whitespace");
+
+print("String operations tests completed");
+
+print("\n----- Testing Math Functions -----");
+
+// Test basic math functions
+assert_equal(sqrt(16), 4.0, "Square root of 16 should be 4.0");
+assert_equal(pow(2, 3), 8.0, "2^3 should be 8.0");
+assert_equal(log(100, 10), 2.0, "Log base 10 of 100 should be 2.0");
+assert_equal(log10(100), 2.0, "Log10 of 100 should be 2.0");
+
+// Test trigonometric functions
+assert_equal(sin(0), 0.0, "Sine of 0 should be 0.0");
+assert_equal(cos(0), 1.0, "Cosine of 0 should be 1.0");
+assert_equal(tan(0), 0.0, "Tangent of 0 should be 0.0");
+assert_equal(asin(0), 0.0, "Arcsine of 0 should be 0.0");
+assert_equal(acos(1), 0.0, "Arccosine of 1 should be 0.0");
+assert_equal(atan(0), 0.0, "Arctangent of 0 should be 0.0");
+
+// Test angle conversion
+assert(abs(degrees(3.14159) - 180) < 0.01, "3.14159 radians should be approximately 180 degrees");
+assert(abs(radians(180) - 3.14159) < 0.01, "180 degrees should be approximately 3.14159 radians");
+
+// Test rounding functions
+assert_equal(floor(3.7), 3, "Floor of 3.7 should be 3");
+assert_equal(ceil(3.2), 4, "Ceiling of 3.2 should be 4");
+assert_equal(round(3.5), 4.0, "Round of 3.5 should be 4.0");
+assert_equal(round(3.14159, 2), 3.14, "Round of 3.14159 to 2 decimal places should be 3.14");
+
+// Test number theory functions
+assert_equal(abs(-5), 5, "Absolute value of -5 should be 5");
+assert_equal(gcd(12, 18), 6, "GCD of 12 and 18 should be 6");
+assert_equal(lcm(12, 18), 36, "LCM of 12 and 18 should be 36");
+assert(is_prime(7), "7 should be prime");
+assert(is_prime(10) == false, "10 should not be prime");
+assert_equal(factorial(5), 120, "Factorial of 5 should be 120");
+
+// Test bitwise operations
+assert_equal(bit_and(5, 3), 1, "5 & 3 should be 1");
+assert_equal(bit_or(5, 3), 7, "5 | 3 should be 7");
+assert_equal(bit_xor(5, 3), 6, "5 ^ 3 should be 6");
+assert_equal(bit_not(5), -6, "~5 should be -6");
+assert_equal(bit_shift_left(5, 1), 10, "5 << 1 should be 10");
+assert_equal(bit_shift_right(10, 1), 5, "10 >> 1 should be 5");
+
+print("Math functions tests completed");
+
+print("\n----- Testing Default Function Parameters -----");
+
+// Test function with one default parameter
+def greet(name, greeting = "Hello") {
+    return greeting + ", " + name + "!";
+};
+
+assert_equal(greet("Alice"), "Hello, Alice!", "Default greeting should be 'Hello'");
+assert_equal(greet("Bob", "Hi"), "Hi, Bob!", "Custom greeting should override default");
+
+// Test function with multiple default parameters
+def create_person(name, age = 30, city = "New York") {
+    return "Name: " + name + ", Age: " + age + ", City: " + city;
+};
+
+assert_equal(create_person("Alice"), "Name: Alice, Age: 30, City: New York", "Default age and city should be used");
+assert_equal(create_person("Bob", 25), "Name: Bob, Age: 25, City: New York", "Custom age should override default");
+assert_equal(create_person("Charlie", 40, "Boston"), "Name: Charlie, Age: 40, City: Boston", "All custom values should be used");
+
+// Test function with array default parameter
+def process_items(items = []) {
+    push(items, "new item");
+    return items;
+};
+
+var result1 = process_items();
+assert_equal(length(result1), 1, "Default empty array should have 1 item after processing");
+assert_equal(result1[1], "new item", "Default array should contain 'new item'");
+
+var result2 = process_items([1, 2, 3]);
+assert_equal(length(result2), 4, "Custom array should have 4 items after processing");
+assert_equal(result2[4], "new item", "Custom array should have 'new item' appended");
+
+// Test function with boolean default parameter
+def toggle(value, flag = true) {
+    if (flag) {
+        return value == false;
+    } else {
+        return value;
+    }
+};
+
+assert_equal(toggle(true), false, "toggle(true) should return false");
+assert_equal(toggle(true, false), true, "toggle(true, false) should return true");
+
+// Test function with string default parameter
+def format_text(text, prefix = ">> ", suffix = " <<") {
+    return prefix + text + suffix;
+};
+
+assert_equal(format_text("Hello"), ">> Hello <<", "Default prefix and suffix should be used");
+assert_equal(format_text("Hello", "** "), "** Hello <<", "Custom prefix should override default");
+assert_equal(format_text("Hello", "** ", " **"), "** Hello **", "All custom values should be used");
+
+print("Default function parameters tests completed");
+
+print("\n----- Testing Competitive Programming Examples -----");
+
+// Test prime number generation
+def find_primes(n) {
+    var primes = [];
+    for (var i = 2; i <= n; i = i + 1) {
+        if (is_prime(i)) {
+            push(primes, i);
+        }
+    }
+    return primes;
+};
+
+var primes20 = find_primes(20);
+assert_equal(length(primes20), 8, "There should be 8 primes up to 20");
+assert_equal(primes20[1], 2, "First prime should be 2");
+assert_equal(primes20[8], 19, "8th prime should be 19");
+
+// Test Fibonacci sequence
+def fibonacci(n) {
+    var fib = [];
+    if (n >= 1) {
+        push(fib, 0);
+    }
+    if (n >= 2) {
+        push(fib, 1);
+    }
+    if (n >= 3) {
+        // For i=2, we need fib[1] and fib[0]
+        var prev1 = 1;  // fib[1]
+        var prev2 = 0;  // fib[0]
+
+        for (var i = 2; i < n; i = i + 1) {
+            var next = prev1 + prev2;
+            push(fib, next);
+            prev2 = prev1;
+            prev1 = next;
+        }
+    }
+    return fib;
+};
+
+var fib10 = fibonacci(10);
+assert_equal(length(fib10), 10, "Fibonacci sequence should have 10 terms");
+assert_equal(fib10[1], 0, "First Fibonacci number should be 0");
+assert_equal(fib10[2], 1, "Second Fibonacci number should be 1");
+assert_equal(fib10[10], 34, "10th Fibonacci number should be 34");
+
+// Test sorting
+var to_sort = [5, 2, 8, 1, 9, 3];
+var sorted = array_sort(to_sort);
+assert_equal(length(sorted), 6, "Sorted array should have the same length as the original");
+assert_equal(sorted[1], 1, "First element of sorted array should be 1");
+assert_equal(sorted[6], 9, "Last element of sorted array should be 9");
+
+// Test set operations
+var set1 = set();
+set_add(set1, 1);
+set_add(set1, 2);
+set_add(set1, 3);
+set_add(set1, 4);
+set_add(set1, 5);
+
+var set2 = set();
+set_add(set2, 3);
+set_add(set2, 4);
+set_add(set2, 5);
+set_add(set2, 6);
+set_add(set2, 7);
+
+var intersection = set_intersection(set1, set2);
+assert_equal(set_size(intersection), 3, "Intersection should have 3 elements");
+assert(set_contains(intersection, 3), "Intersection should contain 3");
+assert(set_contains(intersection, 4), "Intersection should contain 4");
+assert(set_contains(intersection, 5), "Intersection should contain 5");
+
+print("Competitive programming examples tests completed");
+
+// ===== FINAL SUMMARY =====
+
+print("\n===== TEST SUMMARY =====");
+print("All tests completed successfully if no ASSERTION FAILED messages were printed.");
+print("===== END OF TEST SUITE =====");

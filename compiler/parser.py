@@ -317,26 +317,84 @@ def parse(s: str, filename="<input>") -> AST:
             except ParserError:
                 raise_parser_error("Expected '(' after function name")
             params = []
+            defaults = []
             if t.peek(None) != ParenToken(')'):
                 # At least one parameter
                 token = t.peek(None)
                 if not isinstance(token, KeywordToken):
                     raise_parser_error("Expected parameter name")
-                params.append(token.w)
+                param_name = token.w
                 next(t)
+
+                # Check for default value
+                if t.peek(None) == OperatorToken('='):
+                    next(t)  # consume '='
+                    default_value = parse_logic_or()
+                    # Evaluate the default value at definition time
+                    if isinstance(default_value, Int):
+                        defaults.append(int(default_value.val))
+                    elif isinstance(default_value, Float):
+                        defaults.append(float(default_value.val))
+                    elif isinstance(default_value, String):
+                        defaults.append(default_value.val)
+                    elif isinstance(default_value, Boolean):
+                        defaults.append(default_value.val)
+                    elif isinstance(default_value, ArrayLiteral):
+                        # For simplicity, only support empty arrays as default values
+                        if len(default_value.elements) == 0:
+                            defaults.append([])
+                        else:
+                            raise_parser_error("Only empty arrays are supported as default values")
+                    else:
+                        raise_parser_error("Only literals are supported as default values")
+                else:
+                    # If this parameter has no default but previous ones did, that's an error
+                    if defaults:
+                        raise_parser_error("Non-default parameter cannot follow default parameter")
+
+                params.append(param_name)
+
                 while t.peek(None) == OperatorToken(','):
                     next(t)
                     token = t.peek(None)
                     if not isinstance(token, KeywordToken):
                         raise_parser_error("Expected parameter name")
-                    params.append(token.w)
+                    param_name = token.w
                     next(t)
+
+                    # Check for default value
+                    if t.peek(None) == OperatorToken('='):
+                        next(t)  # consume '='
+                        default_value = parse_logic_or()
+                        # Evaluate the default value at definition time
+                        if isinstance(default_value, Int):
+                            defaults.append(int(default_value.val))
+                        elif isinstance(default_value, Float):
+                            defaults.append(float(default_value.val))
+                        elif isinstance(default_value, String):
+                            defaults.append(default_value.val)
+                        elif isinstance(default_value, Boolean):
+                            defaults.append(default_value.val)
+                        elif isinstance(default_value, ArrayLiteral):
+                            # For simplicity, only support empty arrays as default values
+                            if len(default_value.elements) == 0:
+                                defaults.append([])
+                            else:
+                                raise_parser_error("Only empty arrays are supported as default values")
+                        else:
+                            raise_parser_error("Only literals are supported as default values")
+                    else:
+                        # If this parameter has no default but previous ones did, that's an error
+                        if defaults:
+                            raise_parser_error("Non-default parameter cannot follow default parameter")
+
+                    params.append(param_name)
             try:
                 expect(ParenToken(')'))
             except ParserError:
                 raise_parser_error("Expected ')' after parameter list")
             body = parse_block()  # Reuse block parsing for the function body.
-            return FunctionDef(func_name, params, body)
+            return FunctionDef(func_name, params, defaults, body)
 
         # Return statement
         elif isinstance(token, KeywordToken) and token.w == "return":
@@ -400,26 +458,84 @@ def parse(s: str, filename="<input>") -> AST:
                 except ParserError:
                     raise_parser_error("Expected '(' after function name")
                 params = []
+                defaults = []
                 if t.peek(None) != ParenToken(')'):
                     # At least one parameter
                     token = t.peek(None)
                     if not isinstance(token, KeywordToken):
                         raise_parser_error("Expected parameter name")
-                    params.append(token.w)
+                    param_name = token.w
                     next(t)
+
+                    # Check for default value
+                    if t.peek(None) == OperatorToken('='):
+                        next(t)  # consume '='
+                        default_value = parse_logic_or()
+                        # Evaluate the default value at definition time
+                        if isinstance(default_value, Int):
+                            defaults.append(int(default_value.val))
+                        elif isinstance(default_value, Float):
+                            defaults.append(float(default_value.val))
+                        elif isinstance(default_value, String):
+                            defaults.append(default_value.val)
+                        elif isinstance(default_value, Boolean):
+                            defaults.append(default_value.val)
+                        elif isinstance(default_value, ArrayLiteral):
+                            # For simplicity, only support empty arrays as default values
+                            if len(default_value.elements) == 0:
+                                defaults.append([])
+                            else:
+                                raise_parser_error("Only empty arrays are supported as default values")
+                        else:
+                            raise_parser_error("Only literals are supported as default values")
+                    else:
+                        # If this parameter has no default but previous ones did, that's an error
+                        if defaults:
+                            raise_parser_error("Non-default parameter cannot follow default parameter")
+
+                    params.append(param_name)
+
                     while t.peek(None) == OperatorToken(','):
                         next(t)
                         token = t.peek(None)
                         if not isinstance(token, KeywordToken):
                             raise_parser_error("Expected parameter name")
-                        params.append(token.w)
+                        param_name = token.w
                         next(t)
+
+                        # Check for default value
+                        if t.peek(None) == OperatorToken('='):
+                            next(t)  # consume '='
+                            default_value = parse_logic_or()
+                            # Evaluate the default value at definition time
+                            if isinstance(default_value, Int):
+                                defaults.append(int(default_value.val))
+                            elif isinstance(default_value, Float):
+                                defaults.append(float(default_value.val))
+                            elif isinstance(default_value, String):
+                                defaults.append(default_value.val)
+                            elif isinstance(default_value, Boolean):
+                                defaults.append(default_value.val)
+                            elif isinstance(default_value, ArrayLiteral):
+                                # For simplicity, only support empty arrays as default values
+                                if len(default_value.elements) == 0:
+                                    defaults.append([])
+                                else:
+                                    raise_parser_error("Only empty arrays are supported as default values")
+                            else:
+                                raise_parser_error("Only literals are supported as default values")
+                        else:
+                            # If this parameter has no default but previous ones did, that's an error
+                            if defaults:
+                                raise_parser_error("Non-default parameter cannot follow default parameter")
+
+                        params.append(param_name)
                 try:
                     expect(ParenToken(')'))
                 except ParserError:
                     raise_parser_error("Expected ')' after parameter list")
                 body = parse_block()  # Reuse block parsing for the function body.
-                return DynamicFunctionDef(func_name, params, body)
+                return DynamicFunctionDef(func_name, params, defaults, body)
             else:
                 raise_parser_error("Expected 'var' or 'def' after 'dynamic'")
 
