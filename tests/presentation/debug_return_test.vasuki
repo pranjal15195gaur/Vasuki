@@ -1,0 +1,11 @@
+// Test return in loops
+def test_return_in_loop() {
+    for (var i = 0; i < 10; i = i + 1) {
+        if (i == 5) {
+            return i;  // Should exit the loop and return 5
+        }
+    }
+    return 10;  // Should not be reached
+};
+
+print(test_return_in_loop());  // Should print 5

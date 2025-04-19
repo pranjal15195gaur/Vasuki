@@ -1,0 +1,67 @@
+// Test 1: Deep nesting of dynamic variables
+def deep_nesting(depth) {
+    if (depth <= 0) {
+        return;
+    };
+
+    dynamic var level = depth;
+    print(level);
+
+    deep_nesting(depth - 1);
+
+    print(level);
+};
+
+deep_nesting(3);
+
+// Test 2: Many dynamic variables in the same scope
+def many_variables() {
+    dynamic var var1 = 1;
+    dynamic var var2 = 2;
+    dynamic var var3 = 3;
+
+    print(var1 + var2 + var3);
+};
+
+many_variables();
+
+// Test 3: Many dynamic functions in the same scope
+def many_functions() {
+    dynamic def func1() { return 1; };
+    dynamic def func2() { return 2; };
+    dynamic def func3() { return 3; };
+
+    print(func1() + func2() + func3());
+};
+
+many_functions();
+
+// Test 6: Dynamic variables with large values
+dynamic var large_value = 1;
+
+def double_value(iterations) {
+    for (var i = 0; i < iterations; i = i + 1) {
+        large_value = large_value * 2;
+    };
+
+    return large_value;
+};
+
+print(double_value(5));
+
+// Test 7: Dynamic functions with many parameters
+dynamic def many_params(p1, p2, p3, p4, p5) {
+    return p1 + p2 + p3 + p4 + p5;
+};
+
+print(many_params(1, 2, 3, 4, 5));
+
+// Test 8: Dynamic variables in a loop
+def loop_variables(count) {
+    for (var i = 0; i < count; i = i + 1) {
+        dynamic var loop_var = i;
+        print(loop_var);
+    };
+};
+
+loop_variables(3);

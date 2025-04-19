@@ -1,0 +1,61 @@
+// Practical type checking and conversion test
+
+// Function to safely process user input
+def process_input(input, expected_type) {
+    print("Processing input: " + to_string(input) + " (expected type: " + expected_type + ")");
+
+    if (expected_type == "int") {
+        if (is_int(input)) {
+            print("Input is already an integer");
+            return input;
+        } else if (is_string(input)) {
+            print("Converting string to integer");
+            return to_int(input);
+        } else if (is_float(input)) {
+            print("Converting float to integer");
+            return to_int(input);
+        } else {
+            print("Cannot convert to integer, using default");
+            return 0;
+        }
+    } else if (expected_type == "float") {
+        if (is_float(input)) {
+            print("Input is already a float");
+            return input;
+        } else if (is_int(input)) {
+            print("Converting integer to float");
+            return to_float(input);
+        } else if (is_string(input)) {
+            print("Converting string to float");
+            return to_float(input);
+        } else {
+            print("Cannot convert to float, using default");
+            return 0.0;
+        }
+    } else if (expected_type == "string") {
+        print("Converting to string");
+        return to_string(input);
+    } else {
+        print("Unknown type, returning as is");
+        return input;
+    }
+};
+
+// Test with different inputs and expected types
+var int_input = 42;
+var float_input = 3.14;
+var string_input = "123";
+var bool_input = 1 < 2;  // This evaluates to true
+
+print("Result: " + to_string(process_input(int_input, "int")));
+print("Result: " + to_string(process_input(string_input, "int")));
+print("Result: " + to_string(process_input(float_input, "int")));
+print("Result: " + to_string(process_input(bool_input, "int")));
+
+print("Result: " + to_string(process_input(int_input, "float")));
+print("Result: " + to_string(process_input(string_input, "float")));
+print("Result: " + to_string(process_input(float_input, "float")));
+
+print("Result: " + process_input(int_input, "string"));
+print("Result: " + process_input(float_input, "string"));
+print("Result: " + process_input(bool_input, "string"));

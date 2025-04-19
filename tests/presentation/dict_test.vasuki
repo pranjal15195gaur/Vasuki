@@ -1,0 +1,106 @@
+// Test dictionary implementation
+
+// Create a dictionary using the dict() function
+var empty_dict = dict();
+print("Empty dictionary created");
+
+// Add key-value pairs to the dictionary
+dict_put(empty_dict, "name", "Alice");
+dict_put(empty_dict, "age", 30);
+dict_put(empty_dict, "city", "New York");
+
+// Get values from the dictionary
+print("Name: " + dict_get(empty_dict, "name"));
+print("Age: " + dict_get(empty_dict, "age"));
+print("City: " + dict_get(empty_dict, "city"));
+
+// Check if a key exists in the dictionary
+print("Has name: " + dict_contains(empty_dict, "name"));
+print("Has address: " + dict_contains(empty_dict, "address"));
+
+// Get a value with a default
+print("Address: " + dict_get(empty_dict, "address", "Unknown"));
+
+// Get the size of the dictionary
+print("Dictionary size: " + dict_size(empty_dict));
+
+// Remove a key-value pair
+dict_remove(empty_dict, "city");
+print("After removing city, size: " + dict_size(empty_dict));
+print("Has city: " + dict_contains(empty_dict, "city"));
+
+// Create a dictionary using dictionary literal syntax
+var person = {"name": "Bob", "age": 25, "city": "Boston"};
+print("Person name: " + dict_get(person, "name"));
+print("Person age: " + dict_get(person, "age"));
+print("Person city: " + dict_get(person, "city"));
+
+// Dictionary with different value types
+var mixed_dict = {"name": "Charlie", "age": 35, "is_student": 1 < 2, "grades": [90, 85, 95]};
+print("Name: " + dict_get(mixed_dict, "name"));
+print("Age: " + dict_get(mixed_dict, "age"));
+print("Is student: " + dict_get(mixed_dict, "is_student"));
+
+// Access array inside dictionary
+var grades = dict_get(mixed_dict, "grades");
+print("First grade: " + grades[1]);
+print("Second grade: " + grades[2]);
+print("Third grade: " + grades[3]);
+
+// Dictionary with integer keys
+var int_keys_dict = {1: "one", 2: "two", 3: "three"};
+print("1: " + dict_get(int_keys_dict, 1));
+print("2: " + dict_get(int_keys_dict, 2));
+print("3: " + dict_get(int_keys_dict, 3));
+
+// Dictionary with nested dictionaries
+var nested_dict = {"user": {"name": "Dave", "email": "dave@example.com"}, "settings": {"theme": "dark", "notifications": 1 < 2}};
+var user = dict_get(nested_dict, "user");
+print("User name: " + dict_get(user, "name"));
+print("User email: " + dict_get(user, "email"));
+
+var settings = dict_get(nested_dict, "settings");
+print("Theme: " + dict_get(settings, "theme"));
+print("Notifications: " + dict_get(settings, "notifications"));
+
+// Dictionary in a function
+def process_person(person) {
+    if (is_dict(person)) {
+        print("Processing person: " + dict_get(person, "name"));
+        if (dict_contains(person, "age")) {
+            print("Age: " + dict_get(person, "age"));
+        }
+        return "Processed";
+    } else {
+        return "Not a dictionary";
+    }
+};
+
+print(process_person(person));
+print(process_person("not a dict"));
+
+// Get all keys from a dictionary
+var keys = dict_keys(person);
+print("Keys length: " + length(keys));
+print("First key: " + keys[1]);
+print("Second key: " + keys[2]);
+print("Third key: " + keys[3]);
+
+// Get all values from a dictionary
+var values = dict_values(person);
+print("Values length: " + length(values));
+print("First value: " + values[1]);
+print("Second value: " + values[2]);
+print("Third value: " + values[3]);
+
+// Clear a dictionary
+dict_clear(person);
+print("After clear, size: " + dict_size(person));
+
+// Test dictionary with a large number of entries
+var large_dict = dict();
+for (var i = 1; i <= 100; i = i + 1) {
+    dict_put(large_dict, i, i * i);
+}
+print("Large dictionary size: " + dict_size(large_dict));
+print("Value at key 50: " + dict_get(large_dict, 50));

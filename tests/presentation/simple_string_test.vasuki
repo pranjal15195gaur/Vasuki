@@ -1,0 +1,16 @@
+// Test basic string operations
+
+// Basic string declaration
+var greeting = "Hello, World!";
+print(greeting);
+
+// String indexing (1-based)
+print("First character: " + greeting[1]);  // Should print "H"
+print("Last character: " + greeting[13]);  // Should print "!"
+
+// String length
+print("Length: " + length(greeting));  // Should print 13
+
+// String concatenation
+var name = "Alice";
+print("Hello, " + name + "!");  // Should print "Hello, Alice!"

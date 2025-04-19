@@ -1,0 +1,32 @@
+// Dictionary methods test
+
+// Create a dictionary
+var person = {"name": "Frank", "age": 40, "city": "Chicago"};
+
+// Get all keys from a dictionary
+var keys = dict_keys(person);
+print("Keys length: " + length(keys));
+print("First key: " + keys[1]);
+print("Second key: " + keys[2]);
+print("Third key: " + keys[3]);
+
+// Get all values from a dictionary
+var values = dict_values(person);
+print("Values length: " + length(values));
+print("First value: " + values[1]);
+print("Second value: " + values[2]);
+print("Third value: " + values[3]);
+
+// Clear a dictionary
+dict_clear(person);
+print("After clear, size: " + dict_size(person));
+
+// Test dictionary with a large number of entries
+var large_dict = dict();
+for (var i = 1; i <= 20; i = i + 1) {
+    dict_put(large_dict, i, i * i);
+}
+print("Large dictionary size: " + dict_size(large_dict));
+print("Value at key 10: " + dict_get(large_dict, 10));
+print("Value at key 15: " + dict_get(large_dict, 15));
+print("Value at key 20: " + dict_get(large_dict, 20));

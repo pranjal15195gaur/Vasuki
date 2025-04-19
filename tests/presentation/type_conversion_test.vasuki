@@ -1,0 +1,102 @@
+// Test type conversion functions
+
+// Test to_int
+print("to_int(42): " + to_int(42));
+print("to_int(3.14): " + to_int(3.14));
+print("to_int(\"123\"): " + to_int("123"));
+print("to_int(true): " + to_int(true));
+print("to_int(false): " + to_int(false));
+
+// Test to_float
+print("to_float(42): " + to_float(42));
+print("to_float(3.14): " + to_float(3.14));
+print("to_float(\"3.14\"): " + to_float("3.14"));
+print("to_float(true): " + to_float(true));
+print("to_float(false): " + to_float(false));
+
+// Test to_string
+print("to_string(42): " + to_string(42));
+print("to_string(3.14): " + to_string(3.14));
+print("to_string(true): " + to_string(true));
+print("to_string(false): " + to_string(false));
+print("to_string([1, 2, 3]): " + to_string([1, 2, 3]));
+
+// Test to_bool
+print("to_bool(42): " + to_bool(42));
+print("to_bool(0): " + to_bool(0));
+print("to_bool(3.14): " + to_bool(3.14));
+print("to_bool(0.0): " + to_bool(0.0));
+print("to_bool(\"hello\"): " + to_bool("hello"));
+print("to_bool(\"\"): " + to_bool(""));
+print("to_bool([1, 2, 3]): " + to_bool([1, 2, 3]));
+print("to_bool([]): " + to_bool([]));
+print("to_bool(true): " + to_bool(true));
+print("to_bool(false): " + to_bool(false));
+
+// Test type conversion in functions
+def add_values(a, b) {
+    if (is_int(a) and is_int(b)) {
+        return a + b;  // Integer addition
+    } else if (is_string(a) or is_string(b)) {
+        return to_string(a) + to_string(b);  // String concatenation
+    } else {
+        return to_float(a) + to_float(b);  // Float addition
+    }
+};
+
+print("add_values(5, 10): " + add_values(5, 10));
+print("add_values(\"Hello, \", \"World!\"): " + add_values("Hello, ", "World!"));
+print("add_values(5, \"10\"): " + add_values(5, "10"));
+print("add_values(3.14, 2.71): " + add_values(3.14, 2.71));
+
+// Test safe type conversion
+def safe_to_int(value) {
+    if (is_int(value)) {
+        return value;
+    } else {
+        try {
+            return to_int(value);
+        } catch (e) {
+            return 0;  // Default value if conversion fails
+        }
+    }
+};
+
+// Since we don't have try-catch, let's implement a simpler version
+def safe_convert(value, type) {
+    if (type == "int") {
+        if (is_int(value)) {
+            return value;
+        } else if (is_float(value) or is_string(value) or is_bool(value)) {
+            // These types can be safely converted to int
+            return to_int(value);
+        } else {
+            return 0;  // Default for int
+        }
+    } else if (type == "float") {
+        if (is_float(value)) {
+            return value;
+        } else if (is_int(value) or is_string(value) or is_bool(value)) {
+            // These types can be safely converted to float
+            return to_float(value);
+        } else {
+            return 0.0;  // Default for float
+        }
+    } else if (type == "string") {
+        return to_string(value);  // All types can be converted to string
+    } else if (type == "bool") {
+        return to_bool(value);  // All types can be converted to bool
+    } else {
+        return value;  // Unknown type, return as is
+    }
+};
+
+print("safe_convert(42, \"int\"): " + safe_convert(42, "int"));
+print("safe_convert(\"123\", \"int\"): " + safe_convert("123", "int"));
+print("safe_convert(\"hello\", \"int\"): " + safe_convert("hello", "int"));
+print("safe_convert(3.14, \"int\"): " + safe_convert(3.14, "int"));
+print("safe_convert(42, \"float\"): " + safe_convert(42, "float"));
+print("safe_convert(\"3.14\", \"float\"): " + safe_convert("3.14", "float"));
+print("safe_convert(42, \"string\"): " + safe_convert(42, "string"));
+print("safe_convert(42, \"bool\"): " + safe_convert(42, "bool"));
+print("safe_convert(0, \"bool\"): " + safe_convert(0, "bool"));

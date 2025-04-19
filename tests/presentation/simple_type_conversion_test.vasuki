@@ -1,0 +1,21 @@
+// Test basic type conversion functions
+
+// Test to_int
+print("to_int(42): " + to_int(42));
+print("to_int(3.14): " + to_int(3.14));
+print("to_int(\"123\"): " + to_int("123"));
+
+// Test to_float
+print("to_float(42): " + to_float(42));
+print("to_float(3.14): " + to_float(3.14));
+print("to_float(\"3.14\"): " + to_float("3.14"));
+
+// Test to_string
+print("to_string(42): " + to_string(42));
+print("to_string(3.14): " + to_string(3.14));
+
+// Test to_bool
+print("to_bool(42): " + to_bool(42));
+print("to_bool(0): " + to_bool(0));
+print("to_bool(\"hello\"): " + to_bool("hello"));
+print("to_bool(\"\"): " + to_bool(""));

@@ -1,0 +1,119 @@
+// Test 1: Dynamic variables with multiple levels of shadowing
+dynamic var x = 100;
+
+def level1() {
+    dynamic var x = 200;
+    print(x);
+
+    def level2() {
+        dynamic var x = 300;
+        print(x);
+
+        def level3() {
+            print(x);
+            x = 400;
+            print(x);
+        };
+
+        level3();
+        print(x);
+    };
+
+    level2();
+    print(x);
+};
+
+level1();
+print(x);
+
+// Test 2: Dynamic variables with conditional declaration
+dynamic var condition_var = 0;
+
+def conditional_test(flag) {
+    if (flag) {
+        dynamic var condition_var = 1;
+    } else {
+        condition_var = 2;
+    };
+
+    print(condition_var);
+};
+
+print(condition_var);
+conditional_test(1);
+print(condition_var);
+conditional_test(0);
+print(condition_var);
+
+// Test 3: Dynamic variables with loops
+dynamic var loop_var = 0;
+
+def loop_test() {
+    for (var i = 0; i < 5; i = i + 1) {
+        loop_var = loop_var + i;
+    };
+
+    print(loop_var);
+
+    var j = 0;
+    while (j < 5) {
+        loop_var = loop_var + 10;
+        j = j + 1;
+    };
+
+    print(loop_var);
+};
+
+loop_test();
+print(loop_var);
+
+// Test 4: Dynamic variables with function returns
+dynamic var return_var = 10;
+
+def return_test() {
+    dynamic var return_var = 20;
+
+    def inner() {
+        return return_var;
+    };
+
+    return inner();
+};
+
+print(return_test());
+print(return_var);
+
+// Test 5: Dynamic variables with closures and multiple calls
+dynamic var counter = 0;
+
+def make_counter() {
+    def increment() {
+        counter = counter + 1;
+        return counter;
+    };
+
+    return increment;
+};
+
+var counter1 = make_counter();
+var counter2 = make_counter();
+
+print(counter1());
+print(counter2());
+print(counter1());
+print(counter);
+
+// Test 7: Dynamic variables with recursion and side effects
+dynamic var factorial_state = 1;
+
+def factorial_with_state(n) {
+    if (n <= 1) {
+        return factorial_state;
+    };
+
+    factorial_state = factorial_state * n;
+    return factorial_with_state(n - 1);
+};
+
+print(factorial_with_state(5));
+print(factorial_state);

@@ -1,0 +1,15 @@
+// Test nested comments
+var x = 10;
+
+/* Outer comment
+   /* Nested comment */
+   End of outer comment */
+
+print(x);
+
+// Test comment with division operators
+var y = 20 / 5; // Division operator
+var z = 30 / /* comment */ 6;
+
+print(y);
+print(z);

@@ -1,0 +1,27 @@
+// Test return in loops
+def test_loop() {
+    var result = 0;
+    for (var i = 0; i < 10; i = i + 1) {
+        result = result + i;
+        if (i == 5) {
+            return result;  // Should exit the loop and return 15 (0+1+2+3+4+5)
+        }
+    }
+    return 100;  // Should not be reached
+};
+
+print(test_loop());  // Should print 15
+
+// Test yield in loops
+def test_yield_loop() {
+    var result = 0;
+    for (var i = 0; i < 10; i = i + 1) {
+        result = result + i;
+        if (i == 5) {
+            yield result;  // Should exit the function and return 15 (0+1+2+3+4+5)
+        }
+    }
+    return 100;  // Should not be reached
+};
+
+print(test_yield_loop());  // Should print 15
