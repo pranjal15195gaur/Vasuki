@@ -1,5 +1,6 @@
 from dataclasses import dataclass
 import builtins
+from compiler.errors import NameError, TypeError, ValueError, IndexError, KeyError, DivisionByZeroError, RuntimeError
 
 class AST:
     pass
@@ -155,7 +156,7 @@ class Environment:
         elif name in dynamic_functions:
             return dynamic_functions[name]
         else:
-            raise ValueError(f"Variable or function {name} not defined")
+            raise NameError(f"Variable or function '{name}' is not defined")
     def assign(self, name, value):
         # First try to assign in static scope
         if name in self.values:
@@ -169,7 +170,7 @@ class Environment:
         elif name in dynamic_functions:
             dynamic_functions[name] = value
         else:
-            raise ValueError(f"Variable or function {name} not defined")
+            raise NameError(f"Cannot assign to '{name}': variable or function is not defined")
     def declare(self, name, value):
         self.values[name] = value
     def declare_dynamic(self, name, value):
@@ -201,6 +202,10 @@ class Int(AST):
 @dataclass
 class String(AST):
     val: str
+
+@dataclass
+class Boolean(AST):
+    val: bool
 
 @dataclass
 class Parentheses(AST):
@@ -373,6 +378,8 @@ def e(tree: AST, env=None) -> int:
             return float(v)
         case String(v):
             return v
+        case Boolean(v):
+            return v
         case UnOp("-", expp):
             return -1 * e(expp, env)
 
@@ -383,10 +390,15 @@ def e(tree: AST, env=None) -> int:
                 case "**": return left_val ** right_val
                 case "*": return left_val * right_val
                 case "/":
-                    if isinstance(left_val, int) and left_val % right_val == 0:
+                    if right_val == 0:
+                        raise DivisionByZeroError("Division by zero")
+                    if isinstance(left_val, int) and isinstance(right_val, int) and left_val % right_val == 0:
                         return left_val // right_val
                     return left_val / right_val
-                case "%": return left_val % right_val
+                case "%":
+                    if right_val == 0:
+                        raise DivisionByZeroError("Modulo by zero")
+                    return left_val % right_val
                 case "+":
                     # Handle string concatenation
                     if isinstance(left_val, str) or isinstance(right_val, str):
@@ -401,17 +413,17 @@ def e(tree: AST, env=None) -> int:
                 case "!=": return left_val != right_val
                 case "and": return (left_val and right_val)
                 case "or": return (left_val or right_val)
-                case _: raise ValueError(f"Unsupported binary operator: {op}")
+                case _: raise TypeError(f"Unsupported binary operator: '{op}'")
 
         case Parentheses(expp):
             return e(expp, env)
 
         case If(cond, then, elseif_branches, elsee):
             if cond is None:
-                raise ValueError("Condition missing in 'if' statement")
-            for elseif_cond, _ in elseif_branches:
+                raise SyntaxError("Condition missing in 'if' statement")
+            for i, (elseif_cond, _) in enumerate(elseif_branches):
                 if elseif_cond is None:
-                    raise ValueError("Condition missing in 'elseif' statement")
+                    raise SyntaxError(f"Condition missing in 'elseif' branch {i+1}")
             if e(cond, env):
                 try:
                     return e(then, Environment(env))
@@ -488,7 +500,7 @@ def e(tree: AST, env=None) -> int:
                 func = None
             if func is not None and isinstance(func, UserFunction):
                 if len(evaluated_args) != len(func.params):
-                    raise ValueError(f"Function {name} expects {len(func.params)} arguments, got {len(evaluated_args)}")
+                    raise TypeError(f"Function '{name}' expects {len(func.params)} arguments, but got {len(evaluated_args)}")
                 new_env = Environment(func.closure)
                 for param, arg in zip(func.params, evaluated_args):
                     new_env.declare(param, arg)
