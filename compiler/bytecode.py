@@ -182,28 +182,29 @@ class BytecodeGenerator:
         self.bytecode.emit("CALL", (node.name, len(node.args)))
 
     # Function definition: label the function entry point and generate its body
-
     def visit_FunctionDef(self, node):
+        # Create a function object and store it in a variable
+        # First, emit a MAKE_FUNCTION instruction with the function name and parameters
+        self.bytecode.emit("MAKE_FUNCTION", (node.name, node.params))
+        self.bytecode.emit("STORE_VAR", node.name)
+
+        # Now emit the function body code with a label
         func_label = f"func_{node.name}"
-        # Emit a label for the function entry point.
         self.bytecode.emit("LABEL", func_label)
-        # Emit instructions to store each parameter.
-        # Note: If your CALL opcode pushes arguments in order,
-        # you may need to reverse the parameters so that the first parameter
-        # ends up in the correct variable.
+
+        # Store parameters in reverse order (they'll be popped from the stack in reverse)
         for param in reversed(node.params):
             self.bytecode.emit("STORE_VAR", param)
-        # Generate bytecode for the function body.
-        self.visit(node.body)
-        self.bytecode.emit("RETURN")
 
-    def visit_FunctionDef(self, node):
-        func_label = f"func_{node.name}"
-        # Emit a label for the function entry point
-        self.bytecode.emit("LABEL", func_label)
-        # Function parameters and environment handling would be implemented in your VM.
+        # Generate bytecode for the function body
         self.visit(node.body)
-        self.bytecode.emit("RETURN")
+
+        # If there's no explicit return at the end, add one that returns None
+        # Check if the last instruction is already a RETURN
+        if not (len(self.bytecode.instructions) > 0 and
+                self.bytecode.instructions[-1].opcode == "RETURN"):
+            self.bytecode.emit("LOAD_CONST", None)  # Push None onto the stack
+            self.bytecode.emit("RETURN")
 
     # Return: evaluate the return expression then return
     def visit_Return(self, node):
