@@ -1,0 +1,11 @@
+// Large dictionary test
+
+// Test dictionary with a large number of entries
+var large_dict = dict();
+for (var i = 1; i <= 20; i = i + 1) {
+    dict_put(large_dict, i, i * i);
+}
+print("Large dictionary size: " + dict_size(large_dict));
+print("Value at key 10: " + dict_get(large_dict, 10));
+print("Value at key 15: " + dict_get(large_dict, 15));
+print("Value at key 20: " + dict_get(large_dict, 20));

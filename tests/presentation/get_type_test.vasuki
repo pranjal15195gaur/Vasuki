@@ -1,0 +1,45 @@
+// Test the get_type function
+
+var int_val = 42;
+var float_val = 3.14;
+var string_val = "Hello";
+var char_val = "A";
+var bool_val = 1 < 2;  // true
+var array_val = [1, 2, 3];
+
+def test_function() {
+    return "I am a function";
+};
+
+print("Type of int_val: " + get_type(int_val));
+print("Type of float_val: " + get_type(float_val));
+print("Type of string_val: " + get_type(string_val));
+print("Type of char_val: " + get_type(char_val));
+print("Type of bool_val: " + get_type(bool_val));
+print("Type of array_val: " + get_type(array_val));
+print("Type of test_function: " + get_type(test_function));
+
+// Test type-based operations
+def operate_by_type(value) {
+    var type = get_type(value);
+    
+    if (type == "int") {
+        return value * 2;  // Double integers
+    } else if (type == "float") {
+        return value + 1.0;  // Add 1 to floats
+    } else if (type == "string") {
+        return value + "!";  // Add exclamation to strings
+    } else if (type == "array") {
+        return length(value);  // Return length of arrays
+    } else if (type == "function") {
+        return value();  // Call functions
+    } else {
+        return "Unknown type";
+    }
+};
+
+print("Operation on int: " + to_string(operate_by_type(int_val)));
+print("Operation on float: " + to_string(operate_by_type(float_val)));
+print("Operation on string: " + operate_by_type(string_val));
+print("Operation on array: " + to_string(operate_by_type(array_val)));
+print("Operation on function: " + operate_by_type(test_function));

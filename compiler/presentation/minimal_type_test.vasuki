@@ -1,0 +1,3 @@
+// Minimal type test
+var x = 42;
+print(is_int(x));

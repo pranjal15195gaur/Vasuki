@@ -1,0 +1,14 @@
+// Test string splitting with explicit semicolons
+
+// String splitting
+var csv = "apple,banana,cherry";
+var fruits = split(csv, ",");
+print("First fruit: " + fruits[1]);
+print("Second fruit: " + fruits[2]);
+print("Third fruit: " + fruits[3]);
+
+// Test with whitespace splitting
+var sentence = "This is a sentence";
+var words = split(sentence);
+print("Word count: " + length(words));
+print("First word: " + words[1]);

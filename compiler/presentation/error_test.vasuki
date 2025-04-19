@@ -1,0 +1,39 @@
+// Test file for error messages
+
+// 1. Syntax errors
+var x = 10
+var y = 20;  // Missing semicolon above
+
+// 2. Name errors
+print(undefined_variable);
+
+// 3. Type errors
+var a = 5;
+var b = "hello";
+print(a * b);
+
+// 4. Division by zero
+var c = 10 / 0;
+
+// 5. Modulo by zero
+var d = 10 % 0;
+
+// 6. Index errors
+var arr = [1, 2, 3];
+print(arr[10]);
+
+// 7. Missing function arguments
+def add(a, b) {
+    return a + b;
+}
+print(add(1));
+
+// 8. Unclosed string
+var s = "unclosed string;
+
+// 9. Invalid identifier
+var 1invalid = 10;
+
+// 10. Unterminated block
+if (true) {
+    print("This block is not closed");

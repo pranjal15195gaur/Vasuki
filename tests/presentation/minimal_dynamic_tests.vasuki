@@ -1,0 +1,28 @@
+dynamic var x = 10;
+print(x);
+
+def test_dynamic_var() {
+    print(x);
+    x = 20;
+    print(x);
+};
+
+test_dynamic_var();
+print(x);
+
+dynamic def add(a, b) {
+    return a + b;
+};
+
+print(add(5, 3));
+
+def test_dynamic_func() {
+    dynamic def add(a, b) {
+        return a * b;
+    };
+    
+    print(add(5, 3));
+};
+
+test_dynamic_func();
+print(add(5, 3));

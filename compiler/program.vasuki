@@ -1,23 +1,10 @@
-def f(g){
-    var x = 17;
-    var y = 5;
-
-    def s(){
-        return x  + y+ g();
+def fact(n){
+    if n == 0 {
+        return 1
+    } else {
+        return n * fact(n - 1)
     };
-
-    return s;
 };
 
-def const42(){
-    return 42;
-};
+print(fact(7));
 
-def const84(){
-    return 84;
-};
-
-var s1 = f(const42);
-var s2 = f(const84);
-print(s2());
-print(s1());

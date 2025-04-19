@@ -1,0 +1,62 @@
+// Single-line comment at the beginning of the file
+var a = 1; // Single-line comment after a statement
+
+/* Multi-line comment
+   at the beginning of the file */
+var b = 2; /* Multi-line comment after a statement */
+
+// Empty single-line comment
+//
+// Single-line comment with only whitespace
+//    
+// Single-line comment with special characters
+// !@#$%^&*()_+-={}[]|\\:;"'<>,.?/
+
+/* Empty multi-line comment */
+/**/
+/* Multi-line comment with only whitespace
+   
+*/
+/* Multi-line comment with special characters
+   !@#$%^&*()_+-={}[]|\\:;"'<>,.?/
+*/
+
+// Comments in expressions
+var c = 3 /* comment */ + /* comment */ 4;
+
+// Comments in function definitions
+def /* comment */ test_function /* comment */ (/* comment */ x /* comment */) {
+    // Comment inside function
+    return x /* comment */ + /* comment */ 5;
+};
+
+// Comments in function calls
+test_function(/* comment */ 10);
+
+// Comments in control structures
+if (a /* comment */ > /* comment */ 0) {
+    // Comment inside if block
+    print("a is positive");
+} else {
+    /* Comment inside else block */
+    print("a is not positive");
+};
+
+// Comments in loops
+for (var i = 0; /* comment */ i < 3; /* comment */ i = i + 1) {
+    // Comment inside loop
+    print(i);
+};
+
+// Multiple comments in a row
+// Comment 1
+// Comment 2
+/* Comment 3 */
+/* Comment 4 */
+
+// Comment at the end of the file
+print(a);
+print(b);
+print(c);
+print(test_function(10));
+// Final comment

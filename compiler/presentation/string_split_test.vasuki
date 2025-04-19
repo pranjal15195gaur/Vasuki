@@ -1,0 +1,30 @@
+// Test string splitting and array operations
+
+// String splitting
+var csv = "apple,banana,cherry";
+var fruits = split(csv, ",");
+print("First fruit: " + fruits[1]);  // Should print "apple"
+print("Second fruit: " + fruits[2]);  // Should print "banana"
+print("Third fruit: " + fruits[3]);  // Should print "cherry"
+
+// Test with whitespace splitting
+var sentence = "This is a sentence";
+var words = split(sentence);
+print("Word count: " + length(words));  // Should print 4
+print("First word: " + words[1]);  // Should print "This"
+
+// Function to test string operations
+def processString(str) {
+    print("Original: " + str);
+    print("Uppercase: " + uppercase(str));
+    print("Length: " + length(str));
+    return "Processed " + str;
+}
+
+print(processString("test string"));
+
+// Test string in loops
+var greeting = "Hello";
+for (var i = 1; i <= length(greeting); i = i + 1) {
+    print("Character " + i + ": " + greeting[i]);
+}

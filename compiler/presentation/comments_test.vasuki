@@ -1,0 +1,50 @@
+// This is a single-line comment
+var x = 10; // This is a comment at the end of a line
+
+/* This is a multi-line comment
+   that spans multiple lines
+   and should be ignored by the lexer
+*/
+
+var y = 20; /* This is a multi-line comment on the same line */
+
+// Comments inside code blocks
+def test_function() {
+    // Comment inside a function
+    var z = 30;
+    /* Multi-line comment
+       inside a function */
+    return z;
+};
+
+// Comment before a function call
+test_function(); // Comment after a function call
+
+/* Comment before an expression */
+x + y; // Comment after an expression
+
+// Nested comments are not supported in C
+/* Outer comment
+   /* Nested comment - this would be an error in C */
+   End of outer comment */
+
+// Comments with special characters
+// !@#$%^&*()_+-={}[]|\\:;"'<>,.?/
+
+/* Multi-line comment with special characters
+   !@#$%^&*()_+-={}[]|\\:;"'<>,.?/
+*/
+
+// Comment with code-like content
+// var a = 10; var b = 20; var c = a + b;
+
+/* Multi-line comment with code-like content
+   var a = 10;
+   var b = 20;
+   var c = a + b;
+*/
+
+// Print the values to verify the code works
+print(x);
+print(y);
+print(test_function());

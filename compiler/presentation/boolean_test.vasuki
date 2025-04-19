@@ -1,0 +1,43 @@
+// Test boolean literals in Vasuki
+
+// Boolean variable declarations
+var t = true;
+var f = false;
+
+// Print the values
+print(t);
+print(f);
+
+// Boolean in if conditions
+if true {
+    print("True condition works!");
+};
+
+if false {
+    print("This should not be printed");
+} else {
+    print("False condition works!");
+};
+
+// Boolean operations
+print(true and true);   // true
+print(true and false);  // false
+print(false and true);  // false
+print(false and false); // false
+
+print(true or true);    // true
+print(true or false);   // true
+print(false or true);   // true
+print(false or false);  // false
+
+// Boolean in expressions
+var result = if true {
+    "Expression with true works!"
+} else {
+    "This should not be returned"
+};
+print(result);
+
+// Boolean negation (using and/or since there's no 'not' operator)
+print(true and false);  // false - negation of true
+print(false or true);   // true - negation of false

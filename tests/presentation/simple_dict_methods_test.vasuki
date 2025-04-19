@@ -1,0 +1,12 @@
+// Simple dictionary methods test
+
+// Create a dictionary
+var person = {"name": "Frank", "age": 40, "city": "Chicago"};
+
+// Get all keys from a dictionary
+var keys = dict_keys(person);
+print("Keys length: " + length(keys));
+
+// Clear a dictionary
+dict_clear(person);
+print("After clear, size: " + dict_size(person));

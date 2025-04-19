@@ -1,0 +1,79 @@
+// Test type checker functions
+
+// Test integer type checking
+var int_value = 42;
+print("int_value is int: " + is_int(int_value));
+print("int_value is float: " + is_float(int_value));
+print("int_value is string: " + is_string(int_value));
+print("int_value is char: " + is_char(int_value));
+print("int_value is bool: " + is_bool(int_value));
+print("int_value is array: " + is_array(int_value));
+print("int_value is function: " + is_function(int_value));
+print("int_value type: " + get_type(int_value));
+
+// Test float type checking
+var float_value = 3.14;
+print("float_value is int: " + is_int(float_value));
+print("float_value is float: " + is_float(float_value));
+print("float_value is string: " + is_string(float_value));
+print("float_value type: " + get_type(float_value));
+
+// Test string type checking
+var string_value = "Hello, World!";
+print("string_value is int: " + is_int(string_value));
+print("string_value is string: " + is_string(string_value));
+print("string_value is char: " + is_char(string_value));
+print("string_value type: " + get_type(string_value));
+
+// Test char type checking
+var char_value = "A";
+print("char_value is string: " + is_string(char_value));
+print("char_value is char: " + is_char(char_value));
+print("char_value type: " + get_type(char_value));
+
+// Test boolean type checking
+var bool_value = 1 < 2;  // true
+print("bool_value is int: " + is_int(bool_value));
+print("bool_value is bool: " + is_bool(bool_value));
+print("bool_value type: " + get_type(bool_value));
+
+// Test array type checking
+var array_value = [1, 2, 3];
+print("array_value is int: " + is_int(array_value));
+print("array_value is array: " + is_array(array_value));
+print("array_value type: " + get_type(array_value));
+
+// Test function type checking
+def test_function() {
+    return "I am a function";
+};
+
+print("test_function is function: " + is_function(test_function));
+print("test_function type: " + get_type(test_function));
+
+// Test type checking in conditionals
+if (is_int(int_value)) {
+    print("int_value is an integer");
+} else {
+    print("int_value is not an integer");
+};
+
+// Test type checking in functions
+def process_value(value) {
+    if (is_int(value)) {
+        return "Processing integer: " + value;
+    } else if (is_float(value)) {
+        return "Processing float: " + value;
+    } else if (is_string(value)) {
+        return "Processing string: " + value;
+    } else if (is_array(value)) {
+        return "Processing array of length: " + length(value);
+    } else {
+        return "Unknown type";
+    }
+};
+
+print(process_value(42));
+print(process_value(3.14));
+print(process_value("Hello"));
+print(process_value([1, 2, 3]));

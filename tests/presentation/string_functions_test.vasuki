@@ -1,0 +1,17 @@
+// Test string functions
+
+// Function to test string operations
+def processString(str) {
+    print("Original: " + str);
+    print("Uppercase: " + uppercase(str));
+    print("Length: " + length(str));
+    return "Processed " + str;
+}
+
+print(processString("test string"));
+
+// Test string in loops
+var greeting = "Hello";
+for (var i = 1; i <= length(greeting); i = i + 1) {
+    print("Character " + i + ": " + greeting[i]);
+}

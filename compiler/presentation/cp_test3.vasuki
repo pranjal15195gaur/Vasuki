@@ -1,0 +1,26 @@
+// A competitive programming problem that reads all input until EOF:
+// Count the number of words in all the input.
+
+// Solution using the new input/output functions
+def main() {
+    // Read all lines until EOF
+    var lines = read_all();
+
+    // Count the total number of words
+    var total_words = 0;
+
+    // Process each line
+    for (var i = 1; i <= length(lines); i = i + 1) {
+        // Split the line into words
+        var words = split(lines[i]);
+
+        // Add the number of words in this line to the total
+        total_words = total_words + length(words);
+    }
+
+    // Print the result
+    print("Total number of words: " + total_words);
+};
+
+// Run the main function
+main();

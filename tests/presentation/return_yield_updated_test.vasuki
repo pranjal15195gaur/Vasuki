@@ -1,0 +1,93 @@
+// Test return in functions
+def test_return_in_function() {
+    var x = 5;
+    return x;  // Should return 5 from the function
+    x = 10;    // Should not be reached
+};
+
+print(test_return_in_function());  // Should print 5
+
+// Test yield in functions
+def test_yield_in_function() {
+    var x = 5;
+    yield x;   // Should yield 5 from the function
+    x = 10;    // Should not be reached
+};
+
+print(test_yield_in_function());  // Should print 5
+
+// Test return in loops
+def test_return_in_loop() {
+    for (var i = 0; i < 10; i = i + 1) {
+        if (i == 5) {
+            return i;  // Should exit the loop and return 5
+        }
+    }
+    return 10;  // Should not be reached
+};
+
+print(test_return_in_loop());  // Should print 5
+
+// Test yield in loops
+def test_yield_in_loop() {
+    for (var i = 0; i < 10; i = i + 1) {
+        if (i == 5) {
+            yield i;  // Should exit the function and return 5
+        }
+    }
+    return 10;  // Should not be reached
+};
+
+print(test_yield_in_loop());  // Should print 5
+
+// Test nested returns and yields
+def outer_function() {
+    var result = 0;
+    
+    for (var i = 0; i < 5; i = i + 1) {
+        if (i == 3) {
+            return i;  // Should exit the loop and return 3
+        }
+        result = result + i;
+    }
+    
+    return result;  // Should not be reached
+};
+
+print(outer_function());  // Should print 3
+
+def nested_function() {
+    var result = 0;
+    
+    for (var i = 0; i < 5; i = i + 1) {
+        if (i == 3) {
+            yield i;  // Should exit the function and return 3
+        }
+        result = result + i;
+    }
+    
+    return result;  // Should not be reached
+};
+
+print(nested_function());  // Should print 3
+
+// Test return vs yield behavior
+def return_function(x) {
+    if (x > 0) {
+        return x;  // Returns from the if block
+    }
+    return 0;  // This will be reached if x <= 0
+};
+
+print(return_function(5));  // Should print 5
+print(return_function(-5)); // Should print 0
+
+def yield_function(x) {
+    if (x > 0) {
+        yield x;  // Exits the entire function
+    }
+    return 0;  // This will never be reached
+};
+
+print(yield_function(5));   // Should print 5
+print(yield_function(-5));  // Should print 0 (because the yield is not executed)

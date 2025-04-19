@@ -1,8 +1,603 @@
 ---
-title: "Vasuki Beginner Documentation"
+title: "Vasuki Beginner's Documentation"
 format: html
+css: assets/custom.css
 ---
 
-# Getting Started with Vasuki
 
-Welcome to the beginner track! Here you'll find easy-to-follow guides, tutorials, and examples to get you started with Vasuki.
+<div style="position: fixed; left: 0; top: 0; width: 200px; height: 100%; background-color: #f4f4f4; padding: 10px; overflow-y: auto; border-right: 1px solid #ddd;">
+  <h3>Navigation</h3>
+  <ul style="list-style-type: none; padding: 0;">
+    <li><a href="https://github.com/YourUser/VasukiDocs/edit/main/beginners.qmd" target="_blank">Edit on GitHub</a></li>
+    <li><a href="#introduction">Introduction</a></li>
+    <li><a href="#getting-started">Getting Started</a></li>
+    <li><a href="#basic-syntax">Basic Syntax</a></li>
+    <li><a href="#control-structures">Control Structures</a></li>
+    <li><a href="#functions">Functions</a></li>
+    <li><a href="#arrays">Arrays</a></li>
+    <li><a href="#special-features">Special Features</a></li>
+    <li><a href="#error-handling">Error Handling</a></li>
+    <li><a href="#example-program-walkthrough">Example Program Walkthrough</a></li>
+  </ul>
+</div>
+
+# **Vasuki Beginner's Documentation**
+
+Welcome to the beginner's guide for Vasuki! This documentation is designed to help you get started with the Vasuki scripting language. It covers the basics of syntax, control structures, functions, and arrays, along with some of Vasuki's unique features.
+
+---
+
+## **Introduction**
+
+Vasuki is a lightweight scripting language that is simple to learn yet powerful enough for advanced use cases. It is designed with the following goals in mind:
+
+- **Ease of Use**: Minimalistic syntax that is easy to read and write.
+- **Flexibility**: Features like dual scoping mechanisms and implicit returns make it versatile.
+- **Powerful Constructs**: Control structures and functions are designed to be expressive and concise.
+
+---
+
+## **Getting Started**
+
+To begin using Vasuki, you need to install the Vasuki interpreter. Follow the steps below:
+
+1. Download the Vasuki interpreter from the official website.
+2. Install it on your system by following the installation guide.
+3. Open a terminal and run the Vasuki REPL (Read-Eval-Print Loop) using the command:
+   ```bash
+   vasuki
+   ```
+4. Start writing your first Vasuki program!
+
+---
+
+## **Basic Syntax**
+
+Vasuki’s syntax is designed to be intuitive and beginner-friendly. This section provides a detailed explanation of the key elements of the language, along with examples to help you understand how to use them effectively.
+
+---
+
+### **Variable Declaration**
+
+Variables in Vasuki are declared using the `var` keyword. A variable is a named storage location that holds a value, which can be updated or reused later in the program.
+
+#### **Syntax**
+```bash
+var variableName = value;
+```
+
+#### **Example**
+```bash
+var x = 10;
+print("Value of x: " + x);  // Output: Value of x: 10
+```
+
+**Explanation**:  
+- The `var` keyword is used to declare a variable named `x`.
+- The value `10` is assigned to `x`.
+- The `print` statement outputs the value of `x`.
+
+---
+
+### **Expressions**
+
+An expression in Vasuki is a combination of variables, values, and operators that evaluates to a single value. Expressions are used in assignments, conditions, and function calls.
+
+#### **Syntax**
+```bash
+var result = expression;
+```
+
+#### **Example**
+```bash
+var x = 10;
+var y = x + 5;
+print("Value of y: " + y);  // Output: Value of y: 15
+```
+
+**Explanation**:  
+- The variable `x` is assigned the value `10`.
+- The expression `x + 5` evaluates to `15` and is assigned to `y`.
+- The `print` statement outputs the value of `y`.
+
+---
+
+### **Blocks**
+
+Blocks are groups of statements enclosed in curly braces `{ }`. They are used to define the body of control structures, functions, and other constructs.
+
+#### **Syntax**
+```bash
+{
+    // Statements
+}
+```
+
+#### **Example**
+```bash
+var x = 10;
+if (x > 5) {
+    print("x is greater than 5");
+}
+```
+
+**Explanation**:  
+- The block `{ print("x is greater than 5"); }` is executed if the condition `x > 5` is true.
+
+---
+
+### **Control Structures**
+
+Control structures allow you to control the flow of your program. Vasuki supports `if`, `for`, and `while` constructs.
+
+---
+
+#### **If Statements**
+
+The `if` statement evaluates a condition and executes the corresponding block of code if the condition is true. An optional `else` block can be used to handle the case where the condition is false.
+
+#### **Syntax**
+```bash
+if (condition) {
+    // Code to execute if condition is true
+} else {
+    // Code to execute if condition is false
+}
+```
+
+#### **Example**
+```bash
+var x = 10;
+if (x > 5) {
+    print("x is greater than 5");
+} else {
+    print("x is 5 or less");
+}
+```
+
+**Explanation**:  
+- The condition `x > 5` is evaluated.
+- If true, the block `{ print("x is greater than 5"); }` is executed.
+- Otherwise, the block `{ print("x is 5 or less"); }` is executed.
+
+---
+
+#### **For Loops**
+
+The `for` loop is used for iteration. It allows you to repeat a block of code a specific number of times.
+
+#### **Syntax**
+```bash
+for (initialization; condition; increment) {
+    // Code to execute in each iteration
+}
+```
+
+#### **Example**
+```bash
+for (var i = 0; i < 5; i = i + 1) {
+    print("Iteration: " + i);
+}
+```
+
+**Explanation**:  
+- The loop starts with `i = 0`.
+- The condition `i < 5` is checked before each iteration.
+- The block `{ print("Iteration: " + i); }` is executed, and `i` is incremented by 1 after each iteration.
+
+---
+
+#### **While Loops**
+
+The `while` loop repeats a block of code as long as a condition is true.
+
+#### **Syntax**
+```bash
+while (condition) {
+    // Code to execute while condition is true
+}
+```
+
+#### **Example**
+```bash
+var count = 0;
+while (count < 3) {
+    print("Count: " + count);
+    count = count + 1;
+}
+```
+
+**Explanation**:  
+- The loop starts with `count = 0`.
+- The condition `count < 3` is checked before each iteration.
+- The block `{ print("Count: " + count); count = count + 1; }` is executed until the condition becomes false.
+
+---
+
+### **Functions**
+
+Functions in Vasuki allow you to encapsulate reusable blocks of code. They can take input parameters, perform operations, and return a result.
+
+---
+
+#### **Defining Functions**
+
+Functions are defined using the `def` keyword, followed by the function name, parameters, and a block of code.
+
+#### **Syntax**
+```bash
+def functionName(parameter1, parameter2, ...) {
+    // Code to execute
+    return value;  // Optional
+}
+```
+
+#### **Example**
+```bash
+def add(a, b) {
+    return a + b;
+}
+```
+
+**Explanation**:  
+- The function `add` takes two parameters, `a` and `b`.
+- It returns the sum of `a` and `b`.
+
+---
+
+#### **Calling Functions**
+
+You can call a function by using its name and passing the required arguments.
+
+#### **Example**
+```bash
+var result = add(3, 4);
+print("Result: " + result);  // Output: Result: 7
+```
+
+**Explanation**:  
+- The function `add` is called with arguments `3` and `4`.
+- The result of the function (`7`) is assigned to the variable `result`.
+
+---
+
+### **Arrays**
+
+Arrays in Vasuki are used to store collections of values. They are versatile and allow you to perform operations on multiple elements.
+
+---
+
+#### **Creating Arrays**
+
+You can create an array using square brackets `[]`.
+
+#### **Syntax**
+```bash
+var arrayName = [value1, value2, ...];
+```
+
+#### **Example**
+```bash
+var arr = [1, 2, 3];
+print("Array: " + arr);
+```
+
+**Explanation**:  
+- The array `arr` contains the values `1`, `2`, and `3`.
+- The `print` statement outputs the array.
+
+---
+
+#### **Accessing Elements**
+
+Array elements are accessed using one-based indexing.
+
+#### **Syntax**
+```bash
+arrayName[index];
+```
+
+#### **Example**
+```bash
+var arr = [10, 20, 30];
+print("First element: " + arr[1]);  // Output: First element: 10
+print("Second element: " + arr[2]);  // Output: Second element: 20
+```
+
+**Explanation**:  
+- The first element of the array is accessed using `arr[1]`.
+- The second element is accessed using `arr[2]`.
+
+---
+
+#### **Modifying Elements**
+
+You can modify an array element by assigning a new value to a specific index.
+
+#### **Example**
+```bash
+var arr = [10, 20, 30];
+arr[2] = 25;
+print("Modified array: " + arr);  // Output: Modified array: [10, 25, 30]
+```
+
+**Explanation**:  
+- The value at index `2` is updated to `25`.
+- The modified array is printed.
+
+---
+
+### **Summary**
+
+The **Basic Syntax** section provides a foundation for understanding Vasuki. By mastering variable declarations, expressions, blocks, control structures, functions, and arrays, you can write efficient and readable Vasuki programs. Each feature is designed to be intuitive, making Vasuki an excellent choice for both beginners and advanced users.
+
+---
+
+## **Control Structures**
+
+Control structures in Vasuki allow you to control the flow of your program. They include `if`, `for`, and `while`.
+
+### **If Statements**
+
+The `if` statement evaluates a condition and executes the corresponding block of code:
+```bash
+var x = 10;
+if (x > 5) {
+    print("x is greater than 5");
+} else {
+    print("x is 5 or less");
+}
+```
+
+### **For Loops**
+
+The `for` loop is used for iteration:
+```bash
+for (var i = 0; i < 5; i = i + 1) {
+    print("Iteration: " + i);
+}
+```
+
+### **While Loops**
+
+The `while` loop repeats a block of code as long as a condition is true:
+```bash
+var count = 0;
+while (count < 3) {
+    print("Count: " + count);
+    count = count + 1;
+}
+```
+
+---
+
+## **Functions**
+
+Functions in Vasuki allow you to encapsulate reusable blocks of code.
+
+### **Defining Functions**
+
+Functions are defined using the `def` keyword:
+```bash
+def add(a, b) {
+    return a + b;
+}
+```
+
+### **Calling Functions**
+
+You can call a function by using its name and passing the required arguments:
+```bash
+var result = add(3, 4);
+print("Result: " + result);  // Output: Result: 7
+```
+
+---
+
+## **Arrays**
+
+Arrays in Vasuki are used to store collections of values.
+
+### **Creating Arrays**
+
+You can create an array using square brackets:
+```bash
+var arr = [1, 2, 3];
+```
+
+### **Accessing Elements**
+
+Array elements are accessed using one-based indexing:
+```bash
+print(arr[1]);  // Output: 1
+print(arr[2]);  // Output: 2
+```
+
+---
+
+## **Special Features**
+
+Vasuki includes several unique features that make it stand out. These features are designed to enhance flexibility, readability, and debugging capabilities.
+
+---
+
+### **Dual Scoping Mechanisms**
+
+Vasuki supports **dual scoping mechanisms**, which include **static scoping** and **dynamic scoping**. These mechanisms determine how variables are resolved during program execution.
+
+- **Static Scoping**:  
+  Variables are resolved based on their declaration location in the code. This ensures predictable behavior, as the variable's value is determined by the structure of the program.
+
+- **Dynamic Scoping**:  
+  Variables are resolved in the context of the caller's environment if they are not found in the static scope. This provides additional flexibility, especially in scenarios involving closures or nested function calls.
+
+#### **Example: Static and Dynamic Scoping**
+```bash
+var globalVar = 100;
+
+def testScope() {
+    print(globalVar);  // Resolves via static scope
+}
+
+testScope();  // Output: 100
+```
+
+**Explanation**:  
+In this example, the variable `globalVar` is declared in the global scope. The function `testScope` accesses `globalVar` using static scoping, as it is resolved in the environment where it was declared.
+
+---
+
+### **Control Structures with Return Values**
+
+Control structures in Vasuki, such as `if`, `for`, and `while`, return the value of the last executed statement within their block. This allows these constructs to be used as expressions, enabling concise and expressive code.
+
+#### **Example: If Statement with Return Value**
+```bash
+var x = 10;
+var result = if (x > 5) { x } else { 0 };
+print("Result: " + result);  // Output: Result: 10
+```
+
+**Explanation**:  
+In this example, the `if` statement evaluates the condition `x > 5`. Since the condition is true, the value of `x` (10) is returned and assigned to the variable `result`.
+
+#### **Example: For Loop with Return Value**
+```bash
+var sum = 0;
+for (var i = 1; i <= 3; i = i + 1) {
+    sum = sum + i;
+}
+print("Sum: " + sum);  // Output: Sum: 6
+```
+
+**Explanation**:  
+The `for` loop iterates from 1 to 3, adding each value to `sum`. The final value of `sum` is returned after the loop completes.
+
+---
+
+### **Implicit Return on Omitted Semicolons**
+
+In Vasuki, if a semicolon is omitted at the end of a statement, the language treats it as an implicit `return`. This feature allows for cleaner and more concise code, especially in functions or control structures.
+
+#### **Example: Implicit Return in Functions**
+```bash
+def multiply(a, b) {
+    a * b  // Implicitly returns the product
+}
+
+print(multiply(3, 4));  // Output: 12
+```
+
+**Explanation**:  
+In this example, the function `multiply` does not explicitly use the `return` keyword. Instead, the last expression `a * b` is implicitly returned.
+
+#### **Example: Implicit Return in Control Structures**
+```bash
+var result = if (x > 5) { x } else { 0 };
+print("Result: " + result);  // Output: Result: 10
+```
+
+**Explanation**:  
+The `if` statement implicitly returns the value of the executed block, which is assigned to the variable `result`.
+
+---
+
+### **Error Handling**
+
+Vasuki provides detailed error messages to help you debug your code. Below are some common error types and how to handle them.
+
+#### **Syntax Errors**
+Syntax errors occur when the code violates Vasuki's grammatical rules.
+
+**Example: Missing Semicolon**
+```bash
+var x = 10  // Missing semicolon
+```
+
+**Error Message**:  
+`SyntaxError: Expected ';' at the end of the statement.`
+
+**Solution**:  
+Add the missing semicolon:
+```bash
+var x = 10;
+```
+
+#### **Runtime Errors**
+Runtime errors occur during program execution, such as dividing by zero or accessing undefined variables.
+
+**Example: Division by Zero**
+```bash
+var result = 10 / 0;  // Division by zero
+```
+
+**Error Message**:  
+`RuntimeError: Division by zero.`
+
+**Solution**:  
+Ensure that the denominator is not zero:
+```bash
+var denominator = 2;
+var result = 10 / denominator;
+```
+
+#### **Lexical/Parsing Errors**
+Lexical or parsing errors occur when the lexer or parser encounters invalid input.
+
+**Example: Invalid Variable Name**
+```bash
+var 123abc = 10;  // Invalid variable name
+```
+
+**Error Message**:  
+`LexicalError: Invalid token '123abc'.`
+
+**Solution**:  
+Use a valid variable name:
+```bash
+var validName = 10;
+```
+
+---
+
+## **Example Program Walkthrough**
+
+Here is a program that demonstrates Vasuki's unique features, including dual scoping, control structures with return values, and implicit returns.
+
+```bash
+// Declare variables
+var x = 10;
+var y = 5;
+
+// Compute the sum
+var sum = x + y;
+print("Sum: " + sum);  // Output: Sum: 15
+
+// Use an if statement with return value
+var result = if (sum > 10) { sum } else { 0 };
+print("Result: " + result);  // Output: Result: 15
+
+// Define and call a function with implicit return
+def add(a, b) {
+    a + b  // Implicit return
+}
+print("Addition: " + add(3, 4));  // Output: Addition: 7
+
+// Create and access an array
+var arr = [10, 20, 30];
+print("First element: " + arr[1]);  // Output: First element: 10
+
+// Demonstrate scoping
+var globalVar = 100;
+def testScope() {
+    print(globalVar);  // Resolves via static scope
+}
+testScope();  // Output: 100
+```
+
+**Explanation**:  
+- The program demonstrates variable declaration, control structures, and functions.
+- It highlights Vasuki's unique features, such as implicit returns and dual scoping mechanisms.
+- The `testScope` function accesses the global variable `globalVar` using static scoping.
+
+---

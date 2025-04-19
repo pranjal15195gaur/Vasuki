@@ -1,0 +1,162 @@
+// Test 1: Dynamic variables and functions with shared names
+dynamic var shared = 1;
+
+dynamic def shared() {
+    return 2;
+};
+
+print(shared);
+print(shared());
+
+def override_shared() {
+    dynamic var shared = 3;
+    dynamic def shared() {
+        return 4;
+    };
+
+    print(shared);
+    print(shared());
+};
+
+override_shared();
+print(shared);
+print(shared());
+
+// Test 2: Dynamic functions that modify dynamic variables
+dynamic var state = 0;
+
+dynamic def modify_state(value) {
+    state = value;
+    return state;
+};
+
+print(state);
+print(modify_state(10));
+print(state);
+
+def override_both() {
+    dynamic var state = 100;
+    dynamic def modify_state(value) {
+        state = value * 2;
+        return state;
+    };
+
+    print(state);
+    print(modify_state(10));
+    print(state);
+};
+
+override_both();
+print(state);
+print(modify_state(20));
+
+// Test 3: Dynamic functions that return dynamic variables
+dynamic var x = 1;
+dynamic var y = 2;
+dynamic var z = 3;
+
+dynamic def get_var(name) {
+    if (name == 1) {
+        return x;
+    } else if (name == 2) {
+        return y;
+    } else {
+        return z;
+    };
+};
+
+print(get_var(1));
+print(get_var(2));
+print(get_var(3));
+
+def override_vars_and_getter() {
+    dynamic var x = 10;
+    dynamic var y = 20;
+
+    dynamic def get_var(name) {
+        if (name == 1) {
+            return x;
+        } else if (name == 2) {
+            return y;
+        } else {
+            return 0;
+        };
+    };
+
+    print(get_var(1));
+    print(get_var(2));
+    print(get_var(3));
+};
+
+override_vars_and_getter();
+print(get_var(1));
+
+// Test 4: Dynamic functions that create and return closures with dynamic variables
+dynamic var closure_base = 10;
+
+dynamic def make_closure(x) {
+    return def() {
+        return x + closure_base;
+    };
+};
+
+var closure1 = make_closure(5);
+print(closure1());
+
+def override_closure_context() {
+    dynamic var closure_base = 100;
+
+    print(closure1());
+
+    dynamic def make_closure(x) {
+        return def() {
+            return x * closure_base;
+        };
+    };
+
+    var closure2 = make_closure(5);
+    print(closure2());
+};
+
+override_closure_context();
+print(closure1());
+
+// Test 5: Complex interaction with multiple levels and recursion
+dynamic var count = 0;
+
+dynamic def factorial(n) {
+    count = count + 1;
+
+    if (n <= 1) {
+        return 1;
+    };
+
+    return n * factorial(n - 1);
+};
+
+print(count);
+print(factorial(5));
+print(count);
+
+def complex_override() {
+    dynamic var count = 100;
+
+    dynamic def factorial(n) {
+        count = count + 10;
+
+        if (n <= 1) {
+            return 1;
+        };
+
+        return n * factorial(n - 1);
+    };
+
+    print(count);
+    print(factorial(3));
+    print(count);
+};
+
+complex_override();
+print(count);
+print(factorial(2));
+print(count);
