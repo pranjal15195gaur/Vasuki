@@ -1,0 +1,21 @@
+// Dictionary literal test
+
+// Create a dictionary using dictionary literal syntax
+var person = {"name": "Bob", "age": 25, "city": "Boston"};
+
+// Get values from the dictionary
+print("Name: " + dict_get(person, "name"));
+print("Age: " + dict_get(person, "age"));
+print("City: " + dict_get(person, "city"));
+
+// Dictionary with different value types
+var mixed_dict = {"name": "Charlie", "age": 35, "is_student": 1 < 2, "grades": [90, 85, 95]};
+print("Name: " + dict_get(mixed_dict, "name"));
+print("Age: " + dict_get(mixed_dict, "age"));
+print("Is student: " + dict_get(mixed_dict, "is_student"));
+
+// Access array inside dictionary
+var grades = dict_get(mixed_dict, "grades");
+print("First grade: " + grades[1]);
+print("Second grade: " + grades[2]);
+print("Third grade: " + grades[3]);

@@ -1,6 +1,6 @@
 from compiler.top import (BinOp, UnOp, Float, Int, String, If, Parentheses, Program, VarDecl, DynamicVarDecl,
                  VarReference, Assignment, AST, For, While, Print,
-                 ArrayLiteral, ArrayIndex, StringIndex, FunctionCall, FunctionDef, DynamicFunctionDef, Return, Yield, Label, LabelReturn, GoAndReturn)
+                 ArrayLiteral, ArrayIndex, StringIndex, DictLiteral, DictGet, FunctionCall, FunctionDef, DynamicFunctionDef, Return, Yield, Label, LabelReturn, GoAndReturn)
 
 
 from compiler.lexer import IntToken, FloatToken, StringToken, OperatorToken, KeywordToken, ParenToken, Token, lex
@@ -173,6 +173,37 @@ def parse(s: str) -> AST:
                         elements.append(parse_logic_or())
                 expect(OperatorToken(']'))
                 node = ArrayLiteral(elements)
+            case OperatorToken('{'):
+                # Dictionary literal
+                next(t)  # consume '{'
+                keys = []
+                values = []
+                if t.peek(None) != OperatorToken('}'):
+                    # Parse key
+                    key = parse_logic_or()
+                    keys.append(key)
+                    # Expect colon
+                    if t.peek(None) != OperatorToken(':'):
+                        raise ParseError("Expected ':' after dictionary key")
+                    next(t)  # consume ':'
+                    # Parse value
+                    value = parse_logic_or()
+                    values.append(value)
+                    # Parse additional key-value pairs
+                    while t.peek(None) == OperatorToken(','):
+                        next(t)  # consume ','
+                        # Parse key
+                        key = parse_logic_or()
+                        keys.append(key)
+                        # Expect colon
+                        if t.peek(None) != OperatorToken(':'):
+                            raise ParseError("Expected ':' after dictionary key")
+                        next(t)  # consume ':'
+                        # Parse value
+                        value = parse_logic_or()
+                        values.append(value)
+                expect(OperatorToken('}'))
+                node = DictLiteral(keys, values)
             case KeywordToken(x) if x not in ["if", "else", "var", "and", "or", "print", "for", "while"]:
                 func_name = x
                 next(t)
@@ -199,14 +230,16 @@ def parse(s: str) -> AST:
             case _:
                 raise ParseError("Unexpected token in atom")
 
-        # Handle postfix array and string indexing: e.g. x[1] or [1,2,3][2] or "hello"[1]
+        # Handle postfix array, string, and dictionary indexing: e.g. x[1] or [1,2,3][2] or "hello"[1] or {"key": value}["key"]
         while t.peek(None) == OperatorToken('['):
             next(t)  # consume '['
             index_expr = parse_logic_or()
             expect(OperatorToken(']'))
-            # For simplicity, we'll determine at runtime whether it's a string or array
+            # For simplicity, we'll determine at runtime whether it's a string, array, or dictionary
             if isinstance(node, String):
                 node = StringIndex(node, index_expr)
+            elif isinstance(node, DictLiteral):
+                node = DictGet(node, index_expr)
             else:
                 node = ArrayIndex(node, index_expr)
         return node

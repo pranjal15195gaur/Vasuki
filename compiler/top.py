@@ -4,6 +4,135 @@ import builtins
 class AST:
     pass
 
+
+# Dictionary implementation using hash map with buckets for collision resolution
+class Dictionary:
+    def __init__(self, capacity=16):
+        self.capacity = capacity
+        self.size = 0
+        self.buckets = [[] for _ in range(capacity)]
+        self.load_factor_threshold = 0.75
+
+    def _hash(self, key):
+        # Simple hash function
+        if isinstance(key, int):
+            return key % self.capacity
+        elif isinstance(key, float):
+            return int(key) % self.capacity
+        elif isinstance(key, str):
+            # String hashing using polynomial rolling hash
+            h = 0
+            for c in key:
+                h = (h * 31 + ord(c)) % self.capacity
+            return h
+        elif isinstance(key, bool):
+            return int(key) % self.capacity
+        else:
+            # For other types, use id as hash
+            return id(key) % self.capacity
+
+    def _find_entry(self, key):
+        # Find the entry with the given key in the appropriate bucket
+        bucket_index = self._hash(key)
+        bucket = self.buckets[bucket_index]
+
+        for i, (k, v) in enumerate(bucket):
+            if k == key:
+                return bucket_index, i
+
+        return bucket_index, -1
+
+    def _resize(self, new_capacity):
+        # Resize the hash map when load factor exceeds threshold
+        old_buckets = self.buckets
+        self.capacity = new_capacity
+        self.buckets = [[] for _ in range(new_capacity)]
+        self.size = 0
+
+        # Rehash all entries
+        for bucket in old_buckets:
+            for key, value in bucket:
+                self.put(key, value)
+
+    def put(self, key, value):
+        # Insert or update a key-value pair
+        bucket_index, entry_index = self._find_entry(key)
+
+        if entry_index >= 0:
+            # Update existing entry
+            self.buckets[bucket_index][entry_index] = (key, value)
+        else:
+            # Insert new entry
+            self.buckets[bucket_index].append((key, value))
+            self.size += 1
+
+            # Check if resize is needed
+            if self.size / self.capacity > self.load_factor_threshold:
+                self._resize(self.capacity * 2)
+
+    def get(self, key, default=None):
+        # Get the value for a key, or default if key not found
+        bucket_index, entry_index = self._find_entry(key)
+
+        if entry_index >= 0:
+            return self.buckets[bucket_index][entry_index][1]
+        else:
+            return default
+
+    def contains(self, key):
+        # Check if the dictionary contains a key
+        _, entry_index = self._find_entry(key)
+        return entry_index >= 0
+
+    def remove(self, key):
+        # Remove a key-value pair
+        bucket_index, entry_index = self._find_entry(key)
+
+        if entry_index >= 0:
+            # Remove the entry
+            del self.buckets[bucket_index][entry_index]
+            self.size -= 1
+            return True
+        else:
+            return False
+
+    def keys(self):
+        # Get all keys
+        result = []
+        for bucket in self.buckets:
+            for key, _ in bucket:
+                result.append(key)
+        return result
+
+    def values(self):
+        # Get all values
+        result = []
+        for bucket in self.buckets:
+            for _, value in bucket:
+                result.append(value)
+        return result
+
+    def items(self):
+        # Get all key-value pairs
+        result = []
+        for bucket in self.buckets:
+            for key, value in bucket:
+                result.append((key, value))
+        return result
+
+    def clear(self):
+        # Clear the dictionary
+        self.buckets = [[] for _ in range(self.capacity)]
+        self.size = 0
+
+    def __str__(self):
+        # String representation
+        items = []
+        for bucket in self.buckets:
+            for key, value in bucket:
+                items.append(f"{repr(key)}: {repr(value)}")
+        return "{" + ", ".join(items) + "}"
+
 # Global registry for dynamic variables and functions
 dynamic_variables = {}
 dynamic_functions = {}
@@ -154,6 +283,16 @@ class ArrayIndex(AST):
 class StringIndex(AST):
     string: AST
     index: AST
+
+@dataclass
+class DictLiteral(AST):
+    keys: list[AST]
+    values: list[AST]
+
+@dataclass
+class DictGet(AST):
+    dict_expr: AST
+    key: AST
 
 @dataclass
 class FunctionDef(AST):
@@ -501,6 +640,221 @@ def e(tree: AST, env=None) -> int:
                     return s.split(delimiter)
                 else:
                     return s.split()
+
+            # Type checker functions
+            elif name == "is_int":
+                # Check if a value is an integer
+                if len(evaluated_args) != 1:
+                    raise ValueError("is_int expects one argument: is_int(value)")
+                return isinstance(evaluated_args[0], int) and not isinstance(evaluated_args[0], bool)
+
+            elif name == "is_float":
+                # Check if a value is a floating-point number
+                if len(evaluated_args) != 1:
+                    raise ValueError("is_float expects one argument: is_float(value)")
+                return isinstance(evaluated_args[0], float)
+
+            elif name == "is_string":
+                # Check if a value is a string
+                if len(evaluated_args) != 1:
+                    raise ValueError("is_string expects one argument: is_string(value)")
+                return isinstance(evaluated_args[0], str)
+
+            elif name == "is_char":
+                # Check if a value is a single character (a string of length 1)
+                if len(evaluated_args) != 1:
+                    raise ValueError("is_char expects one argument: is_char(value)")
+                return isinstance(evaluated_args[0], str) and len(evaluated_args[0]) == 1
+
+            elif name == "is_bool":
+                # Check if a value is a boolean
+                if len(evaluated_args) != 1:
+                    raise ValueError("is_bool expects one argument: is_bool(value)")
+                return isinstance(evaluated_args[0], bool)
+
+            elif name == "is_array":
+                # Check if a value is an array
+                if len(evaluated_args) != 1:
+                    raise ValueError("is_array expects one argument: is_array(value)")
+                return isinstance(evaluated_args[0], list)
+
+            elif name == "is_function":
+                # Check if a value is a function
+                if len(evaluated_args) != 1:
+                    raise ValueError("is_function expects one argument: is_function(value)")
+                return isinstance(evaluated_args[0], UserFunction)
+
+            elif name == "get_type":
+                # Return the type of a value as a string
+                if len(evaluated_args) != 1:
+                    raise ValueError("get_type expects one argument: get_type(value)")
+                value = evaluated_args[0]
+                if isinstance(value, int) and not isinstance(value, bool):
+                    return "int"
+                elif isinstance(value, float):
+                    return "float"
+                elif isinstance(value, str):
+                    if len(value) == 1:
+                        return "char"
+                    else:
+                        return "string"
+                elif isinstance(value, bool):
+                    return "bool"
+                elif isinstance(value, list):
+                    return "array"
+                elif isinstance(value, Dictionary):
+                    return "dict"
+                elif isinstance(value, UserFunction):
+                    return "function"
+                else:
+                    return "unknown"
+
+            elif name == "to_int":
+                # Convert a value to an integer if possible
+                if len(evaluated_args) != 1:
+                    raise ValueError("to_int expects one argument: to_int(value)")
+                value = evaluated_args[0]
+                try:
+                    if isinstance(value, bool):
+                        return 1 if value else 0
+                    return int(value)
+                except (ValueError, TypeError):
+                    raise ValueError(f"Cannot convert {value} to int")
+
+            elif name == "to_float":
+                # Convert a value to a float if possible
+                if len(evaluated_args) != 1:
+                    raise ValueError("to_float expects one argument: to_float(value)")
+                value = evaluated_args[0]
+                try:
+                    if isinstance(value, bool):
+                        return 1.0 if value else 0.0
+                    return float(value)
+                except (ValueError, TypeError):
+                    raise ValueError(f"Cannot convert {value} to float")
+
+            elif name == "to_string":
+                # Convert a value to a string
+                if len(evaluated_args) != 1:
+                    raise ValueError("to_string expects one argument: to_string(value)")
+                return str(evaluated_args[0])
+
+            elif name == "to_bool":
+                # Convert a value to a boolean
+                if len(evaluated_args) != 1:
+                    raise ValueError("to_bool expects one argument: to_bool(value)")
+                value = evaluated_args[0]
+                if isinstance(value, bool):
+                    return value
+                elif isinstance(value, (int, float)):
+                    return value != 0
+                elif isinstance(value, str):
+                    return len(value) > 0
+                elif isinstance(value, list):
+                    return len(value) > 0
+                elif isinstance(value, Dictionary):
+                    return value.size > 0
+                else:
+                    return True  # Functions and other objects are truthy
+
+            # Dictionary functions
+            elif name == "dict":
+                # Create a new dictionary
+                return Dictionary()
+
+            elif name == "dict_put":
+                # Add or update a key-value pair in a dictionary
+                if len(evaluated_args) != 3:
+                    raise ValueError("dict_put expects three arguments: dict_put(dict, key, value)")
+                dict_obj, key, value = evaluated_args
+                if not isinstance(dict_obj, Dictionary):
+                    raise ValueError("dict_put: first argument must be a dictionary")
+                dict_obj.put(key, value)
+                return dict_obj
+
+            elif name == "dict_get":
+                # Get a value from a dictionary
+                if len(evaluated_args) not in [2, 3]:
+                    raise ValueError("dict_get expects 2 or 3 arguments: dict_get(dict, key[, default])")
+                dict_obj = evaluated_args[0]
+                key = evaluated_args[1]
+                if not isinstance(dict_obj, Dictionary):
+                    raise ValueError("dict_get: first argument must be a dictionary")
+                if len(evaluated_args) == 3:
+                    default = evaluated_args[2]
+                    return dict_obj.get(key, default)
+                else:
+                    return dict_obj.get(key)
+
+            elif name == "dict_contains":
+                # Check if a dictionary contains a key
+                if len(evaluated_args) != 2:
+                    raise ValueError("dict_contains expects two arguments: dict_contains(dict, key)")
+                dict_obj, key = evaluated_args
+                if not isinstance(dict_obj, Dictionary):
+                    raise ValueError("dict_contains: first argument must be a dictionary")
+                return dict_obj.contains(key)
+
+            elif name == "dict_remove":
+                # Remove a key-value pair from a dictionary
+                if len(evaluated_args) != 2:
+                    raise ValueError("dict_remove expects two arguments: dict_remove(dict, key)")
+                dict_obj, key = evaluated_args
+                if not isinstance(dict_obj, Dictionary):
+                    raise ValueError("dict_remove: first argument must be a dictionary")
+                return dict_obj.remove(key)
+
+            elif name == "dict_keys":
+                # Get all keys from a dictionary
+                if len(evaluated_args) != 1:
+                    raise ValueError("dict_keys expects one argument: dict_keys(dict)")
+                dict_obj = evaluated_args[0]
+                if not isinstance(dict_obj, Dictionary):
+                    raise ValueError("dict_keys: argument must be a dictionary")
+                return dict_obj.keys()
+
+            elif name == "dict_values":
+                # Get all values from a dictionary
+                if len(evaluated_args) != 1:
+                    raise ValueError("dict_values expects one argument: dict_values(dict)")
+                dict_obj = evaluated_args[0]
+                if not isinstance(dict_obj, Dictionary):
+                    raise ValueError("dict_values: argument must be a dictionary")
+                return dict_obj.values()
+
+            elif name == "dict_items":
+                # Get all key-value pairs from a dictionary
+                if len(evaluated_args) != 1:
+                    raise ValueError("dict_items expects one argument: dict_items(dict)")
+                dict_obj = evaluated_args[0]
+                if not isinstance(dict_obj, Dictionary):
+                    raise ValueError("dict_items: argument must be a dictionary")
+                return dict_obj.items()
+
+            elif name == "dict_size":
+                # Get the number of key-value pairs in a dictionary
+                if len(evaluated_args) != 1:
+                    raise ValueError("dict_size expects one argument: dict_size(dict)")
+                dict_obj = evaluated_args[0]
+                if not isinstance(dict_obj, Dictionary):
+                    raise ValueError("dict_size: argument must be a dictionary")
+                return dict_obj.size
+
+            elif name == "dict_clear":
+                # Clear a dictionary
+                if len(evaluated_args) != 1:
+                    raise ValueError("dict_clear expects one argument: dict_clear(dict)")
+                dict_obj = evaluated_args[0]
+                if not isinstance(dict_obj, Dictionary):
+                    raise ValueError("dict_clear: argument must be a dictionary")
+                dict_obj.clear()
+                return dict_obj
+
+            elif name == "is_dict":
+                # Check if a value is a dictionary
+                if len(evaluated_args) != 1:
+                    raise ValueError("is_dict expects one argument: is_dict(value)")
+                return isinstance(evaluated_args[0], Dictionary)
             else:
                 raise ValueError(f"Unknown function {name}")
 
@@ -512,7 +866,7 @@ def e(tree: AST, env=None) -> int:
             # When a yield is encountered, evaluate the expression and raise an exception to exit the entire function.
             raise ReturnException(e(expr, env), is_yield=True)
 
-        # New evaluation rules for arrays and strings
+        # New evaluation rules for arrays, strings, and dictionaries
         case ArrayLiteral(elements):
             return [e(el, env) for el in elements]
         case ArrayIndex(array, index):
@@ -544,6 +898,21 @@ def e(tree: AST, env=None) -> int:
                 raise ValueError(f"String index {idx} out of range (1 to {len(s)})")
             # One-based indexing: adjust for Python's zero-based strings.
             return s[idx - 1]
+        case DictLiteral(keys, values):
+            if len(keys) != len(values):
+                raise ValueError("Number of keys must match number of values in dictionary literal")
+            dict_obj = Dictionary()
+            for i in range(len(keys)):
+                key = e(keys[i], env)
+                value = e(values[i], env)
+                dict_obj.put(key, value)
+            return dict_obj
+        case DictGet(dict_expr, key):
+            dict_obj = e(dict_expr, env)
+            key_val = e(key, env)
+            if not isinstance(dict_obj, Dictionary):
+                raise ValueError(f"Cannot get key from a {type(dict_obj).__name__} value")
+            return dict_obj.get(key_val)
 
 
 
