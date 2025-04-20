@@ -1,0 +1,66 @@
+// Test file for the Vasuki VM
+
+// Test basic arithmetic
+var a = 10;
+var b = 5;
+print("a + b = " + (a + b));
+print("a - b = " + (a - b));
+print("a * b = " + (a * b));
+print("a / b = " + (a / b));
+print("a % b = " + (a % b));
+
+// Test string operations
+var str = "Hello, Vasuki!";
+print("Original string: " + str);
+print("Uppercase: " + uppercase(str));
+print("Length: " + length(str));
+
+// Test arrays
+var arr = [1, 2, 3, 4, 5];
+print("Array: " + arr);
+print("Array length: " + length(arr));
+print("First element: " + arr[1]);
+print("Last element: " + arr[5]);
+
+// Test dictionaries
+var dict = {"name": "Vasuki", "type": "Language", "version": 1.0};
+print("Dictionary: " + dict);
+print("Name: " + dict["name"]);
+print("Type: " + dict["type"]);
+print("Version: " + dict["version"]);
+
+// Test functions
+def add(x, y) {
+    return x + y;
+}
+
+def multiply(x, y) {
+    return x * y;
+}
+
+print("add(3, 4) = " + add(3, 4));
+print("multiply(3, 4) = " + multiply(3, 4));
+
+// Test missing semicolon as return feature
+def subtract(x, y) {
+    x - y  // Missing semicolon should act as return
+}
+
+print("subtract(10, 3) = " + subtract(10, 3));
+
+// Test conditional statements
+var x = 15;
+if (x > 10) {
+    print("x is greater than 10");
+} else {
+    print("x is not greater than 10");
+}
+
+// Test loops
+print("Counting from 1 to 5:");
+for (var i = 1; i <= 5; i = i + 1) {
+    print(i);
+}
+
+// Final result
+x * 2  // Missing semicolon should act as return for the main program

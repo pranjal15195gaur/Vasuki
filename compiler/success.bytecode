@@ -1,0 +1,11 @@
+  # Bytecode size (10 bytes)
+  # PUSH_STRING
+  # String index 0
+*  # PRINT
+  # PUSH_INT
+*  # 42
+  # HALT
+  # Number of constants (0)
+  # Number of names (1)
+*  # Length of name 0 (42 bytes)
+  Successfully executed VASUKI_FILE_PLACEHOLDER  # Name 0

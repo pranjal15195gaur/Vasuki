@@ -1,0 +1,12 @@
+#!/bin/bash
+
+# Simple wrapper script to run a Vasuki file
+
+# Check if a file was provided
+if [ $# -lt 1 ]; then
+    echo "Usage: $0 <vasuki_file>"
+    exit 1
+fi
+
+# Run the file using the vasuki_runner_with_storage.sh script
+./vasuki_runner_with_storage.sh "$1"
