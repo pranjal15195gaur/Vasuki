@@ -1,0 +1,182 @@
+{
+    "Function Definition": {
+        "prefix": "def",
+        "body": [
+            "def ${1:functionName}(${2:parameters}) {",
+            "\t${3:// function body}",
+            "\treturn ${4:result};",
+            "};"
+        ],
+        "description": "Define a new function"
+    },
+    "Function with Default Parameters": {
+        "prefix": "defdef",
+        "body": [
+            "def ${1:functionName}(${2:param1}, ${3:param2} = ${4:defaultValue}) {",
+            "\t${5:// function body}",
+            "\treturn ${6:result};",
+            "};"
+        ],
+        "description": "Define a function with default parameters"
+    },
+    "Dynamic Function": {
+        "prefix": "dynfunc",
+        "body": [
+            "dynamic def ${1:functionName}(${2:parameters}) {",
+            "\t${3:// function body}",
+            "\treturn ${4:result};",
+            "};"
+        ],
+        "description": "Define a dynamic function"
+    },
+    "Variable Declaration": {
+        "prefix": "var",
+        "body": [
+            "var ${1:variableName} = ${2:value};"
+        ],
+        "description": "Declare a new variable"
+    },
+    "Dynamic Variable": {
+        "prefix": "dynvar",
+        "body": [
+            "dynamic var ${1:variableName} = ${2:value};"
+        ],
+        "description": "Declare a dynamic variable"
+    },
+    "If Statement": {
+        "prefix": "if",
+        "body": [
+            "if (${1:condition}) {",
+            "\t${2:// code}",
+            "}"
+        ],
+        "description": "If statement"
+    },
+    "If-Else Statement": {
+        "prefix": "ifelse",
+        "body": [
+            "if (${1:condition}) {",
+            "\t${2:// code}",
+            "} else {",
+            "\t${3:// code}",
+            "}"
+        ],
+        "description": "If-else statement"
+    },
+    "For Loop": {
+        "prefix": "for",
+        "body": [
+            "for (var ${1:i} = ${2:0}; ${1:i} < ${3:length}; ${1:i} = ${1:i} + 1) {",
+            "\t${4:// code}",
+            "}"
+        ],
+        "description": "For loop"
+    },
+    "While Loop": {
+        "prefix": "while",
+        "body": [
+            "while (${1:condition}) {",
+            "\t${2:// code}",
+            "}"
+        ],
+        "description": "While loop"
+    },
+    "Array Declaration": {
+        "prefix": "array",
+        "body": [
+            "var ${1:arrayName} = [${2:values}];"
+        ],
+        "description": "Declare a new array"
+    },
+    "Set Creation": {
+        "prefix": "set",
+        "body": [
+            "var ${1:setName} = set();"
+        ],
+        "description": "Create a new set"
+    },
+    "Priority Queue Creation": {
+        "prefix": "pq",
+        "body": [
+            "var ${1:queueName} = priority_queue(${2:true});"
+        ],
+        "description": "Create a new priority queue (true for min queue, false for max queue)"
+    },
+    "Print Statement": {
+        "prefix": "print",
+        "body": [
+            "print(\"${1:message}\");"
+        ],
+        "description": "Print a message"
+    },
+    "Print Variable": {
+        "prefix": "printvar",
+        "body": [
+            "print(\"${1:variableName}: \" + ${1:variableName});"
+        ],
+        "description": "Print a variable with a label"
+    },
+    "Array Slice": {
+        "prefix": "slice",
+        "body": [
+            "array_slice(${1:array}, ${2:start}, ${3:end}, ${4:step});"
+        ],
+        "description": "Slice an array (1-based indexing)"
+    },
+    "String Slice": {
+        "prefix": "strslice",
+        "body": [
+            "string_slice(${1:string}, ${2:start}, ${3:end}, ${4:step});"
+        ],
+        "description": "Slice a string (1-based indexing)"
+    },
+    "Array Sort": {
+        "prefix": "sort",
+        "body": [
+            "array_sort(${1:array}, ${2:descending});"
+        ],
+        "description": "Sort an array (optional descending parameter)"
+    },
+    "Find Prime Numbers": {
+        "prefix": "primes",
+        "body": [
+            "def find_primes(n) {",
+            "\tvar primes = [];",
+            "\tfor (var i = 2; i <= n; i = i + 1) {",
+            "\t\tif (is_prime(i)) {",
+            "\t\t\tpush(primes, i);",
+            "\t\t}",
+            "\t}",
+            "\treturn primes;",
+            "};"
+        ],
+        "description": "Function to find prime numbers up to n"
+    },
+    "Fibonacci Sequence": {
+        "prefix": "fibonacci",
+        "body": [
+            "def fibonacci(n) {",
+            "\tvar fib = [];",
+            "\tif (n >= 1) {",
+            "\t\tpush(fib, 0);",
+            "\t}",
+            "\tif (n >= 2) {",
+            "\t\tpush(fib, 1);",
+            "\t}",
+            "\tif (n >= 3) {",
+            "\t\tvar prev1 = 1;",
+            "\t\tvar prev2 = 0;",
+            "\t\t",
+            "\t\tfor (var i = 2; i < n; i = i + 1) {",
+            "\t\t\tvar next = prev1 + prev2;",
+            "\t\t\tpush(fib, next);",
+            "\t\t\tprev2 = prev1;",
+            "\t\t\tprev1 = next;",
+            "\t\t}",
+            "\t}",
+            "\treturn fib;",
+            "};"
+        ],
+        "description": "Function to generate Fibonacci sequence"
+    }
+}

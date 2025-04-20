@@ -1,0 +1,122 @@
+{
+    "$schema": "https://raw.githubusercontent.com/martinring/tmlanguage/master/tmlanguage.json",
+    "name": "Vasuki",
+    "patterns": [
+        {
+            "include": "#comments"
+        },
+        {
+            "include": "#keywords"
+        },
+        {
+            "include": "#strings"
+        },
+        {
+            "include": "#numbers"
+        },
+        {
+            "include": "#operators"
+        },
+        {
+            "include": "#functions"
+        },
+        {
+            "include": "#variables"
+        }
+    ],
+    "repository": {
+        "comments": {
+            "patterns": [
+                {
+                    "name": "comment.line.double-slash.vasuki",
+                    "match": "//.*$"
+                },
+                {
+                    "name": "comment.block.vasuki",
+                    "begin": "/\\*",
+                    "end": "\\*/"
+                }
+            ]
+        },
+        "keywords": {
+            "patterns": [
+                {
+                    "name": "keyword.control.vasuki",
+                    "match": "\\b(if|else|while|for|return|yield|break|continue|def|var|dynamic|true|false)\\b"
+                },
+                {
+                    "name": "storage.type.vasuki",
+                    "match": "\\b(int|float|string|char|bool|array|set)\\b"
+                },
+                {
+                    "name": "constant.language.vasuki",
+                    "match": "\\b(true|false|null)\\b"
+                }
+            ]
+        },
+        "strings": {
+            "name": "string.quoted.double.vasuki",
+            "begin": "\"",
+            "end": "\"",
+            "patterns": [
+                {
+                    "name": "constant.character.escape.vasuki",
+                    "match": "\\\\."
+                }
+            ]
+        },
+        "numbers": {
+            "patterns": [
+                {
+                    "name": "constant.numeric.integer.vasuki",
+                    "match": "\\b([0-9]+)\\b"
+                },
+                {
+                    "name": "constant.numeric.float.vasuki",
+                    "match": "\\b([0-9]+\\.[0-9]+)\\b"
+                }
+            ]
+        },
+        "operators": {
+            "patterns": [
+                {
+                    "name": "keyword.operator.assignment.vasuki",
+                    "match": "=|\\+=|-=|\\*=|/=|%="
+                },
+                {
+                    "name": "keyword.operator.arithmetic.vasuki",
+                    "match": "\\+|-|\\*|/|%"
+                },
+                {
+                    "name": "keyword.operator.logical.vasuki",
+                    "match": "==|!=|<|>|<=|>=|&&|\\|\\||!"
+                },
+                {
+                    "name": "keyword.operator.bitwise.vasuki",
+                    "match": "&|\\||\\^|~|<<|>>"
+                }
+            ]
+        },
+        "functions": {
+            "patterns": [
+                {
+                    "name": "entity.name.function.vasuki",
+                    "match": "\\b([a-zA-Z_][a-zA-Z0-9_]*)\\s*\\("
+                },
+                {
+                    "name": "support.function.builtin.vasuki",
+                    "match": "\\b(print|length|push|pop|array_slice|array_join|array_sort|array_reverse|array_find|array_find_last|array_count|array_unique|string_slice|string_match|string_search|string_replace|string_split|string_match_all|sqrt|pow|log|log10|sin|cos|tan|asin|acos|atan|atan2|degrees|radians|floor|ceil|round|abs|gcd|lcm|is_prime|factorial|random_int|random_float|random_uniform|bit_and|bit_or|bit_xor|bit_not|bit_shift_left|bit_shift_right|priority_queue|priority_queue_enqueue|priority_queue_dequeue|priority_queue_peek|priority_queue_size|priority_queue_is_empty|set|set_add|set_remove|set_contains|set_clear|set_size|set_to_list|set_union|set_intersection|set_difference|set_is_subset|set_is_superset|is_int|is_float|is_string|is_char|is_bool|uppercase|lowercase|contains|startswith|endswith|replace|trim)\\b"
+                }
+            ]
+        },
+        "variables": {
+            "patterns": [
+                {
+                    "name": "variable.other.vasuki",
+                    "match": "\\b([a-zA-Z_][a-zA-Z0-9_]*)\\b"
+                }
+            ]
+        }
+    },
+    "scopeName": "source.vasuki"
+}

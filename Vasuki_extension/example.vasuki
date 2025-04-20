@@ -1,0 +1,74 @@
+// Example Vasuki program demonstrating language features
+
+// Function definition with default parameters
+def greet(name, greeting = "Hello") {
+    return greeting + ", " + name + "!";
+};
+
+// Dynamic function
+dynamic def calculate_area(length, width) {
+    return length * width;
+};
+
+// Variable declarations
+var message = "Welcome to Vasuki!";
+var number = 42;
+var pi = 3.14159;
+var is_active = true;
+
+// Dynamic variable
+dynamic var counter = 0;
+
+// Arrays (1-based indexing)
+var numbers = [1, 2, 3, 4, 5];
+var first_element = numbers[1];  // 1
+var slice = array_slice(numbers, 2, 4);  // [2, 3]
+
+// Conditional statements
+if (number > 40) {
+    print("Number is greater than 40");
+} else {
+    print("Number is not greater than 40");
+}
+
+// Loops
+for (var i = 1; i <= 5; i = i + 1) {
+    print("Iteration " + i);
+}
+
+var j = 0;
+while (j < 3) {
+    print("While loop iteration " + j);
+    j = j + 1;
+}
+
+// Data structures
+var my_set = set();
+set_add(my_set, 1);
+set_add(my_set, 2);
+set_add(my_set, 3);
+print("Set contains 2: " + set_contains(my_set, 2));
+
+var min_pq = priority_queue(true);
+priority_queue_enqueue(min_pq, 5);
+priority_queue_enqueue(min_pq, 2);
+priority_queue_enqueue(min_pq, 8);
+print("Min element: " + priority_queue_peek(min_pq));
+
+// Math functions
+print("Square root of 16: " + sqrt(16));
+print("2^3: " + pow(2, 3));
+print("Is 7 prime? " + is_prime(7));
+
+// String operations
+var text = "The quick brown fox";
+print("Uppercase: " + uppercase(text));
+print("Contains 'fox': " + contains(text, "fox"));
+print("First 3 characters: " + string_slice(text, 1, 4));
+
+// Function call with default parameter
+print(greet("World"));  // "Hello, World!"
+print(greet("Vasuki", "Welcome to"));  // "Welcome to, Vasuki!"
+
+// Calculate area using dynamic function
+print("Area: " + calculate_area(5, 10));  // 50

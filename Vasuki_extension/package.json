@@ -1,0 +1,57 @@
+{
+  "name": "vasuki-language",
+  "displayName": "Vasuki Language",
+  "description": "Language support for Vasuki programming language",
+  "version": "0.1.0",
+  "icon": "og_logo.png",
+  "engines": {
+    "vscode": "^1.60.0"
+  },
+  "publisher": "RuchitJagodara",
+  "categories": [
+    "Programming Languages"
+  ],
+  "contributes": {
+    "languages": [{
+      "id": "vasuki",
+      "aliases": ["Vasuki", "vasuki"],
+      "extensions": [".vasuki"],
+      "configuration": "./language-configuration.json"
+    }],
+    "grammars": [{
+      "language": "vasuki",
+      "scopeName": "source.vasuki",
+      "path": "./syntaxes/vasuki.tmLanguage.json"
+    }],
+    "snippets": [{
+      "language": "vasuki",
+      "path": "./snippets/vasuki.json"
+    }]
+  },
+  "main": "./extension.js",
+  "activationEvents": [
+    "onLanguage:vasuki"
+  ],
+  "scripts": {
+    "vscode:prepublish": "npm run compile",
+    "compile": "echo Compiled successfully",
+    "package": "vsce package"
+  },
+  "devDependencies": {
+    "@types/node": "^14.0.0",
+    "@types/vscode": "^1.60.0",
+    "vsce": "^2.0.0"
+  },
+  "repository": {
+    "type": "git",
+    "url": "https://github.com/RuchitJagodara/Vasuki"
+  },
+  "keywords": [
+    "vasuki",
+    "language",
+    "syntax",
+    "highlighting"
+  ],
+  "author": "Ruchit Jagodara",
+  "license": "MIT"
+}
