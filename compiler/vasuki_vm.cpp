@@ -228,6 +228,7 @@ uint8_t VasukiVM::readByte() {
     if (static_cast<size_t>(ip) >= bytecode.size()) {
         throw std::runtime_error("Bytecode read out of bounds");
     }
+    // Direct access for better performance
     return bytecode[ip++];
 }
 
@@ -238,11 +239,22 @@ uint16_t VasukiVM::readShort() {
 }
 
 int32_t VasukiVM::readInt() {
-    int32_t value = readByte();
-    value |= (static_cast<int32_t>(readByte()) << 8);
-    value |= (static_cast<int32_t>(readByte()) << 16);
-    value |= (static_cast<int32_t>(readByte()) << 24);
-    return value;
+    // Optimized version that reads 4 bytes at once when possible
+    if (static_cast<size_t>(ip + 3) < bytecode.size()) {
+        int32_t value = bytecode[ip] |
+                      (static_cast<int32_t>(bytecode[ip + 1]) << 8) |
+                      (static_cast<int32_t>(bytecode[ip + 2]) << 16) |
+                      (static_cast<int32_t>(bytecode[ip + 3]) << 24);
+        ip += 4;
+        return value;
+    } else {
+        // Fallback to byte-by-byte reading
+        int32_t value = readByte();
+        value |= (static_cast<int32_t>(readByte()) << 8);
+        value |= (static_cast<int32_t>(readByte()) << 16);
+        value |= (static_cast<int32_t>(readByte()) << 24);
+        return value;
+    }
 }
 
 Value VasukiVM::readConstant() {
@@ -605,8 +617,15 @@ Value VasukiVM::execute() {
     // Reset instruction pointer
     ip = 0;
 
+    // Pre-allocate stack space for better performance
+    stack.reserve(1024);
+
+    // Use direct access to bytecode for better performance
+    const uint8_t* code = bytecode.data();
+    const size_t code_size = bytecode.size();
+
     // Main execution loop
-    while (static_cast<size_t>(ip) < bytecode.size()) {
+    while (static_cast<size_t>(ip) < code_size) {
         // Read the opcode
         OpCode opcode = static_cast<OpCode>(readByte());
 
