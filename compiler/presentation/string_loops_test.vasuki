@@ -1,0 +1,7 @@
+// Test string in loops with explicit semicolons
+
+// Test string in loops
+var greeting = "Hello";
+for (var i = 1; i <= length(greeting); i = i + 1) {
+    print("Character " + i + ": " + greeting[i]);
+};

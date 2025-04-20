@@ -1,0 +1,216 @@
+// Test 1: Dynamic functions with multiple levels of shadowing
+dynamic def global_func() {
+    return 1;
+};
+
+def level1() {
+    dynamic def global_func() {
+        return 2;
+    };
+
+    print(global_func());
+
+    def level2() {
+        dynamic def global_func() {
+            return 3;
+        };
+
+        print(global_func());
+
+        def level3() {
+            print(global_func());
+        };
+
+        level3();
+    };
+
+    level2();
+    print(global_func());
+};
+
+print(global_func());
+level1();
+print(global_func());
+
+// Test 2: Dynamic functions with conditional declaration
+dynamic def condition_func() {
+    return 0;
+};
+
+def conditional_test(flag) {
+    if (flag) {
+        dynamic def condition_func() {
+            return 1;
+        };
+    } else {
+        dynamic def condition_func() {
+            return 2;
+        };
+    };
+
+    print(condition_func());
+};
+
+print(condition_func());
+conditional_test(1);
+print(condition_func());
+conditional_test(0);
+print(condition_func());
+
+// Test 3: Dynamic functions with loops
+dynamic def loop_func() {
+    return 0;
+};
+
+def loop_test() {
+    for (var i = 0; i < 3; i = i + 1) {
+        dynamic def loop_func() {
+            return i;
+        };
+
+        print(loop_func());
+    };
+
+    print(loop_func());
+};
+
+loop_test();
+print(loop_func());
+
+// Test 4: Dynamic functions with higher-order functions
+dynamic def apply(f, x) {
+    return f(x);
+};
+
+dynamic def double(x) {
+    return x * 2;
+};
+
+dynamic def triple(x) {
+    return x * 3;
+};
+
+print(apply(double, 5));
+print(apply(triple, 5));
+
+def override_apply() {
+    dynamic def apply(f, x) {
+        return f(x) + 1;
+    };
+
+    print(apply(double, 5));
+};
+
+override_apply();
+print(apply(double, 5));
+
+// Test 5: Dynamic functions with closures and state
+dynamic def make_adder(x) {
+    var state = x;
+
+    def adder(y) {
+        state = state + y;
+        return state;
+    };
+
+    return adder;
+};
+
+var adder5 = make_adder(5);
+print(adder5(3));
+print(adder5(2));
+
+def override_make_adder() {
+    dynamic def make_adder(x) {
+        var state = x * 2;
+
+        def adder(y) {
+            state = state + y * 2;
+            return state;
+        };
+
+        return adder;
+    };
+
+    var new_adder = make_adder(5);
+    print(new_adder(3));
+};
+
+override_make_adder();
+
+// Test 6: Dynamic functions with mutual recursion and overriding
+dynamic def is_even(n) {
+    if (n == 0) {
+        return 1;
+    };
+    return is_odd(n - 1);
+};
+
+dynamic def is_odd(n) {
+    if (n == 0) {
+        return 0;
+    };
+    return is_even(n - 1);
+};
+
+print(is_even(4));
+print(is_odd(4));
+
+def override_even_odd() {
+    dynamic def is_even(n) {
+        print(n);
+        if (n == 0) {
+            return 1;
+        };
+        return is_odd(n - 1);
+    };
+
+    print(is_even(2));
+};
+
+override_even_odd();
+
+// Test 7: Dynamic functions with side effects
+var side_effect_counter = 0;
+
+dynamic def increment() {
+    side_effect_counter = side_effect_counter + 1;
+    return side_effect_counter;
+};
+
+print(increment());
+
+def override_increment() {
+    dynamic def increment() {
+        side_effect_counter = side_effect_counter + 10;
+        return side_effect_counter;
+    };
+
+    print(increment());
+};
+
+override_increment();
+print(increment());
+print(side_effect_counter);
+
+// Test 8: Dynamic functions with complex interactions
+dynamic def outer_func(x) {
+    return inner_func(x);
+};
+
+dynamic def inner_func(x) {
+    return x * 2;
+};
+
+print(outer_func(5));
+
+def override_inner() {
+    dynamic def inner_func(x) {
+        return x * 3;
+    };
+
+    print(outer_func(5));
+};
+
+override_inner();
+print(outer_func(5));

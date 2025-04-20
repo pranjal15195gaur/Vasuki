@@ -1,0 +1,13 @@
+// Test return in functions
+def test_function() {
+    return 5;
+};
+
+print(test_function());  // Should print 5
+
+// Test yield in functions
+def test_yield_function() {
+    yield 10;
+};
+
+print(test_yield_function());  // Should print 10

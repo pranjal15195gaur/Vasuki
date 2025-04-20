@@ -1,0 +1,25 @@
+// Test advanced string operations
+
+var greeting = "Hello, World!";
+
+// Substring
+print(substring(greeting, 1, 5));  // Should print "Hello"
+print(substring(greeting, 8));     // Should print "World!"
+
+// Case conversion
+print(uppercase(greeting));  // Should print "HELLO, WORLD!"
+print(lowercase(greeting));  // Should print "hello, world!"
+
+// String searching
+print("Contains 'World': " + contains(greeting, "World"));  // Should print true
+print("Contains 'world': " + contains(greeting, "world"));  // Should print false (case-sensitive)
+print("Starts with 'Hello': " + startswith(greeting, "Hello"));  // Should print true
+print("Ends with '!': " + endswith(greeting, "!"));  // Should print true
+
+// String replacement
+print(replace(greeting, "World", "Universe"));  // Should print "Hello, Universe!"
+
+// String trimming
+var paddedString = "  spaced out  ";
+print("'" + paddedString + "'");
+print("'" + trim(paddedString) + "'");  // Should print "'spaced out'"

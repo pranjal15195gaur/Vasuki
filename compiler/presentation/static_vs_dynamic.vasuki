@@ -1,0 +1,66 @@
+var static_var = 10;
+dynamic var dynamic_var = 20;
+
+def test_scoping() {
+    var static_var = 30;
+    dynamic var dynamic_var = 40;
+
+    print(static_var);
+    print(dynamic_var);
+};
+
+test_scoping();
+
+print(static_var);
+print(dynamic_var);
+
+var x = 100;
+dynamic var y = 200;
+
+def outer() {
+    var x = 300;
+
+    def inner() {
+        print(x);
+        print(y);
+    };
+
+    inner();
+};
+
+outer();
+
+var a = 1000;
+dynamic var b = 2000;
+
+def modify_vars() {
+    a = 1500;
+    b = 2500;
+};
+
+print(a);
+print(b);
+
+modify_vars();
+
+print(a);
+print(b);
+
+dynamic var counter = 0;
+
+def make_incrementer() {
+    def increment() {
+        counter = counter + 1;
+        return counter;
+    };
+
+    return increment;
+};
+
+var inc1 = make_incrementer();
+var inc2 = make_incrementer();
+
+print(inc1());
+print(inc2());
+print(inc1());
+print(counter);

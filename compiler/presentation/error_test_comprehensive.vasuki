@@ -1,0 +1,40 @@
+// Comprehensive test for error messages
+
+// 1. Syntax error - Missing semicolon
+// var x = 10
+// var y = 20;
+
+// 2. Syntax error - Unclosed parenthesis
+// print("Hello world";
+
+// 3. Syntax error - Missing closing brace
+// var x = 10;
+// if (x > 5) {
+//     print("x is greater than 5");
+
+// 4. Name error - Undefined variable
+// print(undefined_variable);
+
+// 5. Type error - Invalid operation
+// print(10 + "hello");
+
+// 6. Division by zero
+// var z = 10 / 0;
+
+// 7. Index error - Out of bounds
+// var arr = [1, 2, 3];
+// print(arr[10]);
+
+// 8. Function call error - Wrong number of arguments
+// def add(a, b) {
+//     return a + b;
+// };
+// print(add(1));
+
+// 9. Syntax error - Invalid identifier
+// var 1invalid = 10;
+
+// 10. Syntax error - Unterminated string
+var s = "unterminated string;
+
+// Uncomment each section one by one to test different error messages

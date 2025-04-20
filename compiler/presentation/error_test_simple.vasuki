@@ -1,0 +1,5 @@
+// Simple test for error messages
+
+// Missing semicolon
+var x = 10
+var y = 20;

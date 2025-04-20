@@ -1,0 +1,25 @@
+// A simple competitive programming problem:
+// Given n integers, find the sum of all positive integers in the list.
+
+// Solution using the new input/output functions
+def main() {
+    // Read the number of integers
+    var n = read_int();
+
+    // Read n integers
+    var nums = read_ints();
+
+    // Calculate the sum of positive integers
+    var sum = 0;
+    for (var i = 1; i <= length(nums); i = i + 1) {
+        if (nums[i] > 0) {
+            sum = sum + nums[i];
+        }
+    }
+
+    // Print the result
+    print("Sum of positive integers: " + sum);
+};
+
+// Run the main function
+main();

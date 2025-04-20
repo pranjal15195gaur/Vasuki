@@ -1,0 +1,23 @@
+// This is a single-line comment
+var x = 10; // This is a comment at the end of a line
+
+/* This is a multi-line comment
+   that spans multiple lines
+   and should be ignored by the lexer
+*/
+
+var y = 20; /* This is a multi-line comment on the same line */
+
+// Comments inside code blocks
+def test_function() {
+    // Comment inside a function
+    var z = 30;
+    /* Multi-line comment
+       inside a function */
+    return z;
+};
+
+// Print the values to verify the code works
+print(x);
+print(y);
+print(test_function());

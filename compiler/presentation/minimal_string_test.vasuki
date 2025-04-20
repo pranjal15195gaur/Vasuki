@@ -1,0 +1,11 @@
+// Minimal string test with explicit semicolons
+
+// Function to test string operations
+def processString(str) {
+    print("Original: " + str);
+    print("Uppercase: " + uppercase(str));
+    print("Length: " + length(str));
+    return "Processed " + str;
+};
+
+print(processString("test string"));

@@ -1,0 +1,10 @@
+// Test edge cases for comments
+
+// Empty file with only a comment
+// This should not cause any errors
+
+// Comment at the beginning of the file
+var x = 10;
+
+// Comment at the end of the file without a newline
+print(x); //

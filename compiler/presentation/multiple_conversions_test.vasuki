@@ -1,0 +1,18 @@
+// Multiple conversions test
+var int_val = 42;
+var float_val = 3.14;
+var string_val = "123";
+
+print("int_val: " + to_string(int_val));
+print("float_val: " + to_string(float_val));
+print("string_val: " + string_val);
+
+print("to_int(float_val): " + to_string(to_int(float_val)));
+print("to_int(string_val): " + to_string(to_int(string_val)));
+
+print("to_float(int_val): " + to_string(to_float(int_val)));
+print("to_float(string_val): " + to_string(to_float(string_val)));
+
+print("is_int(int_val): " + to_string(is_int(int_val)));
+print("is_float(float_val): " + to_string(is_float(float_val)));
+print("is_string(string_val): " + to_string(is_string(string_val)));

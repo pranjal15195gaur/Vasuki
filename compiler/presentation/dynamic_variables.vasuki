@@ -1,0 +1,47 @@
+dynamic var x = 5;
+print(x);
+
+def test_dynamic() {
+    print(x);
+    x = 10;
+    print(x);
+};
+
+test_dynamic();
+print(x);
+
+var y = 20;
+print(y);
+
+dynamic var z = 100;
+
+def outer() {
+    print(z);
+
+    def inner() {
+        z = 200;
+        print(z);
+    };
+
+    inner();
+    print(z);
+};
+
+outer();
+print(z);
+
+def scope_test() {
+    dynamic var w = 300;
+    print(w);
+
+    def inner_scope() {
+        print(w);
+        w = 400;
+        print(w);
+    };
+
+    inner_scope();
+    print(w);
+};
+
+scope_test();

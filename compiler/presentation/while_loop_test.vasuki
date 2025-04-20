@@ -1,0 +1,15 @@
+// Test return in while loop
+def test_while_loop() {
+    var i = 0;
+    while (i < 10) {
+        print(i);
+        if (i == 5) {
+            print("Returning " + i);
+            return i;
+        }
+        i = i + 1;
+    }
+    return 100;
+};
+
+print("Result: " + test_while_loop());

@@ -1,0 +1,18 @@
+var i = 0;
+
+var t = while (i>=0){
+    if (i>=8){
+        return i;
+    };
+    i = i + 1;
+};
+
+print(t);
+
+var c = for(var d = 0; d >=0; d = d + 1){
+    if (d>=100){
+        return d;
+    };
+};
+
+print(d);

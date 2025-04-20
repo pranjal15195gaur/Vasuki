@@ -1,0 +1,59 @@
+// Test dynamic variables
+dynamic var x = 10;
+print(x);
+
+def test_dynamic_var() {
+    print(x);
+    x = 20;
+    print(x);
+};
+
+test_dynamic_var();
+print(x);
+
+// Test dynamic functions
+dynamic def add(a, b) {
+    return a + b;
+};
+
+print(add(5, 3));
+
+def test_dynamic_func() {
+    dynamic def add(a, b) {
+        return a * b;
+    };
+    
+    print(add(5, 3));
+};
+
+test_dynamic_func();
+print(add(5, 3));
+
+// Test dynamic variables and functions together
+dynamic var counter = 0;
+
+dynamic def increment() {
+    counter = counter + 1;
+    return counter;
+};
+
+print(counter);
+print(increment());
+print(counter);
+
+def test_both() {
+    dynamic var counter = 100;
+    
+    dynamic def increment() {
+        counter = counter + 10;
+        return counter;
+    };
+    
+    print(counter);
+    print(increment());
+    print(counter);
+};
+
+test_both();
+print(counter);
+print(increment());

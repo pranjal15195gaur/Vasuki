@@ -1,0 +1,33 @@
+// Nested dictionary test
+
+// Dictionary with nested dictionaries
+var nested_dict = {"user": {"name": "Dave", "email": "dave@example.com"}, "settings": {"theme": "dark", "notifications": 1 < 2}};
+
+// Access nested dictionaries
+var user = dict_get(nested_dict, "user");
+print("User name: " + dict_get(user, "name"));
+print("User email: " + dict_get(user, "email"));
+
+var settings = dict_get(nested_dict, "settings");
+print("Theme: " + dict_get(settings, "theme"));
+print("Notifications: " + dict_get(settings, "notifications"));
+
+// Dictionary in a function
+def process_person(person) {
+    if (is_dict(person)) {
+        print("Processing person: " + dict_get(person, "name"));
+        if (dict_contains(person, "age")) {
+            print("Age: " + dict_get(person, "age"));
+        }
+        return "Processed";
+    } else {
+        return "Not a dictionary";
+    }
+};
+
+// Test with a dictionary
+var person = {"name": "Eve", "age": 28};
+print(process_person(person));
+
+// Test with a non-dictionary
+print(process_person("not a dict"));

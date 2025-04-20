@@ -1,0 +1,3 @@
+// Minimal conversion test
+var x = 42;
+print(to_string(x));

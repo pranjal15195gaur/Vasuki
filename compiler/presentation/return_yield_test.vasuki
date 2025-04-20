@@ -1,0 +1,60 @@
+// Test return in loops and conditionals
+def test_return_in_loop() {
+    for (var i = 0; i < 10; i = i + 1) {
+        if (i == 5) {
+            return i;  // Should exit the loop and return 5
+        }
+    }
+    yield 10;  // Should not be reached
+};
+
+print(test_return_in_loop());  // Should print 5
+
+def test_return_in_conditional() {
+    if (1 > 0) {
+        return 1;  // Should exit the conditional and return 1
+    } else {
+        return 0;  // Should not be reached
+    }
+    yield 10;  // Should not be reached
+};
+
+print(test_return_in_conditional());  // Should print 1
+
+// Test yield in functions
+def test_yield_in_function() {
+    var x = 5;
+    yield x;  // Should exit the function and return 5
+    x = 10;   // Should not be reached
+};
+
+print(test_yield_in_function());  // Should print 5
+
+// Test nested returns and yields
+def outer_function() {
+    var result = 0;
+    
+    for (var i = 0; i < 5; i = i + 1) {
+        if (i == 3) {
+            return i;  // Should exit the loop and return 3
+        }
+        result = result + i;
+    }
+    
+    yield result;  // Should not be reached
+};
+
+print(outer_function());  // Should print 3
+
+// Test invalid use of yield in loops
+def test_invalid_yield_in_loop() {
+    for (var i = 0; i < 5; i = i + 1) {
+        if (i == 3) {
+            yield i;  // This should cause an error
+        }
+    }
+    return 5;
+};
+
+// This should cause an error
+print(test_invalid_yield_in_loop());

@@ -1,0 +1,3 @@
+// String concatenation test
+var x = 42;
+print("Value: " + to_string(x));

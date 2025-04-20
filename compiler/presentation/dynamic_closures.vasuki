@@ -1,0 +1,46 @@
+var static_counter = 0;
+dynamic var dynamic_counter = 0;
+
+def make_static_incrementer() {
+    var static_counter = 100;
+
+    def increment() {
+        static_counter = static_counter + 1;
+        return static_counter;
+    };
+
+    return increment;
+};
+
+def make_dynamic_incrementer() {
+    dynamic var dynamic_counter = 200;
+
+    def increment() {
+        dynamic_counter = dynamic_counter + 1;
+        return dynamic_counter;
+    };
+
+    return increment;
+};
+
+var static_inc1 = make_static_incrementer();
+var static_inc2 = make_static_incrementer();
+
+print("Static incrementers");
+print(static_inc1());
+print(static_inc1());
+print(static_inc2());
+print(static_inc1());
+print("Global static_counter");
+print(static_counter);
+
+var dynamic_inc1 = make_dynamic_incrementer();
+var dynamic_inc2 = make_dynamic_incrementer();
+
+print("Dynamic incrementers");
+print(dynamic_inc1());
+print(dynamic_inc1());
+print(dynamic_inc2());
+print(dynamic_inc1());
+print("Global dynamic_counter");
+print(dynamic_counter);

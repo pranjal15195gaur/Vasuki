@@ -1,0 +1,17 @@
+// Minimal large dictionary test
+
+// Create a dictionary
+var d = dict();
+
+// Add some entries
+dict_put(d, 1, 1);
+dict_put(d, 2, 4);
+dict_put(d, 3, 9);
+
+// Print the size
+print("Dictionary size: " + dict_size(d));
+
+// Print some values
+print("Value at key 1: " + dict_get(d, 1));
+print("Value at key 2: " + dict_get(d, 2));
+print("Value at key 3: " + dict_get(d, 3));

@@ -1,0 +1,16 @@
+var a = 10;
+
+def f(){
+
+    block:
+        var c = 5;
+        a = 15;
+
+    block return;
+};
+
+goandreturn block;
+
+print(c);
+
+print(a);
