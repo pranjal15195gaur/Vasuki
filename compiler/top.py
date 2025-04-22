@@ -383,8 +383,13 @@ def e(tree: AST, env=None) -> int:
             return v
         case Boolean(v):
             return v
-        case UnOp("-", expp):
-            return -1 * e(expp, env)
+        case UnOp(op, expp):
+            if op == '-':
+                return -1 * e(expp, env)
+            elif op == 'not':
+                return not e(expp, env)
+            else:
+                raise ValueError(f"Unsupported unary operator: {op}")
         case BinOp(op, l, r):
             left_val = e(l, env)
             right_val = e(r, env)

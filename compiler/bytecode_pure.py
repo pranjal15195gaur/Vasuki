@@ -23,6 +23,7 @@ class OC(Enum):
     NE = auto()      # Not equal comparison
     AND = auto()     # Logical AND
     OR = auto()      # Logical OR
+    NOT = auto()     # Logical NOT
     PRINT = auto()   # Print a value
     JMP = auto()     # Unconditional jump
     JF = auto()      # Jump if false
@@ -136,9 +137,11 @@ class BytecodeGenerator:
             raise Exception(f"Unsupported binary operator: {op}")
 
     def visit_UnOp(self, node):
-        self.visit(node.expr)
+        self.visit(node.num)
         if node.op == '-':
             self.bytecode.add(OC.NEG)
+        elif node.op == 'not':
+            self.bytecode.add(OC.NOT)
         else:
             raise Exception(f"Unsupported unary operator: {node.op}")
 
@@ -472,6 +475,11 @@ class BytecodeVM:
                 b = self.stack.pop()
                 a = self.stack.pop()
                 self.stack.append(a or b)
+                self.pc += 1
+
+            elif instr.opcode == OC.NOT:
+                a = self.stack.pop()
+                self.stack.append(not a)
                 self.pc += 1
 
             elif instr.opcode == OC.PRINT:

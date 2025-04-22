@@ -179,10 +179,13 @@ def parse(s: str, filename="<input>") -> AST:
             node = parse_logic_or()      # full expression in parentheses
             expect(ParenToken(')'))
 
-        # Unary minus
+        # Unary operators (minus and not)
         elif isinstance(token, OperatorToken) and token.o == '-':
             next(t)
             node = UnOp('-', parse_atom())
+        elif isinstance(token, KeywordToken) and token.w == 'not':
+            next(t)
+            node = UnOp('not', parse_atom())
 
         # Array literal
         elif isinstance(token, OperatorToken) and token.o == '[':

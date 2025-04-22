@@ -32,6 +32,13 @@ def main() {
     print("true == false: " + (t == f));
     print("true != false: " + (t != f));
 
+    // Test logical NOT operator
+    print("\nLogical NOT operations:");
+    print("not true: " + (not t));
+    print("not false: " + (not f));
+    print("not (true and false): " + (not (t and f)));
+    print("not (true or false): " + (not (t or f)));
+
     // Test conditional statements with booleans
     print("\nConditional statements:");
     if (t) {
