@@ -1,0 +1,51 @@
+// Boolean operations example
+
+def main() {
+    print("Boolean Operations Example");
+    print("-------------------------");
+
+    // Define boolean variables
+    var t = true;
+    var f = false;
+
+    // Test basic boolean values
+    print("Value of true: " + t);
+    print("Value of false: " + f);
+
+    // Test logical AND
+    print("\nLogical AND operations:");
+    print("true AND true: " + (t and t));
+    print("true AND false: " + (t and f));
+    print("false AND true: " + (f and t));
+    print("false AND false: " + (f and f));
+
+    // Test logical OR
+    print("\nLogical OR operations:");
+    print("true OR true: " + (t or t));
+    print("true OR false: " + (t or f));
+    print("false OR true: " + (f or t));
+    print("false OR false: " + (f or f));
+
+    // Test equality operators with booleans
+    print("\nEquality operations:");
+    print("true == true: " + (t == t));
+    print("true == false: " + (t == f));
+    print("true != false: " + (t != f));
+
+    // Test conditional statements with booleans
+    print("\nConditional statements:");
+    if (t) {
+        print("Condition 'true' evaluated correctly");
+    };
+
+    if (f) {
+        print("This should not be printed");
+    } else {
+        print("Condition 'false' evaluated correctly");
+    };
+
+    print("\nBoolean operations example completed!");
+};
+
+// Run the main function
+main();
