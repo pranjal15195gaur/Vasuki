@@ -1,6 +1,6 @@
 from dataclasses import dataclass
 import builtins
-from compiler.errors import NameError, TypeError, ValueError, IndexError, KeyError, DivisionByZeroError, RuntimeError
+from errors import NameError, TypeError, ValueError, IndexError, KeyError, DivisionByZeroError, RuntimeError
 
 class AST:
     pass
@@ -284,6 +284,12 @@ class ArrayLiteral(AST):
 class ArrayIndex(AST):
     array: AST
     index: AST
+
+@dataclass
+class ArrayAssignment(AST):
+    array: AST
+    index: AST
+    value: AST
 
 @dataclass
 class StringIndex(AST):
@@ -939,6 +945,29 @@ def e(tree: AST, env=None) -> int:
                 return arr[idx - 1]
             else:
                 raise ValueError(f"Cannot index a {type(arr).__name__} value")
+
+        case ArrayAssignment(array, index, value):
+            arr = e(array, env)
+            idx = e(index, env)
+            val = e(value, env)
+
+            if not isinstance(arr, list):
+                raise ValueError(f"Cannot assign to index of non-array: {type(arr).__name__}")
+            if not isinstance(idx, int):
+                raise ValueError("Array index must be an integer")
+            if idx < 1 or idx > len(arr):
+                raise ValueError(f"Array index {idx} out of range (1 to {len(arr)})")
+
+            # Create a new array with the updated element
+            new_arr = arr.copy()
+            # One-based indexing: adjust for Python's zero-based lists
+            new_arr[idx - 1] = val
+
+            # If this is a variable reference, update the variable
+            if isinstance(array, VarReference):
+                env.assign(array.name, new_arr)
+
+            return new_arr
         case StringIndex(string, index):
             s = e(string, env)
             idx = e(index, env)

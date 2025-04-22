@@ -1,10 +1,10 @@
-from compiler.top import (BinOp, UnOp, Float, Int, String, Boolean, If, Parentheses, Program, VarDecl, DynamicVarDecl,
+from top import (BinOp, UnOp, Float, Int, String, Boolean, If, Parentheses, Program, VarDecl, DynamicVarDecl,
                  VarReference, Assignment, AST, For, While, Print,
-                 ArrayLiteral, ArrayIndex, StringIndex, DictLiteral, DictGet, FunctionCall, FunctionDef, DynamicFunctionDef, Return, Yield, Label, LabelReturn, GoAndReturn)
+                 ArrayLiteral, ArrayIndex, ArrayAssignment, StringIndex, DictLiteral, DictGet, FunctionCall, FunctionDef, DynamicFunctionDef, Return, Yield, Label, LabelReturn, GoAndReturn)
 
 
-from compiler.lexer import IntToken, FloatToken, StringToken, OperatorToken, KeywordToken, ParenToken, Token, lex
-from compiler.errors import ParserError, SourceLocation
+from lexer import IntToken, FloatToken, StringToken, OperatorToken, KeywordToken, ParenToken, Token, lex
+from errors import ParserError, SourceLocation
 import builtins
 from more_itertools import peekable
 
@@ -277,6 +277,13 @@ def parse(s: str, filename="<input>") -> AST:
                 node = DictGet(node, index_expr)
             else:
                 node = ArrayIndex(node, index_expr)
+
+            # Check if this is an assignment to an array element: arr[1] = value
+            if t.peek(None) == OperatorToken('='):
+                next(t)  # consume '='
+                value_expr = parse_logic_or()
+                node = ArrayAssignment(node.array, node.index, value_expr)
+                break  # Exit the loop since we've handled the assignment
         return node
 
 
