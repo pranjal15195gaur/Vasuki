@@ -1,0 +1,45 @@
+// Function to find the longest palindromic subsequence
+def find_longest_palindromic_subsequence(arr, n) {
+    // Use a simpler approach: check all pairs of elements
+    var max_length = 1; // At minimum, any single element is a palindrome
+
+    // Try all possible pairs
+    for (var i = 1; i <= n; i = i + 1) {
+        for (var j = i + 1; j <= n; j = j + 1) {
+            // Check if arr[i] to arr[j] form a palindrome
+            var is_pal = true;
+            var left = i;
+            var right = j;
+
+            while (left < right) {
+                if (arr[left] != arr[right]) {
+                    is_pal = false;
+                    break;
+                }
+                left = left + 1;
+                right = right - 1;
+            }
+
+            if (is_pal) {
+                max_length = max(max_length, j - i + 1);
+            }
+        }
+    }
+
+    return max_length;
+};
+
+// Read the number of elements
+var n = read_int();
+
+// Read the array elements
+var arr = [];
+for (var i = 0; i < n; i = i + 1) {
+    push(arr, read_int());
+};
+
+// Calculate the result
+var result = find_longest_palindromic_subsequence(arr, n);
+
+// Print the result
+print(result);
