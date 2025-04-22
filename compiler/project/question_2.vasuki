@@ -1,0 +1,31 @@
+var t = read_int();
+
+var ans = "NO";
+
+if (is_prime(t)){
+    ans = "YES";
+};
+
+for (var cur = 2; cur <= 1000000000; cur = cur + 1) {
+    if (ans=="YES"){
+        return 0;
+    }
+    var cc = t;
+    while (cc % cur == 0) {
+        cc = cc / cur;
+    };
+
+    if ( cc != t){
+        if (cc!=1){
+            return 0;
+        }
+    }
+
+    if ( cc == 1 ) {
+        ans = "YES";
+        return 0;
+    };
+};
+
+print(ans);
+
