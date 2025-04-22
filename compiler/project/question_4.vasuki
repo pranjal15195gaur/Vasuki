@@ -1,0 +1,51 @@
+var arr = read_ints();
+
+var m = arr[2];
+var n = arr[1];
+
+
+var a = [];
+var b = [];
+
+for (var i = 0; i < n; i = i + 1) {
+    var temp = read_int();
+    push(a, temp);
+};
+
+for (var i = 0; i < m; i = i + 1) {
+    var temp = read_int();
+    push(b, temp);
+};
+
+
+array_sort(a);
+array_sort(b);
+
+array_reverse(a);
+array_reverse(b);
+
+var s = 1;
+var e = 1;
+
+
+// find largest common integer
+
+var ans = -1;
+
+while(s<=n and e<=m){
+
+    if (a[s] == b[e]){
+        ans = a[s];
+        s = n+1;
+        e = m+1;
+    }
+    else if (a[s] > b[e]){
+        s = s + 1;
+    }
+    else {
+        e = e + 1;
+    };
+};
+
+print(ans);
+
