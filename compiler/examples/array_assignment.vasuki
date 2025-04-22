@@ -1,0 +1,47 @@
+// Array assignment example
+
+def main() {
+    print("Array Assignment Example");
+    print("----------------------");
+
+    // Create an array
+    var numbers = [10, 20, 30, 40, 50];
+    print("Created an array with 5 elements");
+    print("Original array: " + numbers);
+
+    // Modify elements using direct assignment
+    print("\nModifying elements using direct assignment:");
+
+    // Change the first element
+    numbers[1] = 100;
+    print("After numbers[1] = 100: " + numbers);
+
+    // Change the third element
+    numbers[3] = 300;
+    print("After numbers[3] = 300: " + numbers);
+
+    // Change the last element
+    numbers[5] = 500;
+    print("After numbers[5] = 500: " + numbers);
+
+    // Note: Nested array assignment is not supported yet
+    print("\nNote: Nested array assignment is not supported yet");
+
+    // Assignment with expressions
+    print("\nAssignment with expressions:");
+    var i = 2;
+    numbers[i] = numbers[i] * 10;
+    print("After numbers[i] = numbers[i] * 10 (where i=2): " + numbers);
+
+    // Assignment in a loop
+    print("\nAssignment in a loop:");
+    for (var j = 1; j <= 5; j = j + 1) {
+        numbers[j] = j * j;
+    };
+    print("After setting each element to its index squared: " + numbers);
+
+    print("\nArray assignment example completed!");
+};
+
+// Run the main function
+main();

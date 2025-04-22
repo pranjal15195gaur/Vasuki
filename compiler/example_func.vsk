@@ -1,13 +1,11 @@
-def pr(){
-    if(4>5){
-        return 4;
-    }
-    else{
-        return 5;
+def pr(n){
+    for(var i=0; i<n; i=i+1){
+        print(i)
     }
 };
 
-print(pr());
+var n = read_int();
+print(pr(n));
 
 
 

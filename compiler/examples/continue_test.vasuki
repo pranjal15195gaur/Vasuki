@@ -1,0 +1,33 @@
+// Test file for continue statement only
+
+def main() {
+    print("Testing continue statement");
+    print("------------------------");
+    
+    // Test continue in a while loop
+    print("\nTest 1: continue in a while loop");
+    var j = 0;
+    while (j < 10) {
+        j = j + 1;
+        if (j % 2 == 0) {
+            print("  Skipping even number: " + j);
+            continue;
+        };
+        print("  Processing odd number: " + j);
+    };
+    
+    // Test continue in a for loop
+    print("\nTest 2: continue in a for loop");
+    for (var m = 1; m <= 10; m = m + 1) {
+        if (m % 2 == 0) {
+            print("  Skipping even number: " + m);
+            continue;
+        };
+        print("  Processing odd number: " + m);
+    };
+    
+    print("\nContinue test completed!");
+};
+
+// Run the main function
+main();

@@ -1,0 +1,35 @@
+// Test file for break statement only
+
+def main() {
+    print("Testing break statement");
+    print("---------------------");
+    
+    // Test break in a while loop
+    print("\nTest 1: break in a while loop");
+    var i = 1;
+    while (i <= 10) {
+        print("  Count: " + i);
+        if (i == 5) {
+            print("  Breaking the loop at 5");
+            break;
+        };
+        i = i + 1;
+    };
+    print("  After break, i = " + i);
+    
+    // Test break in a for loop
+    print("\nTest 2: break in a for loop");
+    for (var k = 1; k <= 10; k = k + 1) {
+        print("  Count: " + k);
+        if (k == 5) {
+            print("  Breaking the loop at 5");
+            break;
+        };
+    };
+    print("  After break, k should be 5");
+    
+    print("\nBreak test completed!");
+};
+
+// Run the main function
+main();

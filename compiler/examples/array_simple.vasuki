@@ -3,28 +3,21 @@
 def main() {
     print("Simple Array Example");
     print("-------------------");
-
+    
     // Create an array
     var numbers = [10, 20, 30, 40, 50];
     print("Created an array with 5 elements");
-
+    
     // Access elements by index
     print("First element: " + numbers[1]);
     print("Third element: " + numbers[3]);
     print("Fifth element: " + numbers[5]);
-
+    
     // Calculate sum
     var sum = numbers[1] + numbers[2] + numbers[3] + numbers[4] + numbers[5];
+    numbers[1] = 100;
     print("Sum of all elements: " + sum);
-
-    // Modify array elements directly
-    numbers[1] = 100;  // Change first element to 100
-    print("After changing first element: " + numbers[1]);
-
-    // Calculate new sum
-    var new_sum = numbers[1] + numbers[2] + numbers[3] + numbers[4] + numbers[5];
-    print("New sum of all elements: " + new_sum);
-
+    
     print("Array example completed!");
 };
 

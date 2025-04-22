@@ -292,6 +292,14 @@ class ArrayAssignment(AST):
     value: AST
 
 @dataclass
+class Break(AST):
+    pass
+
+@dataclass
+class Continue(AST):
+    pass
+
+@dataclass
 class StringIndex(AST):
     string: AST
     index: AST
@@ -336,6 +344,12 @@ class ReturnException(Exception):
     def __init__(self, value, is_yield=False):
         self.value = value
         self.is_yield = is_yield
+
+class BreakException(Exception):
+    pass
+
+class ContinueException(Exception):
+    pass
 
 
 def e(tree: AST, env=None) -> int:
@@ -383,13 +397,8 @@ def e(tree: AST, env=None) -> int:
             return v
         case Boolean(v):
             return v
-        case UnOp(op, expp):
-            if op == '-':
-                return -1 * e(expp, env)
-            elif op == 'not':
-                return not e(expp, env)
-            else:
-                raise ValueError(f"Unsupported unary operator: {op}")
+        case UnOp("-", expp):
+            return -1 * e(expp, env)
         case BinOp(op, l, r):
             left_val = e(l, env)
             right_val = e(r, env)
@@ -475,6 +484,12 @@ def e(tree: AST, env=None) -> int:
                     else:
                         # Return statements exit the loop
                         return re.value
+                except BreakException:
+                    # Break statements exit the loop
+                    break
+                except ContinueException:
+                    # Continue statements skip to the next iteration
+                    pass
                 e(increment, env)
             return result
         case While(condition, body):
@@ -489,6 +504,12 @@ def e(tree: AST, env=None) -> int:
                     else:
                         # Return statements exit the loop
                         return re.value
+                except BreakException:
+                    # Break statements exit the loop
+                    break
+                except ContinueException:
+                    # Continue statements skip to the next iteration
+                    continue
             return result
         case Print(expr):
             value = e(expr, env)
@@ -929,6 +950,14 @@ def e(tree: AST, env=None) -> int:
             # When a yield is encountered, evaluate the expression and raise an exception to exit the entire function.
             raise ReturnException(e(expr, env), is_yield=True)
 
+        case Break():
+            # When a break is encountered, raise an exception to exit the current loop.
+            raise BreakException()
+
+        case Continue():
+            # When a continue is encountered, raise an exception to skip to the next iteration of the current loop.
+            raise ContinueException()
+
         # New evaluation rules for arrays, strings, and dictionaries
         case ArrayLiteral(elements):
             return [e(el, env) for el in elements]
@@ -950,29 +979,19 @@ def e(tree: AST, env=None) -> int:
                 return arr[idx - 1]
             else:
                 raise ValueError(f"Cannot index a {type(arr).__name__} value")
-
         case ArrayAssignment(array, index, value):
             arr = e(array, env)
             idx = e(index, env)
             val = e(value, env)
-
             if not isinstance(arr, list):
-                raise ValueError(f"Cannot assign to index of non-array: {type(arr).__name__}")
+                raise ValueError(f"Cannot assign to a non-array: {type(arr).__name__}")
             if not isinstance(idx, int):
                 raise ValueError("Array index must be an integer")
             if idx < 1 or idx > len(arr):
                 raise ValueError(f"Array index {idx} out of range (1 to {len(arr)})")
-
-            # Create a new array with the updated element
-            new_arr = arr.copy()
-            # One-based indexing: adjust for Python's zero-based lists
-            new_arr[idx - 1] = val
-
-            # If this is a variable reference, update the variable
-            if isinstance(array, VarReference):
-                env.assign(array.name, new_arr)
-
-            return new_arr
+            # One-based indexing: adjust for Python's zero-based lists.
+            arr[idx - 1] = val
+            return val
         case StringIndex(string, index):
             s = e(string, env)
             idx = e(index, env)

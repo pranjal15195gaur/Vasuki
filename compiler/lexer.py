@@ -1,6 +1,6 @@
 # lexer.py
 from collections.abc import Iterator
-from compiler.errors import LexerError, SourceLocation
+from errors import LexerError, SourceLocation
 
 class Token:
     """Base class for all tokens."""

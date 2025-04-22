@@ -1,0 +1,39 @@
+// Advanced program to demonstrate all terminal input functions
+
+// Function to test read_line
+def test_read_line() {
+    print("Enter a line of text:");
+    var line = read_line();
+    print("You entered: " + line);
+};
+
+// Function to test read_int
+def test_read_int() {
+    print("Enter an integer:");
+    var num = read_int();
+    print("You entered: " + num);
+    print("Double of your number is: " + (num * 2));
+};
+
+// Function to test read_float
+def test_read_float() {
+    print("Enter a float:");
+    var num = read_float();
+    print("You entered: " + num);
+    print("Half of your number is: " + (num / 2));
+};
+
+// Main function to run the tests
+def main() {
+    print("Testing input functions");
+    print("---------------------");
+    
+    test_read_line();
+    test_read_int();
+    test_read_float();
+    
+    print("All tests completed!");
+};
+
+// Run the main function
+main();

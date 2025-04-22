@@ -1,0 +1,9 @@
+// Simple program to demonstrate terminal input
+
+print("Enter your name:");
+var name = read_line();
+print("Hello, " + name + "!");
+
+print("Enter your age:");
+var age = read_int();
+print("In 10 years, you will be " + (age + 10) + " years old.");

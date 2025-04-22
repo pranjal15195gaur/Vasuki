@@ -1,6 +1,6 @@
-from compiler.parser import parse
-from compiler.top import e, Environment
-from compiler.errors import VasukiError
+from parser import parse
+from top import e, Environment
+from errors import VasukiError
 import sys
 import os
 

@@ -1,0 +1,56 @@
+// Test file for break and continue statements
+
+def main() {
+    print("Testing break and continue statements");
+    print("------------------------------------");
+    
+    // Test break in a while loop
+    print("\nTest 1: break in a while loop");
+    var i = 1;
+    while (i <= 10) {
+        print("  Count: " + i);
+        if (i == 5) {
+            print("  Breaking the loop at 5");
+            break;
+        };
+        i = i + 1;
+    };
+    print("  After break, i = " + i);
+    
+    // Test continue in a while loop
+    print("\nTest 2: continue in a while loop");
+    var j = 0;
+    while (j < 10) {
+        j = j + 1;
+        if (j % 2 == 0) {
+            print("  Skipping even number: " + j);
+            continue;
+        };
+        print("  Processing odd number: " + j);
+    };
+    
+    // Test break in a for loop
+    print("\nTest 3: break in a for loop");
+    for (var k = 1; k <= 10; k = k + 1) {
+        print("  Count: " + k);
+        if (k == 5) {
+            print("  Breaking the loop at 5");
+            break;
+        };
+    };
+    
+    // Test continue in a for loop
+    print("\nTest 4: continue in a for loop");
+    for (var m = 1; m <= 10; m = m + 1) {
+        if (m % 2 == 0) {
+            print("  Skipping even number: " + m);
+            continue;
+        };
+        print("  Processing odd number: " + m);
+    };
+    
+    print("\nBreak and continue test completed!");
+};
+
+// Run the main function
+main();

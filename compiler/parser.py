@@ -1,6 +1,7 @@
 from top import (BinOp, UnOp, Float, Int, String, Boolean, If, Parentheses, Program, VarDecl, DynamicVarDecl,
                  VarReference, Assignment, AST, For, While, Print,
-                 ArrayLiteral, ArrayIndex, ArrayAssignment, StringIndex, DictLiteral, DictGet, FunctionCall, FunctionDef, DynamicFunctionDef, Return, Yield, Label, LabelReturn, GoAndReturn)
+                 ArrayLiteral, ArrayIndex, ArrayAssignment, StringIndex, DictLiteral, DictGet, FunctionCall, FunctionDef, DynamicFunctionDef, Return, Yield, Label, LabelReturn, GoAndReturn,
+                 Break, Continue)
 
 
 from lexer import IntToken, FloatToken, StringToken, OperatorToken, KeywordToken, ParenToken, Token, lex
@@ -179,13 +180,10 @@ def parse(s: str, filename="<input>") -> AST:
             node = parse_logic_or()      # full expression in parentheses
             expect(ParenToken(')'))
 
-        # Unary operators (minus and not)
+        # Unary minus
         elif isinstance(token, OperatorToken) and token.o == '-':
             next(t)
             node = UnOp('-', parse_atom())
-        elif isinstance(token, KeywordToken) and token.w == 'not':
-            next(t)
-            node = UnOp('not', parse_atom())
 
         # Array literal
         elif isinstance(token, OperatorToken) and token.o == '[':
@@ -236,8 +234,18 @@ def parse(s: str, filename="<input>") -> AST:
             next(t)
             node = Boolean(token.w == "true")
 
+        # Break statement
+        elif isinstance(token, KeywordToken) and token.w == "break":
+            next(t)  # consume "break"
+            node = Break()
+
+        # Continue statement
+        elif isinstance(token, KeywordToken) and token.w == "continue":
+            next(t)  # consume "continue"
+            node = Continue()
+
         # Function call or variable reference
-        elif isinstance(token, KeywordToken) and token.w not in ["if", "else", "var", "and", "or", "print", "for", "while", "true", "false"]:
+        elif isinstance(token, KeywordToken) and token.w not in ["if", "else", "var", "and", "or", "print", "for", "while", "true", "false", "break", "continue"]:
             func_name = token.w
             next(t)
             if t.peek(None) == ParenToken('('):
@@ -281,12 +289,12 @@ def parse(s: str, filename="<input>") -> AST:
             else:
                 node = ArrayIndex(node, index_expr)
 
-            # Check if this is an assignment to an array element: arr[1] = value
+            # Check for assignment after indexing
             if t.peek(None) == OperatorToken('='):
                 next(t)  # consume '='
                 value_expr = parse_logic_or()
                 node = ArrayAssignment(node.array, node.index, value_expr)
-                break  # Exit the loop since we've handled the assignment
+                break  # Exit the loop after assignment
         return node
 
 
@@ -483,10 +491,16 @@ def parse(s: str, filename="<input>") -> AST:
         # Expression or assignment
         else:
             expr = parse_logic_or()
-            if isinstance(expr, VarReference) and t.peek(None) == OperatorToken('='):
+            if t.peek(None) == OperatorToken('='):
                 next(t)  # consume '='
                 rhs = parse_logic_or()
-                return Assignment(expr.name, rhs)
+                # Check if it's a variable assignment or array assignment
+                if isinstance(expr, VarReference):
+                    return Assignment(expr.name, rhs)
+                elif isinstance(expr, ArrayIndex):
+                    return ArrayAssignment(expr.array, expr.index, rhs)
+                else:
+                    raise_parser_error("Invalid assignment target")
             return expr
 
     def parse_program():

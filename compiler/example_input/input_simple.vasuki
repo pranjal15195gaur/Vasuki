@@ -1,0 +1,12 @@
+// Simple program to demonstrate terminal input
+
+// Ask for the user's name
+print("What is your name?");
+var name = read_line();
+
+// Ask for the user's age
+print("How old are you?");
+var age = read_int();
+
+// Greet the user
+print("Hello, " + name + "! In 10 years, you will be " + (age + 10) + " years old.");

@@ -1,0 +1,32 @@
+// Test if-else statements
+
+print("Enter a number:");
+var num = read_int();
+
+if (num > 0) {
+    print("The number is positive");
+} else if (num < 0) {
+    print("The number is negative");
+} else {
+    print("The number is zero");
+};
+
+// Test nested if statements
+print("Enter another number:");
+var num2 = read_int();
+
+if (num2 >= 10) {
+    if (num2 >= 100) {
+        print("The number is 100 or greater");
+    } else {
+        print("The number is between 10 and 99");
+    };
+} else {
+    if (num2 >= 0) {
+        print("The number is between 0 and 9");
+    } else {
+        print("The number is negative");
+    };
+};
+
+print("If-else test completed!");

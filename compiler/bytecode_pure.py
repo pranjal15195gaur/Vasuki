@@ -23,17 +23,18 @@ class OC(Enum):
     NE = auto()      # Not equal comparison
     AND = auto()     # Logical AND
     OR = auto()      # Logical OR
-    NOT = auto()     # Logical NOT
     PRINT = auto()   # Print a value
     JMP = auto()     # Unconditional jump
     JF = auto()      # Jump if false
+    BREAK = auto()   # Break out of a loop
+    CONTINUE = auto() # Continue to the next iteration of a loop
     CALL = auto()    # Call a function
     RET = auto()     # Return from a function
     MAKE_FUNC = auto() # Create a function
     HALT = auto()    # Stop execution
     READ = auto()    # Read from input (terminal)
     ARRAY_INDEX = auto() # Get an element from an array
-    ARRAY_SET = auto()  # Set an element in an array
+    ARRAY_SET = auto()   # Set an element in an array
 
 # Instruction class
 class Instruction:
@@ -137,11 +138,9 @@ class BytecodeGenerator:
             raise Exception(f"Unsupported binary operator: {op}")
 
     def visit_UnOp(self, node):
-        self.visit(node.num)
+        self.visit(node.num)  # Use node.num instead of node.expr
         if node.op == '-':
             self.bytecode.add(OC.NEG)
-        elif node.op == 'not':
-            self.bytecode.add(OC.NOT)
         else:
             raise Exception(f"Unsupported unary operator: {node.op}")
 
@@ -349,6 +348,14 @@ class BytecodeGenerator:
         # Add a custom instruction for array assignment
         self.bytecode.add(OC.ARRAY_SET)
 
+    def visit_Break(self, node):
+        # Add a break instruction
+        self.bytecode.add(OC.BREAK)
+
+    def visit_Continue(self, node):
+        # Add a continue instruction
+        self.bytecode.add(OC.CONTINUE)
+
 # BytecodeVM class
 class BytecodeVM:
     def __init__(self, bytecode):
@@ -477,11 +484,6 @@ class BytecodeVM:
                 self.stack.append(a or b)
                 self.pc += 1
 
-            elif instr.opcode == OC.NOT:
-                a = self.stack.pop()
-                self.stack.append(not a)
-                self.pc += 1
-
             elif instr.opcode == OC.PRINT:
                 value = self.stack.pop()
                 print(value)
@@ -496,6 +498,52 @@ class BytecodeVM:
                     self.pc = instr.operand
                 else:
                     self.pc += 1
+
+            elif instr.opcode == OC.BREAK:
+                # For a break statement, we need to find the end of the current loop
+                # We'll look for the next JF instruction after the current position
+                # and jump to its target
+                i = self.pc
+                found = False
+
+                # Find the end of the current loop by looking for a backward JMP
+                while i < len(self.bytecode.instructions):
+                    if self.bytecode.instructions[i].opcode == OC.JMP and self.bytecode.instructions[i].operand < i:
+                        # This is a backward jump at the end of a loop
+                        # The next instruction is the one after the loop
+                        self.pc = i + 1
+                        found = True
+                        break
+                    i += 1
+
+                if not found:
+                    # If we didn't find the end of the loop, just continue execution
+                    self.pc += 1
+
+            elif instr.opcode == OC.CONTINUE:
+                # For a continue statement, we need to find the loop structure
+                # and jump to the appropriate place
+
+                # We need to find the end of the current loop (the backward jump)
+                # and then jump to the target of that jump (the condition check)
+
+                # Start from the current position and look forward
+                i = self.pc
+                loop_end = -1
+
+                # Find the end of the current loop (the backward jump)
+                while i < len(self.bytecode.instructions):
+                    if self.bytecode.instructions[i].opcode == OC.JMP and self.bytecode.instructions[i].operand < i:
+                        loop_end = i
+                        break
+                    i += 1
+
+                if loop_end == -1:
+                    # If we didn't find the end of the loop, just continue execution
+                    self.pc += 1
+                else:
+                    # Jump to the condition check (the target of the backward jump)
+                    self.pc = self.bytecode.instructions[loop_end].operand
 
             elif instr.opcode == OC.MAKE_FUNC:
                 # The operand is a tuple: (function_name, parameter_list, function_index)
@@ -753,7 +801,7 @@ class BytecodeVM:
 
                 # Check if the array is valid
                 if not isinstance(array, list):
-                    raise TypeError(f"Cannot assign to index of non-array: {type(array).__name__}")
+                    raise TypeError(f"Cannot assign to non-array: {array}")
 
                 # Check if the index is valid
                 if not isinstance(index, int):
@@ -763,23 +811,11 @@ class BytecodeVM:
                 if index < 1 or index > len(array):
                     raise IndexError(f"Array index out of range: {index}")
 
-                # Create a new array with the updated element
-                new_array = array.copy()
                 # Set the element at the index (adjusting for 0-based Python lists)
-                new_array[index - 1] = value
+                array[index - 1] = value
 
-                # Push the new array onto the stack
-                self.stack.append(new_array)
-
-                # Update the variable if this is a variable reference
-                # Look for the variable name in the previous instructions
-                var_name = None
-                if self.pc >= 3 and self.bytecode.instructions[self.pc-3].opcode == OC.GET:
-                    var_name = self.bytecode.instructions[self.pc-3].operand
-                    # Update the variable in the environment
-                    if var_name:
-                        self.env.assign(var_name, new_array)
-
+                # Push the value back onto the stack (for assignment expressions)
+                self.stack.append(value)
                 self.pc += 1
 
             else:

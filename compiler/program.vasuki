@@ -1,10 +1,12 @@
-def fact(n){
-    if n == 0 {
-        return 1
+def fib(n){
+    if (n==0 or n==1) {
+        return n;
     } else {
-        return n * fact(n - 1)
+        return fib(n-1) + fib(n-2);
     };
 };
 
-print(fact(7));
+print("Enter a number to find its Fibonacci number:");
+var num = read_int();
+print(fib(num));
 
