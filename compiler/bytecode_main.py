@@ -20,20 +20,20 @@ def main():
     try:
         # Parse the code
         ast = parse(code)
-        print("AST formed successfully")
+        # print("AST formed successfully")
         
         # Generate bytecode
         generator = BytecodeGenerator()
         bytecode = generator.generate(ast)
-        print("\nBytecode generated:")
-        print(bytecode)
+        # print("\nBytecode generated:")
+        # print(bytecode)
         
         # Run the bytecode
-        print("\nRunning the program:")
+        # print("\nRunning the program:")
         vm = BytecodeVM(bytecode)
         result = vm.run()
         
-        print("\nExecution complete.")
+        # print("\nExecution complete.")
         if result is not None:
             print("Result:", result)
     
