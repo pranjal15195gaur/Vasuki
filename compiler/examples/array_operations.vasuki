@@ -1,0 +1,116 @@
+// Array operations example
+
+// Function to print an array
+def print_array(arr) {
+    print("Array contents: ");
+    var i = 1;
+    while (i <= length(arr)) {
+        print("  Index " + i + ": " + arr[i]);
+        i = i + 1;
+    };
+};
+
+// Function to sum all elements in an array
+def sum_array(arr) {
+    var sum = 0;
+    var i = 1;
+    while (i <= length(arr)) {
+        sum = sum + arr[i];
+        i = i + 1;
+    };
+    return sum;
+};
+
+// Function to find the maximum value in an array
+def max_array(arr) {
+    if (length(arr) == 0) {
+        return 0;
+    };
+
+    var max_val = arr[1];
+    var i = 2;
+    while (i <= length(arr)) {
+        if (arr[i] > max_val) {
+            max_val = arr[i];
+        };
+        i = i + 1;
+    };
+    return max_val;
+};
+
+// Function to reverse an array
+def reverse_array(arr) {
+    var reversed = [];
+    var i = length(arr);
+    while (i >= 1) {
+        push(reversed, arr[i]);
+        i = i - 1;
+    };
+    return reversed;
+};
+
+// Function to set an element in an array at a specific index
+def set_array_element(arr, index, value) {
+    var new_arr = [];
+    var i = 1;
+    while (i <= length(arr)) {
+        if (i == index) {
+            push(new_arr, value);
+        } else {
+            push(new_arr, arr[i]);
+        };
+        i = i + 1;
+    };
+    return new_arr;
+};
+
+// Main function
+def main() {
+    print("Array Operations Example");
+    print("----------------------");
+
+    // Create an array
+    var numbers = [10, 20, 30, 40, 50];
+    print("Created an array with 5 elements");
+    print_array(numbers);
+
+    // Add an element to the array
+    push(numbers, 60);
+    print("\nAdded 60 to the array");
+    print_array(numbers);
+
+    // Remove the last element
+    var last = pop(numbers);
+    print("\nRemoved the last element: " + last);
+    print_array(numbers);
+
+    // Calculate the sum
+    var sum = sum_array(numbers);
+    print("\nSum of all elements: " + sum);
+
+    // Find the maximum value
+    var max_val = max_array(numbers);
+    print("Maximum value: " + max_val);
+
+    // Reverse the array
+    var reversed = reverse_array(numbers);
+    print("\nReversed array:");
+    print_array(reversed);
+
+    // Array indexing
+    print("\nAccessing elements by index:");
+    print("First element: " + numbers[1]);
+    print("Third element: " + numbers[3]);
+
+    // Modifying elements
+    // Note: Direct array assignment is not supported
+    // Using a helper function to set array elements
+    var numbers_updated = set_array_element(numbers, 2, 25);
+    print("\nChanged the second element to 25:");
+    print_array(numbers_updated);
+
+    print("\nArray operations completed!");
+};
+
+// Run the main function
+main();

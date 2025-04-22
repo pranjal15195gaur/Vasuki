@@ -1,0 +1,158 @@
+// Function examples in Vasuki
+
+// Simple function with no parameters and no return value
+def greet() {
+    print("Hello, world!");
+};
+
+// Function with parameters
+def greet_person(name) {
+    print("Hello, " + name + "!");
+};
+
+// Function with return value
+def add(a, b) {
+    return a + b;
+};
+
+// Function with multiple parameters and return value
+def calculate_area(length, width) {
+    return length * width;
+};
+
+// Recursive function to calculate factorial
+def factorial(n) {
+    if (n <= 1) {
+        return 1;
+    } else {
+        return n * factorial(n - 1);
+    };
+};
+
+// Function with default behavior
+def divide(a, b) {
+    if (b == 0) {
+        print("Error: Division by zero");
+        return 0;
+    } else {
+        return a / b;
+    };
+};
+
+// Function that uses another function
+def calculate_circle_area(radius) {
+    var pi = 3.14159;
+    return pi * radius * radius;
+};
+
+// Function with complex logic
+def is_prime(n) {
+    if (n <= 1) {
+        return false;
+    };
+
+    if (n <= 3) {
+        return true;
+    };
+
+    if (n % 2 == 0 or n % 3 == 0) {
+        return false;
+    };
+
+    var i = 5;
+    while (i * i <= n) {
+        if (n % i == 0 or n % (i + 2) == 0) {
+            return false;
+        };
+        i = i + 6;
+    };
+
+    return true;
+};
+
+// Function that takes a function as a parameter (simulating higher-order functions)
+def apply_to_numbers(func, numbers) {
+    var results = [];
+    var i = 1;
+    while (i <= length(numbers)) {
+        push(results, func(numbers[i]));
+        i = i + 1;
+    };
+    return results;
+};
+
+// Function to double a number (used with apply_to_numbers)
+def double(x) {
+    return x * 2;
+};
+
+// Main function
+def main() {
+    print("Function Examples in Vasuki");
+    print("-------------------------");
+
+    // Call simple function
+    print("\nCalling greet():");
+    greet();
+
+    // Call function with parameter
+    print("\nCalling greet_person with name Alice:");
+    greet_person("Alice");
+
+    // Call function with return value
+    print("\nCalling add(5, 3):");
+    var sum = add(5, 3);
+    print("5 + 3 = " + sum);
+
+    // Call function with multiple parameters
+    print("\nCalling calculate_area(4, 5):");
+    var area = calculate_area(4, 5);
+    print("Area of rectangle (4x5): " + area);
+
+    // Call recursive function
+    print("\nCalling factorial(5):");
+    var fact = factorial(5);
+    print("Factorial of 5: " + fact);
+
+    // Call function with default behavior
+    print("\nCalling divide(10, 2) and divide(10, 0):");
+    var result1 = divide(10, 2);
+    print("10 / 2 = " + result1);
+    var result2 = divide(10, 0);
+    print("10 / 0 = " + result2);
+
+    // Call function that uses another function
+    print("\nCalling calculate_circle_area(3):");
+    var circle_area = calculate_circle_area(3);
+    print("Area of circle with radius 3: " + circle_area);
+
+    // Call function with complex logic
+    print("\nTesting is_prime function:");
+    print("Is 7 prime? " + is_prime(7));
+    print("Is 10 prime? " + is_prime(10));
+    print("Is 23 prime? " + is_prime(23));
+
+    // Call function that takes a function as a parameter
+    print("\nCalling apply_to_numbers with double function:");
+    var numbers = [1, 2, 3, 4, 5];
+    var doubled = apply_to_numbers(double, numbers);
+
+    print("Original numbers:");
+    var i = 1;
+    while (i <= length(numbers)) {
+        print("  " + numbers[i]);
+        i = i + 1;
+    };
+
+    print("Doubled numbers:");
+    i = 1;
+    while (i <= length(doubled)) {
+        print("  " + doubled[i]);
+        i = i + 1;
+    };
+
+    print("\nAll function examples completed!");
+};
+
+// Run the main function
+main();

@@ -1,0 +1,152 @@
+// Simplified comprehensive example demonstrating multiple Vasuki features
+// This example implements a simple student management system
+
+// Student class (simulated using dictionaries)
+def create_student(id, name, age, grades) {
+    var student = dict();
+    dict_put(student, "id", id);
+    dict_put(student, "name", name);
+    dict_put(student, "age", age);
+    dict_put(student, "grades", grades);
+    return student;
+};
+
+// Calculate average grade for a student
+def calculate_average(student) {
+    var grades = dict_get(student, "grades");
+    var sum = 0;
+    var i = 1;
+
+    while (i <= length(grades)) {
+        sum = sum + grades[i];
+        i = i + 1;
+    };
+
+    if (length(grades) == 0) {
+        return 0;
+    } else {
+        return sum / length(grades);
+    };
+};
+
+// Get student grade status
+def get_grade_status(average) {
+    if (average >= 90) {
+        return "A";
+    } else if (average >= 80) {
+        return "B";
+    } else if (average >= 70) {
+        return "C";
+    } else if (average >= 60) {
+        return "D";
+    } else {
+        return "F";
+    };
+};
+
+// Print student information
+def print_student(student) {
+    print("ID: " + dict_get(student, "id"));
+    print("Name: " + dict_get(student, "name"));
+    print("Age: " + dict_get(student, "age"));
+
+    var grades = dict_get(student, "grades");
+    print("Grades: ");
+    var i = 1;
+    while (i <= length(grades)) {
+        print("  Subject " + i + ": " + grades[i]);
+        i = i + 1;
+    };
+
+    var average = calculate_average(student);
+    var status = get_grade_status(average);
+
+    print("Average: " + average);
+    print("Grade Status: " + status);
+};
+
+// Main function
+def main() {
+    print("Student Management System (Simplified)");
+    print("------------------------------------");
+
+    // Create a list of students
+    var students = [];
+
+    // Create each student and add to the array
+    var student1 = create_student(1, "Alice", 20, [85, 90, 78, 92]);
+    push(students, student1);
+
+    var student2 = create_student(2, "Bob", 22, [75, 80, 85, 70]);
+    push(students, student2);
+
+    var student3 = create_student(3, "Charlie", 21, [95, 92, 88, 97]);
+    push(students, student3);
+
+    var student4 = create_student(4, "Diana", 23, [65, 70, 72, 68]);
+    push(students, student4);
+
+    print("\nCreated " + length(students) + " students.");
+
+    // Print all students
+    print("\nStudent Information:");
+    var i = 1;
+    while (i <= length(students)) {
+        print("\nStudent " + i + ":");
+        print_student(students[i]);
+        i = i + 1;
+    };
+
+    // Create a statistics dictionary
+    print("\nGenerating statistics:");
+    var stats = dict();
+    dict_put(stats, "total_students", length(students));
+
+    var total_avg = 0;
+    i = 1;
+    while (i <= length(students)) {
+        total_avg = total_avg + calculate_average(students[i]);
+        i = i + 1;
+    };
+
+    var class_avg = total_avg / length(students);
+    dict_put(stats, "class_average", class_avg);
+
+    // Count students by grade status
+    var grade_counts = dict();
+    dict_put(grade_counts, "A", 0);
+    dict_put(grade_counts, "B", 0);
+    dict_put(grade_counts, "C", 0);
+    dict_put(grade_counts, "D", 0);
+    dict_put(grade_counts, "F", 0);
+
+    i = 1;
+    while (i <= length(students)) {
+        var status = get_grade_status(calculate_average(students[i]));
+        var current = dict_get(grade_counts, status);
+        dict_put(grade_counts, status, current + 1);
+        i = i + 1;
+    };
+
+    dict_put(stats, "grade_distribution", grade_counts);
+
+    // Print statistics
+    print("\nStatistics:");
+    print("Total Students: " + dict_get(stats, "total_students"));
+    print("Class Average: " + dict_get(stats, "class_average"));
+    print("Grade Distribution:");
+
+    var grades = ["A", "B", "C", "D", "F"];
+    i = 1;
+    while (i <= length(grades)) {
+        var grade = grades[i];
+        var count = dict_get(dict_get(stats, "grade_distribution"), grade);
+        print("  " + grade + ": " + count + " students");
+        i = i + 1;
+    };
+
+    print("\nSimplified comprehensive example completed!");
+};
+
+// Run the main function
+main();

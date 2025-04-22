@@ -1,0 +1,23 @@
+// Simple example without array indexing
+
+def greet(name) {
+    print("Hello, " + name + "!");
+};
+
+def add(a, b) {
+    return a + b;
+};
+
+def main() {
+    print("Simple Example");
+    print("-------------");
+    
+    greet("World");
+    
+    var sum = add(5, 3);
+    print("5 + 3 = " + sum);
+    
+    print("Simple example completed!");
+};
+
+main();

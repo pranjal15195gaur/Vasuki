@@ -1,0 +1,151 @@
+// String operations example in Vasuki
+
+// Function to demonstrate string concatenation
+def string_concatenation() {
+    print("String Concatenation Example:");
+    
+    var first_name = "John";
+    var last_name = "Doe";
+    var full_name = first_name + " " + last_name;
+    
+    print("First name: " + first_name);
+    print("Last name: " + last_name);
+    print("Full name: " + full_name);
+    
+    // Concatenation with numbers
+    var age = 30;
+    var message = full_name + " is " + age + " years old.";
+    print(message);
+};
+
+// Function to demonstrate string length
+def string_length() {
+    print("\nString Length Example:");
+    
+    var text = "Hello, World!";
+    var len = length(text);
+    
+    print("Text: " + text);
+    print("Length: " + len);
+};
+
+// Function to demonstrate string indexing
+def string_indexing() {
+    print("\nString Indexing Example:");
+    
+    var text = "Hello, World!";
+    
+    // Note: Vasuki uses 1-based indexing
+    print("Text: " + text);
+    print("First character: " + text[1]);
+    print("Seventh character: " + text[7]);
+    print("Last character: " + text[length(text)]);
+};
+
+// Function to demonstrate substring
+def string_substring() {
+    print("\nSubstring Example:");
+    
+    var text = "Hello, World!";
+    
+    // Note: Vasuki uses 1-based indexing
+    print("Text: " + text);
+    print("Substring (1, 5): " + substring(text, 1, 5));  // "Hello"
+    print("Substring (8, 12): " + substring(text, 8, 12));  // "World"
+    print("Substring (8): " + substring(text, 8));  // "World!"
+};
+
+// Function to demonstrate case conversion
+def string_case_conversion() {
+    print("\nCase Conversion Example:");
+    
+    var text = "Hello, World!";
+    
+    print("Original: " + text);
+    print("Uppercase: " + uppercase(text));
+    print("Lowercase: " + lowercase(text));
+};
+
+// Function to demonstrate string searching
+def string_searching() {
+    print("\nString Searching Example:");
+    
+    var text = "Hello, World!";
+    
+    print("Text: " + text);
+    print("Contains 'World': " + contains(text, "World"));
+    print("Contains 'Universe': " + contains(text, "Universe"));
+    print("Starts with 'Hello': " + startswith(text, "Hello"));
+    print("Ends with '!': " + endswith(text, "!"));
+};
+
+// Function to demonstrate string replacement
+def string_replacement() {
+    print("\nString Replacement Example:");
+    
+    var text = "Hello, World!";
+    
+    print("Original: " + text);
+    print("Replace 'World' with 'Universe': " + replace(text, "World", "Universe"));
+    print("Replace 'o' with 'O': " + replace(text, "o", "O"));
+};
+
+// Function to demonstrate string trimming
+def string_trimming() {
+    print("\nString Trimming Example:");
+    
+    var text = "   Hello, World!   ";
+    
+    print("Original: '" + text + "'");
+    print("Trimmed: '" + trim(text) + "'");
+};
+
+// Function to demonstrate string splitting
+def string_splitting() {
+    print("\nString Splitting Example:");
+    
+    var text = "apple,banana,cherry,date";
+    
+    print("Text: " + text);
+    print("Split by ',':");
+    
+    var parts = split(text, ",");
+    var i = 1;
+    while (i <= length(parts)) {
+        print("  Part " + i + ": " + parts[i]);
+        i = i + 1;
+    };
+    
+    // Split with whitespace
+    var sentence = "This is a sample sentence";
+    print("\nSentence: " + sentence);
+    print("Split by whitespace:");
+    
+    var words = split(sentence);
+    i = 1;
+    while (i <= length(words)) {
+        print("  Word " + i + ": " + words[i]);
+        i = i + 1;
+    };
+};
+
+// Main function
+def main() {
+    print("String Operations in Vasuki");
+    print("-------------------------");
+    
+    string_concatenation();
+    string_length();
+    string_indexing();
+    string_substring();
+    string_case_conversion();
+    string_searching();
+    string_replacement();
+    string_trimming();
+    string_splitting();
+    
+    print("\nAll string operations completed!");
+};
+
+// Run the main function
+main();

@@ -1,0 +1,112 @@
+// Dictionary examples in Vasuki
+
+// Function to print a dictionary
+def print_dictionary(dict_name, dict) {
+    print(dict_name + " contents:");
+    var keys = dict_keys(dict);
+    var i = 1;
+    while (i <= length(keys)) {
+        var key = keys[i];
+        var value = dict_get(dict, key);
+        print("  " + key + ": " + value);
+        i = i + 1;
+    };
+};
+
+// Main function
+def main() {
+    print("Dictionary Examples in Vasuki");
+    print("--------------------------");
+    
+    // Create a simple dictionary
+    var person = dict();
+    dict_put(person, "name", "John Doe");
+    dict_put(person, "age", 30);
+    dict_put(person, "city", "New York");
+    
+    print("\nCreated a person dictionary:");
+    print_dictionary("Person", person);
+    
+    // Access dictionary values
+    print("\nAccessing dictionary values:");
+    print("Name: " + dict_get(person, "name"));
+    print("Age: " + dict_get(person, "age"));
+    print("City: " + dict_get(person, "city"));
+    
+    // Modify dictionary values
+    print("\nModifying dictionary values:");
+    dict_put(person, "age", 31);
+    dict_put(person, "city", "Boston");
+    print_dictionary("Updated person", person);
+    
+    // Check if a key exists
+    print("\nChecking if keys exist:");
+    print("Does 'name' exist? " + dict_contains(person, "name"));
+    print("Does 'address' exist? " + dict_contains(person, "address"));
+    
+    // Add a new key-value pair
+    print("\nAdding a new key-value pair:");
+    dict_put(person, "occupation", "Engineer");
+    print_dictionary("Person with occupation", person);
+    
+    // Remove a key-value pair
+    print("\nRemoving a key-value pair:");
+    dict_remove(person, "age");
+    print_dictionary("Person without age", person);
+    
+    // Get all keys
+    print("\nGetting all keys:");
+    var keys = dict_keys(person);
+    print("Keys: ");
+    var i = 1;
+    while (i <= length(keys)) {
+        print("  " + keys[i]);
+        i = i + 1;
+    };
+    
+    // Get all values
+    print("\nGetting all values:");
+    var values = dict_values(person);
+    print("Values: ");
+    i = 1;
+    while (i <= length(values)) {
+        print("  " + values[i]);
+        i = i + 1;
+    };
+    
+    // Get dictionary size
+    print("\nGetting dictionary size:");
+    print("Size of person dictionary: " + dict_size(person));
+    
+    // Create a nested dictionary
+    print("\nCreating a nested dictionary:");
+    var company = dict();
+    dict_put(company, "name", "Acme Corp");
+    
+    var employees = dict();
+    dict_put(employees, "count", 100);
+    
+    var departments = dict();
+    dict_put(departments, "Engineering", 50);
+    dict_put(departments, "Marketing", 25);
+    dict_put(departments, "HR", 15);
+    dict_put(departments, "Finance", 10);
+    
+    dict_put(employees, "departments", departments);
+    dict_put(company, "employees", employees);
+    
+    print("Company name: " + dict_get(company, "name"));
+    print("Employee count: " + dict_get(dict_get(company, "employees"), "count"));
+    print("Engineering department size: " + 
+          dict_get(dict_get(dict_get(company, "employees"), "departments"), "Engineering"));
+    
+    // Clear a dictionary
+    print("\nClearing a dictionary:");
+    dict_clear(person);
+    print("Size after clearing: " + dict_size(person));
+    
+    print("\nAll dictionary examples completed!");
+};
+
+// Run the main function
+main();

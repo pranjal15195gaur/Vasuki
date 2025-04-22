@@ -1,0 +1,152 @@
+// Type operations example in Vasuki
+
+// Function to demonstrate type checking
+def type_checking() {
+    print("Type Checking Example:");
+
+    var int_val = 42;
+    var float_val = 3.14;
+    var string_val = "Hello";
+    var char_val = "A";
+    var bool_val = true;
+    var array_val = [1, 2, 3];
+    var dict_val = dict();
+
+    print("int_val is int? " + is_int(int_val));
+    print("float_val is float? " + is_float(float_val));
+    print("string_val is string? " + is_string(string_val));
+    print("char_val is char? " + is_char(char_val));
+    print("bool_val is bool? " + is_bool(bool_val));
+    print("array_val is array? " + is_array(array_val));
+    print("dict_val is dict? " + is_dict(dict_val));
+
+    // Cross-checking types
+    print("\nCross-checking types:");
+    print("int_val is float? " + is_float(int_val));
+    print("float_val is int? " + is_int(float_val));
+    print("string_val is char? " + is_char(string_val));
+    print("array_val is dict? " + is_dict(array_val));
+};
+
+// Function to demonstrate getting types
+def get_type_example() {
+    print("\nGet Type Example:");
+
+    var int_val = 42;
+    var float_val = 3.14;
+    var string_val = "Hello";
+    var char_val = "A";
+    var bool_val = true;
+    var array_val = [1, 2, 3];
+    var dict_val = dict();
+
+    print("Type of int_val: " + get_type(int_val));
+    print("Type of float_val: " + get_type(float_val));
+    print("Type of string_val: " + get_type(string_val));
+    print("Type of char_val: " + get_type(char_val));
+    print("Type of bool_val: " + get_type(bool_val));
+    print("Type of array_val: " + get_type(array_val));
+    print("Type of dict_val: " + get_type(dict_val));
+};
+
+// Function to demonstrate type conversion
+def type_conversion() {
+    print("\nType Conversion Example:");
+
+    // String to int
+    var str_num = "42";
+    var int_val = to_int(str_num);
+    print("String '" + str_num + "' to int: " + int_val + " (type: " + get_type(int_val) + ")");
+
+    // String to float
+    var str_float = "3.14";
+    var float_val = to_float(str_float);
+    print("String '" + str_float + "' to float: " + float_val + " (type: " + get_type(float_val) + ")");
+
+    // Int to string
+    var num = 42;
+    var str_val = to_string(num);
+    print("Int " + num + " to string: '" + str_val + "' (type: " + get_type(str_val) + ")");
+
+    // Float to string
+    var float_num = 3.14;
+    var float_str = to_string(float_num);
+    print("Float " + float_num + " to string: '" + float_str + "' (type: " + get_type(float_str) + ")");
+
+    // Bool to string
+    var bool_val = true;
+    var bool_str = to_string(bool_val);
+    print("Bool " + bool_val + " to string: '" + bool_str + "' (type: " + get_type(bool_str) + ")");
+
+    // Int to float
+    var int_to_float = to_float(num);
+    print("Int " + num + " to float: " + int_to_float + " (type: " + get_type(int_to_float) + ")");
+
+    // Float to int (truncation)
+    var float_to_int = to_int(float_num);
+    print("Float " + float_num + " to int: " + float_to_int + " (type: " + get_type(float_to_int) + ")");
+
+    // Various values to bool
+    print("\nConversion to boolean:");
+    print("0 to bool: " + to_bool(0));
+    print("1 to bool: " + to_bool(1));
+    print("42 to bool: " + to_bool(42));
+    print("0.0 to bool: " + to_bool(0.0));
+    print("3.14 to bool: " + to_bool(3.14));
+    print("Empty string to bool: " + to_bool(""));
+    print("Non-empty string to bool: " + to_bool("hello"));
+    print("Empty array to bool: " + to_bool([]));
+    print("Non-empty array to bool: " + to_bool([1, 2, 3]));
+};
+
+// Function to demonstrate type conversion errors
+def type_errors() {
+    print("\nType Error Handling Example:");
+
+    // Note: Since Vasuki doesn't have native try-catch, we'll use conditional checks
+    // to handle potential errors
+
+    // Try to convert a non-numeric string to int
+    print("Trying to convert 'hello' to int:");
+    var str_value = "hello";
+    var is_numeric = false;
+
+    // Check if the string contains only digits
+    var i = 1;
+    var len = length(str_value);
+    is_numeric = len > 0;
+    while (i <= len and is_numeric) {
+        var char = str_value[i];
+        if (char < "0" or char > "9") {
+            is_numeric = false;
+        };
+        i = i + 1;
+    };
+
+    if (is_numeric) {
+        var result = to_int(str_value);
+        print("  Result: " + result);
+    } else {
+        print("  Error: Cannot convert '" + str_value + "' to int");
+    };
+
+    print("\nNote: Error handling in Vasuki requires manual validation.");
+};
+
+// Main function
+def main() {
+    print("Type Operations in Vasuki");
+    print("-----------------------");
+
+    type_checking();
+    get_type_example();
+    type_conversion();
+
+    // Now using manual validation instead of try-catch
+    type_errors();
+
+    print("\nAll type operations completed!");
+};
+
+// Run the main function
+main();

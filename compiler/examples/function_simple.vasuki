@@ -1,0 +1,40 @@
+// Simple function example for bytecode VM
+
+def add(a, b) {
+    return a + b;
+};
+
+def multiply(a, b) {
+    return a * b;
+};
+
+def calculate(a, b) {
+    var sum = add(a, b);
+    var product = multiply(a, b);
+    return sum + product;
+};
+
+def main() {
+    print("Simple Function Example");
+    print("----------------------");
+    
+    var x = 5;
+    var y = 3;
+    
+    print("x = " + x);
+    print("y = " + y);
+    
+    var sum = add(x, y);
+    print("x + y = " + sum);
+    
+    var product = multiply(x, y);
+    print("x * y = " + product);
+    
+    var result = calculate(x, y);
+    print("calculate(x, y) = " + result);
+    
+    print("Function example completed!");
+};
+
+// Run the main function
+main();

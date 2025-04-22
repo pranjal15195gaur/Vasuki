@@ -1,0 +1,75 @@
+// Example combining arrays and functions for bytecode VM
+
+// Function to calculate the sum of an array
+def sum_array(arr) {
+    var sum = 0;
+    var i = 1;
+    while (i <= length(arr)) {
+        sum = sum + arr[i];
+        i = i + 1;
+    };
+    return sum;
+};
+
+// Function to find the maximum value in an array
+def max_array(arr) {
+    if (length(arr) == 0) {
+        return 0;
+    };
+    
+    var max_val = arr[1];
+    var i = 2;
+    while (i <= length(arr)) {
+        if (arr[i] > max_val) {
+            max_val = arr[i];
+        };
+        i = i + 1;
+    };
+    return max_val;
+};
+
+// Function to create an array of squares from 1 to n
+def create_squares(n) {
+    var squares = [];
+    var i = 1;
+    while (i <= n) {
+        push(squares, i * i);
+        i = i + 1;
+    };
+    return squares;
+};
+
+def main() {
+    print("Array and Function Example");
+    print("-------------------------");
+    
+    // Create an array
+    var numbers = [10, 20, 30, 40, 50];
+    print("Created an array: [10, 20, 30, 40, 50]");
+    
+    // Calculate the sum
+    var sum = sum_array(numbers);
+    print("Sum of array: " + sum);
+    
+    // Find the maximum value
+    var max_val = max_array(numbers);
+    print("Maximum value: " + max_val);
+    
+    // Create an array of squares
+    var n = 5;
+    print("\nCreating an array of squares from 1 to " + n);
+    var squares = create_squares(n);
+    
+    // Print the squares
+    print("Squares array:");
+    var i = 1;
+    while (i <= length(squares)) {
+        print("  " + i + "^2 = " + squares[i]);
+        i = i + 1;
+    };
+    
+    print("\nArray and function example completed!");
+};
+
+// Run the main function
+main();
