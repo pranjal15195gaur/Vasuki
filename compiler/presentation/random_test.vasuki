@@ -1,0 +1,31 @@
+// Test the random number generation functionality
+
+print("=== Testing Random Number Generation ===");
+
+// Test random_int function
+print("\nTesting random_int function:");
+print("Random integer between 1 and 10: " + random_int(1, 10));
+print("Random integer between 1 and 10: " + random_int(1, 10));
+print("Random integer between 1 and 10: " + random_int(1, 10));
+print("Random integer between 100 and 200: " + random_int(100, 200));
+print("Random integer between 100 and 200: " + random_int(100, 200));
+
+// Test random_float function
+print("\nTesting random_float function:");
+print("Random float between 0 and 1: " + random_float());
+print("Random float between 0 and 1: " + random_float());
+print("Random float between 0 and 1: " + random_float());
+
+// Test random_uniform function
+print("\nTesting random_uniform function:");
+print("Random float between 5.0 and 10.0: " + random_uniform(5.0, 10.0));
+print("Random float between 5.0 and 10.0: " + random_uniform(5.0, 10.0));
+print("Random float between 5.0 and 10.0: " + random_uniform(5.0, 10.0));
+
+// Test randomness by generating multiple values
+print("\nGenerating 10 random integers between 1 and 1000000:");
+for (var i = 0; i < 10; i = i + 1) {
+    print("Random value " + (i + 1) + ": " + random_int(1, 1000000));
+}
+
+print("\n=== Random Number Generation Test Complete ===");

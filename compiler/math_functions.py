@@ -1,5 +1,5 @@
 import math
-import random
+from compiler.random_generator import randint, random, uniform
 
 def sqrt(x):
     """
@@ -329,7 +329,7 @@ def random_int(a, b):
     Returns:
         A random integer between a and b, inclusive.
     """
-    return random.randint(a, b)
+    return randint(a, b)
 
 def random_float():
     """
@@ -338,7 +338,7 @@ def random_float():
     Returns:
         A random float between 0 and 1.
     """
-    return random.random()
+    return random()
 
 def random_uniform(a, b):
     """
@@ -351,7 +351,7 @@ def random_uniform(a, b):
     Returns:
         A random float between a and b.
     """
-    return random.uniform(a, b)
+    return uniform(a, b)
 
 def bit_and(a, b):
     """

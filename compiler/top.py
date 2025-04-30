@@ -1,7 +1,6 @@
 from dataclasses import dataclass
 import builtins
 import math
-import random
 import re
 from compiler.errors import NameError, TypeError, ValueError, IndexError, KeyError, DivisionByZeroError, RuntimeError
 from compiler.data_structures.heap import MinHeap, MaxHeap, PriorityQueue
