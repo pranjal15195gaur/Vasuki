@@ -1,0 +1,192 @@
+// Random Number Generator Library for Vasuki
+// This library provides various functions for generating random numbers
+
+// Global seed value for the random number generator
+var seed = 42;
+
+// Constants for the LCG algorithm
+var a = 1664525;    // multiplier
+var c = 1013904223; // increment
+var m = 4294967296; // modulus (2^32)
+
+// Function to set the random seed
+def random_seed(new_seed) {
+    seed = new_seed;
+    return seed;
+};
+
+// Function to generate a random integer between 0 and m-1
+def random_int() {
+    seed = (a * seed + c) % m;
+    return seed;
+};
+
+// Function to generate a random integer between min and max (inclusive)
+def random_range(min, max) {
+    var range = max - min + 1;
+    var rand = random_int() % range;
+    return min + rand;
+};
+
+// Function to generate a random float between 0 and 1
+def random_float() {
+    return random_int() / m;
+};
+
+// Function to generate a random float between min and max
+def random_float_range(min, max) {
+    return min + random_float() * (max - min);
+};
+
+// Function to generate a random boolean with the specified probability of true
+def random_bool(probability) {
+    return random_float() < probability;
+};
+
+// Function to randomly select an element from an array
+def random_choice(arr) {
+    if (length(arr) == 0) {
+        return null;
+    };
+    var index = random_range(1, length(arr));
+    return arr[index];
+};
+
+// Function to shuffle an array in place using the Fisher-Yates algorithm
+def shuffle_array(arr) {
+    var i = length(arr);
+    while (i > 1) {
+        var j = random_range(1, i);
+        // Swap elements at positions i and j
+        var temp = arr[i];
+        arr[i] = arr[j];
+        arr[j] = temp;
+        i = i - 1;
+    };
+    return arr;
+};
+
+// Function to generate a random string of the specified length
+def random_string(str_length, charset) {
+    var result = "";
+    var i = 1;
+    var charset_length = length(charset);
+
+    while (i <= str_length) {
+        var index = random_range(1, charset_length);
+        result = result + charset[index];
+        i = i + 1;
+    };
+
+    return result;
+};
+
+// Function to generate a random alphanumeric string of the specified length
+def random_alphanumeric(str_length) {
+    var charset = "ABCDEFGHIJKLMNOPQRSTUVWXYZabcdefghijklmnopqrstuvwxyz0123456789";
+    return random_string(str_length, charset);
+};
+
+// Function to generate a random sample of k elements from an array without replacement
+def random_sample(arr, k) {
+    if (k > length(arr)) {
+        k = length(arr);
+    };
+
+    var sample = [];
+    var indices = [];
+    var i = 1;
+
+    // Create an array of indices
+    while (i <= length(arr)) {
+        push(indices, i);
+        i = i + 1;
+    };
+
+    // Shuffle the indices
+    shuffle_array(indices);
+
+    // Take the first k indices and use them to sample from the array
+    i = 1;
+    while (i <= k) {
+        push(sample, arr[indices[i]]);
+        i = i + 1;
+    };
+
+    return sample;
+};
+
+// Function to generate a random sample of k elements from an array with replacement
+def random_sample_with_replacement(arr, k) {
+    var sample = [];
+    var i = 1;
+
+    while (i <= k) {
+        push(sample, random_choice(arr));
+        i = i + 1;
+    };
+
+    return sample;
+};
+
+// Function to demonstrate the random number generator library
+def demonstrate_random_lib() {
+    print("Random Number Generator Library Demo");
+    print("-----------------------------------");
+
+    // Set a seed for reproducible results
+    print("Setting seed to 12345");
+    random_seed(12345);
+
+    // Generate and print random integers
+    print("\nRandom integers (1 to 100):");
+    for (var i = 1; i <= 5; i = i + 1) {
+        print("  " + random_range(1, 100));
+    };
+
+    // Generate and print random floats
+    print("\nRandom floats (0 to 1):");
+    for (var i = 1; i <= 5; i = i + 1) {
+        print("  " + random_float());
+    };
+
+    // Generate and print random booleans
+    print("\nRandom booleans (50% probability of true):");
+    for (var i = 1; i <= 5; i = i + 1) {
+        print("  " + random_bool(0.5));
+    };
+
+    // Demonstrate random choice
+    var fruits = ["apple", "banana", "cherry", "date", "elderberry"];
+    print("\nRandom choice from array:");
+    for (var i = 1; i <= 5; i = i + 1) {
+        print("  " + random_choice(fruits));
+    };
+
+    // Demonstrate array shuffling
+    var numbers = [1, 2, 3, 4, 5, 6, 7, 8, 9, 10];
+    print("\nOriginal array: " + numbers);
+    shuffle_array(numbers);
+    print("Shuffled array: " + numbers);
+
+    // Demonstrate random string generation
+    print("\nRandom alphanumeric strings (length 8):");
+    for (var i = 1; i <= 5; i = i + 1) {
+        print("  " + random_alphanumeric(8));
+    };
+
+    // Demonstrate random sampling without replacement
+    print("\nRandom sample of 3 elements from array without replacement:");
+    var sample = random_sample(fruits, 3);
+    print("  " + sample);
+
+    // Demonstrate random sampling with replacement
+    print("\nRandom sample of 5 elements from array with replacement:");
+    var sample_with_replacement = random_sample_with_replacement(fruits, 5);
+    print("  " + sample_with_replacement);
+
+    print("\nRandom library demonstration completed!");
+};
+
+// Run the demonstration
+demonstrate_random_lib();

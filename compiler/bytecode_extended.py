@@ -239,7 +239,8 @@ class BytecodeVM:
                                       "dict_values", "dict_items", "dict_size", "dict_clear",
                                       "read_line", "read_int", "read_float", "read_ints", "read_floats", "read_lines", "read_all",
                                       "substring", "uppercase", "lowercase", "contains", "startswith", "endswith", "replace", "trim", "split",
-                                      "length", "push", "pop", "max", "min"]:
+                                      "length", "push", "pop", "max", "min",
+                                      "random", "random_int", "random_float", "random_range", "random_choice", "random_seed"]:
                             value = var_name
                         else:
                             raise e
@@ -397,7 +398,8 @@ class BytecodeVM:
                                       "dict_values", "dict_items", "dict_size", "dict_clear",
                                       "read_line", "read_int", "read_float", "read_ints", "read_floats", "read_lines", "read_all",
                                       "substring", "uppercase", "lowercase", "contains", "startswith", "endswith", "replace", "trim", "split",
-                                      "length", "push", "pop", "max", "min"]:
+                                      "length", "push", "pop", "max", "min",
+                                      "random", "random_int", "random_float", "random_range", "random_choice", "random_seed"]:
                     # Handle built-in function
                     builtin_name = func
                     # Call the built-in function with the arguments
@@ -539,6 +541,28 @@ class BytecodeVM:
                         result = max(args)
                     elif builtin_name == "min":
                         result = min(args)
+                    elif builtin_name == "random":
+                        import random
+                        result = random.random()
+                    elif builtin_name == "random_int":
+                        import random
+                        result = random.randint(0, 2**31-1)
+                    elif builtin_name == "random_float":
+                        import random
+                        result = random.random()
+                    elif builtin_name == "random_range":
+                        import random
+                        min_val, max_val = args
+                        result = random.randint(min_val, max_val)
+                    elif builtin_name == "random_choice":
+                        import random
+                        array = args[0]
+                        result = array[random.randint(0, len(array)-1)]
+                    elif builtin_name == "random_seed":
+                        import random
+                        seed = args[0]
+                        random.seed(seed)
+                        result = seed
                     else:
                         raise ValueError(f"Unknown built-in function: {builtin_name}")
 
@@ -673,6 +697,28 @@ class BytecodeVM:
                         result = max(args)
                     elif func == "min":
                         result = min(args)
+                    elif func == "random":
+                        import random
+                        result = random.random()
+                    elif func == "random_int":
+                        import random
+                        result = random.randint(0, 2**31-1)
+                    elif func == "random_float":
+                        import random
+                        result = random.random()
+                    elif func == "random_range":
+                        import random
+                        min_val, max_val = args
+                        result = random.randint(min_val, max_val)
+                    elif func == "random_choice":
+                        import random
+                        array = args[0]
+                        result = array[random.randint(0, len(array)-1)]
+                    elif func == "random_seed":
+                        import random
+                        seed = args[0]
+                        random.seed(seed)
+                        result = seed
                     else:
                         raise ValueError(f"Unknown built-in function: {func}")
 

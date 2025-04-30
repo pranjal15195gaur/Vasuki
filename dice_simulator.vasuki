@@ -1,0 +1,114 @@
+// Dice Rolling Simulator using the random number generator
+// This program simulates rolling dice of different sizes
+
+// Global seed value for the random number generator
+var seed = 42;
+
+// Constants for the LCG algorithm
+var a = 1664525;    // multiplier
+var c = 1013904223; // increment
+var m = 4294967296; // modulus (2^32)
+
+// Function to set the random seed
+def random_seed(new_seed) {
+    seed = new_seed;
+    return seed;
+};
+
+// Function to generate a random integer between 0 and m-1
+def random_int() {
+    seed = (a * seed + c) % m;
+    return seed;
+};
+
+// Function to generate a random integer between min and max (inclusive)
+def random_range(min, max) {
+    var range = max - min + 1;
+    var rand = random_int() % range;
+    return min + rand;
+};
+
+// Initialize the random seed
+random_seed(12345);
+
+// Function to roll a die with the specified number of sides
+def roll_die(sides) {
+    return random_range(1, sides);
+};
+
+// Function to roll multiple dice and return the results
+def roll_dice(num_dice, sides) {
+    var results = [];
+    var i = 1;
+    while (i <= num_dice) {
+        push(results, roll_die(sides));
+        i = i + 1;
+    };
+    return results;
+};
+
+// Function to calculate the sum of an array
+def sum_array(arr) {
+    var sum = 0;
+    var i = 1;
+    while (i <= length(arr)) {
+        sum = sum + arr[i];
+        i = i + 1;
+    };
+    return sum;
+};
+
+// Function to print the results of a dice roll
+def print_dice_roll(results) {
+    print("Dice roll results: ");
+    var i = 1;
+    while (i <= length(results)) {
+        print("  Die " + i + ": " + results[i]);
+        i = i + 1;
+    };
+    print("Sum: " + sum_array(results));
+};
+
+// Function to simulate dice rolls
+def simulate_dice_rolls() {
+    print("Welcome to the Dice Rolling Simulator!");
+    print("You can roll dice with different numbers of sides.");
+    
+    var continue_rolling = true;
+    
+    while (continue_rolling) {
+        print("\nEnter the number of dice to roll:");
+        var num_dice = read_int();
+        
+        print("Enter the number of sides per die:");
+        var sides = read_int();
+        
+        if (num_dice <= 0 or sides <= 0) {
+            print("Please enter positive numbers for dice and sides.");
+        } else {
+            var results = roll_dice(num_dice, sides);
+            print("\nRolling " + num_dice + " dice with " + sides + " sides each:");
+            print_dice_roll(results);
+        };
+        
+        print("\nWould you like to roll again? (1 for yes, 0 for no):");
+        var choice = read_int();
+        
+        if (choice != 1) {
+            continue_rolling = false;
+        };
+    };
+};
+
+// Main function
+def main() {
+    print("Dice Rolling Simulator");
+    print("---------------------");
+    
+    simulate_dice_rolls();
+    
+    print("\nThanks for using the Dice Rolling Simulator!");
+};
+
+// Run the main function
+main();

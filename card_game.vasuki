@@ -1,0 +1,299 @@
+// Simple Card Game using the random number generator
+// This program simulates a simple card game
+
+// Global seed value for the random number generator
+var seed = 42;
+
+// Constants for the LCG algorithm
+var a = 1664525;    // multiplier
+var c = 1013904223; // increment
+var m = 4294967296; // modulus (2^32)
+
+// Function to set the random seed
+def random_seed(new_seed) {
+    seed = new_seed;
+    return seed;
+};
+
+// Function to generate a random integer between 0 and m-1
+def random_int() {
+    seed = (a * seed + c) % m;
+    return seed;
+};
+
+// Function to generate a random integer between min and max (inclusive)
+def random_range(min, max) {
+    var range = max - min + 1;
+    var rand = random_int() % range;
+    return min + rand;
+};
+
+// Function to shuffle an array in place using the Fisher-Yates algorithm
+def shuffle_array(arr) {
+    var i = length(arr);
+    while (i > 1) {
+        var j = random_range(1, i);
+        // Swap elements at positions i and j
+        var temp = arr[i];
+        arr[i] = arr[j];
+        arr[j] = temp;
+        i = i - 1;
+    };
+    return arr;
+};
+
+// Initialize the random seed
+random_seed(12345);
+
+// Function to create a deck of cards
+def create_deck() {
+    var suits = ["Hearts", "Diamonds", "Clubs", "Spades"];
+    var ranks = ["2", "3", "4", "5", "6", "7", "8", "9", "10", "Jack", "Queen", "King", "Ace"];
+    var deck = [];
+    
+    var suit_index = 1;
+    while (suit_index <= length(suits)) {
+        var rank_index = 1;
+        while (rank_index <= length(ranks)) {
+            var card = dict();
+            dict_put(card, "suit", suits[suit_index]);
+            dict_put(card, "rank", ranks[rank_index]);
+            
+            // Assign a value to the card
+            var value = 0;
+            if (ranks[rank_index] == "Jack" or ranks[rank_index] == "Queen" or ranks[rank_index] == "King") {
+                value = 10;
+            } else if (ranks[rank_index] == "Ace") {
+                value = 11;
+            } else {
+                value = to_int(ranks[rank_index]);
+            };
+            dict_put(card, "value", value);
+            
+            push(deck, card);
+            rank_index = rank_index + 1;
+        };
+        suit_index = suit_index + 1;
+    };
+    
+    return deck;
+};
+
+// Function to shuffle the deck
+def shuffle_deck(deck) {
+    return shuffle_array(deck);
+};
+
+// Function to deal a card from the deck
+def deal_card(deck) {
+    if (length(deck) == 0) {
+        return null;
+    };
+    return pop(deck);
+};
+
+// Function to calculate the value of a hand
+def calculate_hand_value(hand) {
+    var value = 0;
+    var aces = 0;
+    
+    var i = 1;
+    while (i <= length(hand)) {
+        var card = hand[i];
+        value = value + dict_get(card, "value");
+        
+        if (dict_get(card, "rank") == "Ace") {
+            aces = aces + 1;
+        };
+        
+        i = i + 1;
+    };
+    
+    // Adjust for aces
+    while (value > 21 and aces > 0) {
+        value = value - 10;  // Change Ace from 11 to 1
+        aces = aces - 1;
+    };
+    
+    return value;
+};
+
+// Function to print a card
+def print_card(card) {
+    print(dict_get(card, "rank") + " of " + dict_get(card, "suit"));
+};
+
+// Function to print a hand
+def print_hand(hand, hide_first_card) {
+    var i = 1;
+    while (i <= length(hand)) {
+        if (i == 1 and hide_first_card) {
+            print("  [Hidden Card]");
+        } else {
+            print("  ");
+            print_card(hand[i]);
+        };
+        i = i + 1;
+    };
+    
+    if (not hide_first_card) {
+        print("  Total Value: " + calculate_hand_value(hand));
+    };
+};
+
+// Function to play a game of Blackjack
+def play_blackjack() {
+    print("Welcome to Blackjack!");
+    print("The goal is to get as close to 21 as possible without going over.");
+    print("Face cards are worth 10. Aces are worth 11 or 1, whichever is better.");
+    
+    // Create and shuffle the deck
+    var deck = create_deck();
+    shuffle_deck(deck);
+    
+    // Deal initial hands
+    var player_hand = [];
+    var dealer_hand = [];
+    
+    push(player_hand, deal_card(deck));
+    push(dealer_hand, deal_card(deck));
+    push(player_hand, deal_card(deck));
+    push(dealer_hand, deal_card(deck));
+    
+    // Show the hands
+    print("\nDealer's hand:");
+    print_hand(dealer_hand, true);
+    
+    print("\nYour hand:");
+    print_hand(player_hand, false);
+    
+    // Player's turn
+    var player_busted = false;
+    var player_turn = true;
+    
+    while (player_turn) {
+        print("\nWhat would you like to do?");
+        print("1. Hit (take another card)");
+        print("2. Stand (end your turn)");
+        
+        var choice = read_int();
+        
+        if (choice == 1) {
+            // Hit
+            var card = deal_card(deck);
+            push(player_hand, card);
+            
+            print("\nYou drew:");
+            print("  ");
+            print_card(card);
+            
+            print("\nYour hand:");
+            print_hand(player_hand, false);
+            
+            var hand_value = calculate_hand_value(player_hand);
+            if (hand_value > 21) {
+                print("\nBust! Your hand value exceeds 21.");
+                player_busted = true;
+                player_turn = false;
+            } else if (hand_value == 21) {
+                print("\nYou have 21!");
+                player_turn = false;
+            };
+        } else if (choice == 2) {
+            // Stand
+            player_turn = false;
+        } else {
+            print("Invalid choice. Please enter 1 or 2.");
+        };
+    };
+    
+    // Dealer's turn (if player hasn't busted)
+    if (not player_busted) {
+        print("\nDealer's turn:");
+        print("\nDealer's hand:");
+        print_hand(dealer_hand, false);
+        
+        var dealer_hand_value = calculate_hand_value(dealer_hand);
+        
+        // Dealer hits until they have at least 17
+        while (dealer_hand_value < 17) {
+            print("\nDealer hits.");
+            var card = deal_card(deck);
+            push(dealer_hand, card);
+            
+            print("Dealer drew:");
+            print("  ");
+            print_card(card);
+            
+            dealer_hand_value = calculate_hand_value(dealer_hand);
+            
+            print("\nDealer's hand:");
+            print_hand(dealer_hand, false);
+            
+            if (dealer_hand_value > 21) {
+                print("\nDealer busts!");
+                break;
+            };
+        };
+        
+        if (dealer_hand_value <= 21) {
+            print("\nDealer stands with " + dealer_hand_value + ".");
+        };
+    };
+    
+    // Determine the winner
+    print("\nGame Results:");
+    
+    var player_hand_value = calculate_hand_value(player_hand);
+    var dealer_hand_value = calculate_hand_value(dealer_hand);
+    
+    print("Your hand value: " + player_hand_value);
+    print("Dealer's hand value: " + dealer_hand_value);
+    
+    if (player_busted) {
+        print("You busted. Dealer wins!");
+    } else if (dealer_hand_value > 21) {
+        print("Dealer busted. You win!");
+    } else if (player_hand_value > dealer_hand_value) {
+        print("You win!");
+    } else if (dealer_hand_value > player_hand_value) {
+        print("Dealer wins!");
+    } else {
+        print("It's a tie!");
+    };
+    
+    return player_hand_value > dealer_hand_value and not player_busted or (dealer_hand_value > 21 and not player_busted);
+};
+
+// Main function
+def main() {
+    print("Blackjack Card Game");
+    print("------------------");
+    
+    var play_again = true;
+    var games_played = 0;
+    var games_won = 0;
+    
+    while (play_again) {
+        var won = play_blackjack();
+        games_played = games_played + 1;
+        
+        if (won) {
+            games_won = games_won + 1;
+        };
+        
+        print("\nWould you like to play again? (1 for yes, 0 for no):");
+        var choice = read_int();
+        
+        if (choice != 1) {
+            play_again = false;
+        };
+    };
+    
+    print("\nYou played " + games_played + " games and won " + games_won + " times.");
+    print("Win rate: " + (games_won * 100 / games_played) + "%");
+    print("Thanks for playing!");
+};
+
+// Run the main function
+main();

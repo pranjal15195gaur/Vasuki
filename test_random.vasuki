@@ -1,0 +1,95 @@
+// Test file for random number generation in Vasuki
+
+// Test random() function
+print("Testing random() function:");
+print("Random float between 0 and 1: " + random());
+print("Random float between 0 and 1: " + random());
+print("Random float between 0 and 1: " + random());
+print("");
+
+// Test random_int() function
+print("Testing random_int() function:");
+print("Random integer: " + random_int());
+print("Random integer: " + random_int());
+print("Random integer: " + random_int());
+print("");
+
+// Test random_float() function
+print("Testing random_float() function:");
+print("Random float between 0 and 1: " + random_float());
+print("Random float between 0 and 1: " + random_float());
+print("Random float between 0 and 1: " + random_float());
+print("");
+
+// Test random_range() function
+print("Testing random_range() function:");
+print("Random integer between 1 and 10: " + random_range(1, 10));
+print("Random integer between 1 and 10: " + random_range(1, 10));
+print("Random integer between 1 and 10: " + random_range(1, 10));
+print("");
+
+// Test random_choice() function
+print("Testing random_choice() function:");
+var fruits = ["apple", "banana", "cherry", "date", "elderberry"];
+print("Random fruit from array: " + random_choice(fruits));
+print("Random fruit from array: " + random_choice(fruits));
+print("Random fruit from array: " + random_choice(fruits));
+print("");
+
+// Test random_seed() function
+print("Testing random_seed() function:");
+print("Setting seed to 12345");
+random_seed(12345);
+print("Random number after seed: " + random());
+print("Random number after seed: " + random());
+print("Setting seed to 12345 again");
+random_seed(12345);
+print("Random number after same seed: " + random());
+print("Random number after same seed: " + random());
+print("");
+
+// Test random number distribution
+print("Testing random number distribution:");
+var counts = [0, 0, 0, 0, 0, 0, 0, 0, 0, 0];
+for (var i = 1; i <= 1000; i = i + 1) {
+    var rand = random_range(0, 9);
+    counts[rand + 1] = counts[rand + 1] + 1;
+};
+print("Distribution of 1000 random numbers between 0 and 9:");
+for (var i = 1; i <= 10; i = i + 1) {
+    print("  " + (i - 1) + ": " + counts[i] + " (" + (counts[i] / 10) + "%)");
+};
+print("");
+
+// Test practical application: dice rolling
+print("Testing dice rolling application:");
+var dice_counts = [0, 0, 0, 0, 0, 0];
+for (var i = 1; i <= 1000; i = i + 1) {
+    var dice_roll = random_range(1, 6);
+    dice_counts[dice_roll] = dice_counts[dice_roll] + 1;
+};
+print("Distribution of 1000 dice rolls (1-6):");
+for (var i = 1; i <= 6; i = i + 1) {
+    print("  " + i + ": " + dice_counts[i] + " (" + (dice_counts[i] / 10) + "%)");
+};
+print("");
+
+// Test practical application: random password generation
+print("Testing random password generation:");
+def generate_password(len) {
+    var charset = "ABCDEFGHIJKLMNOPQRSTUVWXYZabcdefghijklmnopqrstuvwxyz0123456789!@#$%^&*()";
+    var charset_length = 72; // Length of the charset string
+    var password = "";
+    for (var i = 1; i <= len; i = i + 1) {
+        var index = random_range(1, charset_length);
+        password = password + charset[index];
+    };
+    return password;
+};
+
+print("Random password (length 8): " + generate_password(8));
+print("Random password (length 12): " + generate_password(12));
+print("Random password (length 16): " + generate_password(16));
+print("");
+
+print("Random number generation tests completed!");

@@ -1,0 +1,101 @@
+// Guessing Game using the random number generator
+// This is a simple game where the player tries to guess a random number
+
+// Import the random number generator functions
+// Note: In Vasuki, we don't have actual imports, so we'll include the functions here
+
+// Global seed value for the random number generator
+var seed = 42;
+
+// Constants for the LCG algorithm
+var a = 1664525;    // multiplier
+var c = 1013904223; // increment
+var m = 4294967296; // modulus (2^32)
+
+// Function to set the random seed
+def random_seed(new_seed) {
+    seed = new_seed;
+    return seed;
+};
+
+// Function to generate a random integer between 0 and m-1
+def random_int() {
+    seed = (a * seed + c) % m;
+    return seed;
+};
+
+// Function to generate a random integer between min and max (inclusive)
+def random_range(min, max) {
+    var range = max - min + 1;
+    var rand = random_int() % range;
+    return min + rand;
+};
+
+// Initialize the random seed using the current time
+// Note: In a real implementation, we would use the current time as a seed
+// Since Vasuki doesn't have a built-in time function, we'll use a fixed seed for now
+random_seed(12345);
+
+// Function to play the guessing game
+def play_guessing_game() {
+    print("Welcome to the Guessing Game!");
+    print("I'm thinking of a number between 1 and 100.");
+    print("Try to guess it in as few attempts as possible.");
+    
+    // Generate a random number between 1 and 100
+    var secret_number = random_range(1, 100);
+    var attempts = 0;
+    var guessed = false;
+    
+    while (not guessed) {
+        print("\nEnter your guess (1-100):");
+        var guess = read_int();
+        attempts = attempts + 1;
+        
+        if (guess < 1 or guess > 100) {
+            print("Please enter a number between 1 and 100.");
+        } else if (guess < secret_number) {
+            print("Too low! Try a higher number.");
+        } else if (guess > secret_number) {
+            print("Too high! Try a lower number.");
+        } else {
+            guessed = true;
+            print("Congratulations! You guessed the number in " + attempts + " attempts!");
+        };
+    };
+    
+    return attempts;
+};
+
+// Main function
+def main() {
+    print("Guessing Game");
+    print("-------------");
+    
+    var play_again = true;
+    var games_played = 0;
+    var total_attempts = 0;
+    
+    while (play_again) {
+        var attempts = play_guessing_game();
+        games_played = games_played + 1;
+        total_attempts = total_attempts + attempts;
+        
+        print("\nWould you like to play again? (1 for yes, 0 for no):");
+        var choice = read_int();
+        
+        if (choice != 1) {
+            play_again = false;
+        };
+    };
+    
+    if (games_played > 0) {
+        var avg_attempts = total_attempts / games_played;
+        print("\nYou played " + games_played + " games with an average of " + avg_attempts + " attempts per game.");
+    };
+    
+    print("Thanks for playing!");
+};
+
+// Run the main function
+main();

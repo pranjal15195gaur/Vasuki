@@ -146,7 +146,8 @@ BUILTIN_FUNCTIONS = [
     "get_type", "to_int", "to_float", "to_string", "to_bool",
     "dict", "dict_put", "dict_get", "dict_contains", "dict_remove", "dict_keys",
     "dict_values", "dict_items", "dict_size", "dict_clear", "is_dict",
-    "read_line", "read_int", "read_ints", "read_float", "read_floats", "read_lines", "read_all"
+    "read_line", "read_int", "read_ints", "read_float", "read_floats", "read_lines", "read_all",
+    "random", "random_int", "random_float", "random_range", "random_choice", "random_seed"
 ]
 
 # Environment class supporting both static and dynamic scoping
@@ -924,6 +925,59 @@ def e(tree: AST, env=None) -> int:
                         except EOFError:
                             break
                     return lines
+                # Random number generation functions
+                elif name == "random":
+                    # Generate a random float between 0 and 1
+                    if len(evaluated_args) != 0:
+                        raise ValueError("random expects no arguments")
+                    import random
+                    return random.random()
+                elif name == "random_int":
+                    # Generate a random integer between 0 and 2^31-1
+                    if len(evaluated_args) != 0:
+                        raise ValueError("random_int expects no arguments")
+                    import random
+                    return random.randint(0, 2**31-1)
+                elif name == "random_float":
+                    # Generate a random float between 0 and 1
+                    if len(evaluated_args) != 0:
+                        raise ValueError("random_float expects no arguments")
+                    import random
+                    return random.random()
+                elif name == "random_range":
+                    # Generate a random integer between min and max (inclusive)
+                    if len(evaluated_args) != 2:
+                        raise ValueError("random_range expects two arguments: random_range(min, max)")
+                    min_val, max_val = evaluated_args
+                    if not isinstance(min_val, int):
+                        raise ValueError("random_range: first argument must be an integer")
+                    if not isinstance(max_val, int):
+                        raise ValueError("random_range: second argument must be an integer")
+                    import random
+                    return random.randint(min_val, max_val)
+                elif name == "random_choice":
+                    # Randomly select an element from an array
+                    if len(evaluated_args) != 1:
+                        raise ValueError("random_choice expects one argument: random_choice(array)")
+                    array = evaluated_args[0]
+                    if not isinstance(array, list):
+                        raise ValueError("random_choice: argument must be an array")
+                    if not array:
+                        raise ValueError("random_choice: cannot choose from an empty array")
+                    import random
+                    # Vasuki uses 1-based indexing, but Python uses 0-based indexing
+                    # So we need to adjust the indices
+                    return array[random.randint(0, len(array)-1)]
+                elif name == "random_seed":
+                    # Set the random seed
+                    if len(evaluated_args) != 1:
+                        raise ValueError("random_seed expects one argument: random_seed(seed)")
+                    seed = evaluated_args[0]
+                    if not isinstance(seed, int):
+                        raise ValueError("random_seed: argument must be an integer")
+                    import random
+                    random.seed(seed)
+                    return seed
                 # If we get here, it's a built-in function we haven't handled yet
                 # This should never happen if BUILTIN_FUNCTIONS is kept in sync
                 else:

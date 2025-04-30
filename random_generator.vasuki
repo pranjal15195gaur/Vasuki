@@ -1,0 +1,78 @@
+// Simple Linear Congruential Generator (LCG) implementation for Vasuki
+// This implements a basic random number generator
+
+// Global seed value for the random number generator
+var seed = 42;
+
+// Constants for the LCG algorithm
+var a = 1664525;    // multiplier
+var c = 1013904223; // increment
+var m = 4294967296; // modulus (2^32)
+
+// Function to set the random seed
+def random_seed(new_seed) {
+    seed = new_seed;
+    return seed;
+};
+
+// Function to generate a random integer between 0 and m-1
+def random_int() {
+    seed = (a * seed + c) % m;
+    return seed;
+};
+
+// Function to generate a random integer between min and max (inclusive)
+def random_range(min, max) {
+    var range = max - min + 1;
+    var rand = random_int() % range;
+    return min + rand;
+};
+
+// Function to generate a random float between 0 and 1
+def random_float() {
+    return random_int() / m;
+};
+
+// Function to generate a random float between min and max
+def random_float_range(min, max) {
+    return min + random_float() * (max - min);
+};
+
+// Test the random number generator
+def test_random() {
+    print("Testing Random Number Generator");
+    print("------------------------------");
+    
+    // Set a seed for reproducible results
+    print("Setting seed to 12345");
+    random_seed(12345);
+    
+    // Generate and print 5 random integers
+    print("\nRandom integers (0 to m-1):");
+    for (var i = 1; i <= 5; i = i + 1) {
+        print("  " + random_int());
+    };
+    
+    // Generate and print 5 random integers in a range
+    print("\nRandom integers (1 to 100):");
+    for (var i = 1; i <= 5; i = i + 1) {
+        print("  " + random_range(1, 100));
+    };
+    
+    // Generate and print 5 random floats
+    print("\nRandom floats (0 to 1):");
+    for (var i = 1; i <= 5; i = i + 1) {
+        print("  " + random_float());
+    };
+    
+    // Generate and print 5 random floats in a range
+    print("\nRandom floats (0.0 to 10.0):");
+    for (var i = 1; i <= 5; i = i + 1) {
+        print("  " + random_float_range(0.0, 10.0));
+    };
+    
+    print("\nRandom number generator test completed!");
+};
+
+// Run the test
+test_random();

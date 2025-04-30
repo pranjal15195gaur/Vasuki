@@ -3,8 +3,13 @@ from top import e, Environment
 from errors import VasukiError
 import sys
 import os
+import time
+import random
 
 def main():
+    # Initialize random seed with current time for true randomness
+    random.seed(int(time.time()))
+
     if len(sys.argv) < 2:
         print("Usage: python -m compiler.main <filename>")
         sys.exit(1)
