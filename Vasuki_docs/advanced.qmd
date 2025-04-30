@@ -23,8 +23,10 @@ css: assets/custom.css
         <li><a href="#arrays-and-array-operations">Arrays and Array Operations</a></li>
         <li><a href="#dictionary-operations">Dictionary Operations</a></li>
         <li><a href="#string-operations">String Operations</a></li>
+        <li><a href="#regular-expression-operations">Regular Expression Operations</a></li>
         <li><a href="#type-operations">Type Operations</a></li>
         <li><a href="#labels-and-non-linear-control-flow">Labels and Control Flow</a></li>
+        <li><a href="#random-number-generation">Random Number Generation</a></li>
         <li><a href="#control-flow-statements">Control Flow Statements</a></li>
         <li><a href="#inputoutput-functions">Input/Output Functions</a></li>
       </ul>
@@ -415,6 +417,78 @@ def string_uppercase(s):
 # Additional string operations...
 ```
 
+### **Regular Expression Operations**
+
+Vasuki provides comprehensive support for regular expressions through a set of specialized functions.
+
+**Syntax and Operations**:
+```bash
+var text = "The quick brown fox jumps over the lazy dog";
+
+// Check if a string matches a pattern
+print(string_match(text, "^The"));  // Output: true
+print(string_match(text, "^fox"));  // Output: false
+
+// Find the position of a pattern
+var position = string_search(text, "fox");
+print("Position of 'fox': " + position);  // Output: 17 (1-based indexing)
+
+// Replace a pattern
+var replaced = string_replace(text, "fox", "cat");
+print(replaced);  // Output: The quick brown cat jumps over the lazy dog
+
+// Split a string by a pattern
+var words = string_split(text, " ");
+print(words);  // Output: ["The", "quick", "brown", "fox", "jumps", "over", "the", "lazy", "dog"]
+
+// Find all matches
+var words_with_o = string_match_all(text, "\\w*o\\w*");
+print(words_with_o);  // Output: ["brown", "fox", "over", "dog"]
+```
+
+**Implementation Details**:
+Regular expression operations are implemented using Python's `re` module:
+
+```python
+import re
+
+def string_match(s, pattern):
+    """
+    Check if the string matches the regular expression pattern.
+    """
+    return bool(re.match(pattern, s))
+
+def string_search(s, pattern):
+    """
+    Search for the regular expression pattern in the string.
+    Returns the 1-based index of the first match, or 0 if not found.
+    """
+    match = re.search(pattern, s)
+    if match:
+        # Convert to 1-based indexing
+        return match.start() + 1
+    else:
+        return 0
+
+def string_replace(s, pattern, replacement):
+    """
+    Replace all occurrences of the regular expression pattern in the string.
+    """
+    return re.sub(pattern, replacement, s)
+
+def string_split(s, pattern):
+    """
+    Split the string by the regular expression pattern.
+    """
+    return re.split(pattern, s)
+
+def string_match_all(s, pattern):
+    """
+    Find all matches of the regular expression pattern in the string.
+    """
+    return re.findall(pattern, s)
+```
+
 ### **Type Operations**
 
 Vasuki includes functions for working with types.
@@ -497,6 +571,81 @@ def goto_and_return(name, env):
     result = evaluate(labels[name], env)
     # Return to the original execution point
     return result
+```
+
+### **Random Number Generation**
+
+Vasuki provides a comprehensive set of functions for generating random numbers.
+
+**Syntax and Operations**:
+```bash
+// Generate random integers
+var dice_roll = random_int(1, 6);
+print("Dice roll: " + dice_roll);  // Output: A random integer between 1 and 6
+
+// Generate random floating-point numbers
+var probability = random_float();
+print("Random probability: " + probability);  // Output: A random float between 0 and 1
+
+// Generate random floating-point numbers in a range
+var temperature = random_uniform(15.0, 25.0);
+print("Random temperature: " + temperature);  // Output: A random float between 15.0 and 25.0
+```
+
+**Implementation Details**:
+The random number generator is implemented using a Linear Congruential Generator (LCG) algorithm for predictable and efficient random number generation:
+
+```python
+# Constants for the LCG algorithm
+# Using parameters from the "Numerical Recipes" LCG
+MULTIPLIER = 1664525
+INCREMENT = 1013904223
+MODULUS = 2**32  # 32-bit modulus
+
+# Global state for the random generator
+_seed = None
+_last_value = None
+
+def _initialize():
+    """Initialize the random generator with a time-based seed if not already initialized."""
+    global _seed, _last_value
+    if _seed is None:
+        # Use current time in nanoseconds as seed
+        _seed = int(time.time() * 1000000)
+        # Add some additional entropy from process time
+        _seed = (_seed + int(time.process_time() * 1000000)) % MODULUS
+        _last_value = _seed
+
+def _next_random():
+    """Generate the next random value using LCG algorithm."""
+    global _last_value
+
+    # Initialize if not already done
+    if _last_value is None:
+        _initialize()
+
+    # LCG formula: X_(n+1) = (a * X_n + c) mod m
+    _last_value = (MULTIPLIER * _last_value + INCREMENT) % MODULUS
+    return _last_value
+
+def random_float():
+    """Generate a random float between 0.0 and 1.0."""
+    return _next_random() / MODULUS
+
+def random_int(a, b):
+    """Generate a random integer between a and b, inclusive."""
+    if a > b:
+        a, b = b, a
+    range_size = b - a + 1
+    # Scale the random value to the desired range
+    return a + (_next_random() % range_size)
+
+def random_uniform(a, b):
+    """Generate a random float between a and b."""
+    if a > b:
+        a, b = b, a
+    # Scale the random value to the desired range
+    return a + (b - a) * random_float()
 ```
 
 ### **Control Flow Statements**
