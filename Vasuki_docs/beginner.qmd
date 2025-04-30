@@ -261,78 +261,6 @@ print("Result: " + result);  // Output: Result: 7
 
 ---
 
-### **Arrays**
-
-Arrays in Vasuki are used to store collections of values. They are versatile and allow you to perform operations on multiple elements.
-
----
-
-#### **Creating Arrays**
-
-You can create an array using square brackets `[]`.
-
-#### **Syntax**
-```bash
-var arrayName = [value1, value2, ...];
-```
-
-#### **Example**
-```bash
-var arr = [1, 2, 3];
-print("Array: " + arr);
-```
-
-**Explanation**:
-- The array `arr` contains the values `1`, `2`, and `3`.
-- The `print` statement outputs the array.
-
----
-
-#### **Accessing Elements**
-
-Array elements are accessed using one-based indexing.
-
-#### **Syntax**
-```bash
-arrayName[index];
-```
-
-#### **Example**
-```bash
-var arr = [10, 20, 30];
-print("First element: " + arr[1]);  // Output: First element: 10
-print("Second element: " + arr[2]);  // Output: Second element: 20
-```
-
-**Explanation**:
-- The first element of the array is accessed using `arr[1]`.
-- The second element is accessed using `arr[2]`.
-
----
-
-#### **Modifying Elements**
-
-You can modify an array element by assigning a new value to a specific index.
-
-#### **Example**
-```bash
-var arr = [10, 20, 30];
-arr[2] = 25;
-print("Modified array: " + arr);  // Output: Modified array: [10, 25, 30]
-```
-
-**Explanation**:
-- The value at index `2` is updated to `25`.
-- The modified array is printed.
-
----
-
-### **Summary**
-
-The **Basic Syntax** section provides a foundation for understanding Vasuki. By mastering variable declarations, expressions, blocks, control structures, functions, and arrays, you can write efficient and readable Vasuki programs. Each feature is designed to be intuitive, making Vasuki an excellent choice for both beginners and advanced users.
-
----
-
 ## **Control Structures**
 
 Control structures in Vasuki allow you to control the flow of your program. They include `if`, `for`, and `while`.
@@ -696,19 +624,19 @@ print("You entered: " + lines[1] + " and " + lines[2]);
 
 Vasuki includes several unique features that make it stand out. These features are designed to enhance flexibility, readability, and debugging capabilities.
 
-### **Dynamic Variables and Functions**
+### **Global Variables and Functions**
 
-Vasuki supports dynamic scoping through the `dynamic` keyword, which allows variables and functions to be accessed from any context.
+Vasuki supports global variables and functions that can be accessed from any context through lexical scoping.
 
-#### **Dynamic Variables**
+#### **Global Variables**
 
-Dynamic variables are declared using the `dynamic var` syntax:
+Global variables are declared at the top level:
 
 ```bash
-dynamic var counter = 0;
+var counter = 0;  // Global variable
 
 def increment() {
-    counter = counter + 1;  // Accesses the dynamic variable
+    counter = counter + 1;  // Accesses the global variable
     return counter;
 };
 
@@ -716,25 +644,25 @@ print(increment());  // Output: 1
 print(increment());  // Output: 2
 ```
 
-Dynamic variables are accessible from any function, regardless of where they were declared.
+Global variables are accessible from any function through lexical scoping.
 
-#### **Dynamic Functions**
+#### **Global Functions**
 
-Similarly, dynamic functions are declared using the `dynamic def` syntax:
+Similarly, functions declared at the top level are globally accessible:
 
 ```bash
-dynamic def greet(name) {
+def greet(name) {
     print("Hello, " + name + "!");
 };
 
 def call_greeter() {
-    greet("World");  // Calls the dynamic function
+    greet("World");  // Calls the global function
 };
 
 call_greeter();  // Output: Hello, World!
 ```
 
-Dynamic functions can be called from any context, making them useful for utility functions that need to be accessed globally.
+Global functions can be called from any context, making them useful for utility functions that need to be accessed throughout your program.
 
 ### **Break and Continue Statements**
 
@@ -771,32 +699,6 @@ while (i < 10) {
 };
 // Output: 1 3 5 7 9
 ```
-
----
-
-### **Dual Scoping Mechanisms**
-
-Vasuki supports **dual scoping mechanisms**, which include **static scoping** and **dynamic scoping**. These mechanisms determine how variables are resolved during program execution.
-
-- **Static Scoping**:
-  Variables are resolved based on their declaration location in the code. This ensures predictable behavior, as the variable's value is determined by the structure of the program.
-
-- **Dynamic Scoping**:
-  Variables are resolved in the context of the caller's environment if they are not found in the static scope. This provides additional flexibility, especially in scenarios involving closures or nested function calls.
-
-#### **Example: Static and Dynamic Scoping**
-```bash
-var globalVar = 100;
-
-def testScope() {
-    print(globalVar);  // Resolves via static scope
-}
-
-testScope();  // Output: 100
-```
-
-**Explanation**:
-In this example, the variable `globalVar` is declared in the global scope. The function `testScope` accesses `globalVar` using static scoping, as it is resolved in the environment where it was declared.
 
 ---
 
@@ -997,7 +899,7 @@ Behind the scenes, the program is converted to bytecode instructions that push v
 
 ## **Example Program Walkthrough**
 
-Here is a program that demonstrates Vasuki's unique features, including dual scoping, control structures with return values, and implicit returns.
+Here is a program that demonstrates Vasuki's unique features, including control structures with return values and implicit returns.
 
 ```bash
 // Declare variables
@@ -1022,17 +924,12 @@ print("Addition: " + add(3, 4));  // Output: Addition: 7
 var arr = [10, 20, 30];
 print("First element: " + arr[1]);  // Output: First element: 10
 
-// Demonstrate scoping
-var globalVar = 100;
-def testScope() {
-    print(globalVar);  // Resolves via static scope
-}
-testScope();  // Output: 100
+
 ```
 
 **Explanation**:
 - The program demonstrates variable declaration, control structures, and functions.
-- It highlights Vasuki's unique features, such as implicit returns and dual scoping mechanisms.
-- The `testScope` function accesses the global variable `globalVar` using static scoping.
+- It highlights Vasuki's unique features, such as implicit returns and control structures with return values.
+- The example shows how arrays are created and accessed using one-based indexing.
 
 ---
