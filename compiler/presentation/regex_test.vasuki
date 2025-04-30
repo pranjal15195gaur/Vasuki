@@ -1,0 +1,48 @@
+// Test the custom regex implementation
+
+print("=== Testing Regular Expression Implementation ===");
+
+var text = "The quick brown fox jumps over the lazy dog";
+
+// Test string_match function
+print("\nTesting string_match function:");
+print("Match 'fox': " + string_match(text, "fox"));
+print("Match '^The': " + string_match(text, "^The"));
+print("Match 'dog$': " + string_match(text, "dog$"));
+print("Match '^fox': " + string_match(text, "^fox"));
+print("Match 'cat': " + string_match(text, "cat"));
+
+// Test string_search function
+print("\nTesting string_search function:");
+print("Search 'fox': " + string_search(text, "fox"));
+print("Search 'quick': " + string_search(text, "quick"));
+print("Search 'cat': " + string_search(text, "cat"));
+
+// Test string_replace function
+print("\nTesting string_replace function:");
+print("Replace 'fox' with 'cat': " + string_replace(text, "fox", "cat"));
+print("Replace 'o' with 'O': " + string_replace(text, "o", "O"));
+print("Replace 'z' with 'Z': " + string_replace(text, "z", "Z"));
+
+// Test string_split function
+print("\nTesting string_split function:");
+print("Split by spaces: " + string_split(text, " "));
+print("Split by 'o': " + string_split(text, "o"));
+
+// Test string_match_all function
+print("\nTesting string_match_all function:");
+print("Find all words with 'o': " + string_match_all(text, "\w*o\w*"));
+print("Find all words: " + string_match_all(text, "\w+"));
+
+// Test character classes
+print("\nTesting character classes:");
+print("Match [aeiou]: " + string_match_all(text, "[aeiou]"));
+print("Match [^aeiou]: " + string_match_all(text, "[^aeiou]"));
+
+// Test quantifiers
+print("\nTesting quantifiers:");
+print("Match 'o+': " + string_match_all(text, "o+"));
+print("Match 'o*': " + string_match_all(text, "o*"));
+print("Match 'o?': " + string_match_all(text, "o?"));
+
+print("\n=== Regular Expression Test Complete ===");

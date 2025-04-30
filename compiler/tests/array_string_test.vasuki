@@ -49,4 +49,4 @@ print("Match '^The': " + string_match(text, "^The"));
 print("Search 'fox': " + string_search(text, "fox"));
 print("Replace 'fox' with 'cat': " + string_replace(text, "fox", "cat"));
 print("Split by spaces: " + string_split(text, " "));
-print("Find all words with 'o': " + string_match_all(text, "\\w*o\\w*"));
+print("Find all words with 'o': " + string_match_all(text, "\w*o\w*"));
