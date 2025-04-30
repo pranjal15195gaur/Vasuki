@@ -618,6 +618,67 @@ var lines = read_lines(2);
 print("You entered: " + lines[1] + " and " + lines[2]);
 ```
 
+## **Random Number Generation**
+
+Vasuki provides functions for generating random numbers:
+
+### **Random Number Functions**
+
+- **random_int(min, max)**: Generates a random integer between min and max (inclusive)
+- **random_float()**: Generates a random floating-point number between 0 and 1
+- **random_uniform(min, max)**: Generates a random floating-point number between min and max
+
+#### **Example**
+```bash
+// Generate random integers
+var dice_roll = random_int(1, 6);
+print("Dice roll: " + dice_roll);
+
+// Generate random floating-point numbers
+var probability = random_float();
+print("Random probability: " + probability);
+
+// Generate random floating-point numbers in a range
+var temperature = random_uniform(15.0, 25.0);
+print("Random temperature: " + temperature + "°C");
+```
+
+## **Regular Expressions**
+
+Vasuki supports regular expressions for pattern matching and string manipulation:
+
+### **Regular Expression Functions**
+
+- **string_match(str, pattern)**: Checks if the string matches the regular expression pattern
+- **string_search(str, pattern)**: Returns the 1-based index of the first match, or 0 if not found
+- **string_replace(str, pattern, replacement)**: Replaces all occurrences of the pattern with the replacement
+- **string_split(str, pattern)**: Splits the string by the pattern
+- **string_match_all(str, pattern)**: Returns an array of all matches
+
+#### **Example**
+```bash
+var text = "The quick brown fox jumps over the lazy dog";
+
+// Check if a string matches a pattern
+print("Starts with 'The': " + string_match(text, "^The"));  // Output: true
+
+// Find the position of a pattern
+var position = string_search(text, "fox");
+print("Position of 'fox': " + position);  // Output: 17 (1-based indexing)
+
+// Replace a pattern
+var replaced = string_replace(text, "fox", "cat");
+print("After replacement: " + replaced);  // Output: The quick brown cat jumps over the lazy dog
+
+// Split a string by a pattern
+var words = string_split(text, " ");
+print("First word: " + words[1]);  // Output: The
+
+// Find all matches
+var words_with_o = string_match_all(text, "\\w*o\\w*");
+print("Words containing 'o': " + words_with_o);  // Output: ["brown", "fox", "over", "dog"]
+```
+
 ---
 
 ## **Special Features**
