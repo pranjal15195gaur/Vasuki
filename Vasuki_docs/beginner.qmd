@@ -72,7 +72,7 @@ var x = 10;
 print("Value of x: " + x);  // Output: Value of x: 10
 ```
 
-**Explanation**:  
+**Explanation**:
 - The `var` keyword is used to declare a variable named `x`.
 - The value `10` is assigned to `x`.
 - The `print` statement outputs the value of `x`.
@@ -95,7 +95,7 @@ var y = x + 5;
 print("Value of y: " + y);  // Output: Value of y: 15
 ```
 
-**Explanation**:  
+**Explanation**:
 - The variable `x` is assigned the value `10`.
 - The expression `x + 5` evaluates to `15` and is assigned to `y`.
 - The `print` statement outputs the value of `y`.
@@ -121,7 +121,7 @@ if (x > 5) {
 }
 ```
 
-**Explanation**:  
+**Explanation**:
 - The block `{ print("x is greater than 5"); }` is executed if the condition `x > 5` is true.
 
 ---
@@ -155,7 +155,7 @@ if (x > 5) {
 }
 ```
 
-**Explanation**:  
+**Explanation**:
 - The condition `x > 5` is evaluated.
 - If true, the block `{ print("x is greater than 5"); }` is executed.
 - Otherwise, the block `{ print("x is 5 or less"); }` is executed.
@@ -180,7 +180,7 @@ for (var i = 0; i < 5; i = i + 1) {
 }
 ```
 
-**Explanation**:  
+**Explanation**:
 - The loop starts with `i = 0`.
 - The condition `i < 5` is checked before each iteration.
 - The block `{ print("Iteration: " + i); }` is executed, and `i` is incremented by 1 after each iteration.
@@ -207,7 +207,7 @@ while (count < 3) {
 }
 ```
 
-**Explanation**:  
+**Explanation**:
 - The loop starts with `count = 0`.
 - The condition `count < 3` is checked before each iteration.
 - The block `{ print("Count: " + count); count = count + 1; }` is executed until the condition becomes false.
@@ -239,7 +239,7 @@ def add(a, b) {
 }
 ```
 
-**Explanation**:  
+**Explanation**:
 - The function `add` takes two parameters, `a` and `b`.
 - It returns the sum of `a` and `b`.
 
@@ -255,7 +255,7 @@ var result = add(3, 4);
 print("Result: " + result);  // Output: Result: 7
 ```
 
-**Explanation**:  
+**Explanation**:
 - The function `add` is called with arguments `3` and `4`.
 - The result of the function (`7`) is assigned to the variable `result`.
 
@@ -282,7 +282,7 @@ var arr = [1, 2, 3];
 print("Array: " + arr);
 ```
 
-**Explanation**:  
+**Explanation**:
 - The array `arr` contains the values `1`, `2`, and `3`.
 - The `print` statement outputs the array.
 
@@ -304,7 +304,7 @@ print("First element: " + arr[1]);  // Output: First element: 10
 print("Second element: " + arr[2]);  // Output: Second element: 20
 ```
 
-**Explanation**:  
+**Explanation**:
 - The first element of the array is accessed using `arr[1]`.
 - The second element is accessed using `arr[2]`.
 
@@ -321,7 +321,7 @@ arr[2] = 25;
 print("Modified array: " + arr);  // Output: Modified array: [10, 25, 30]
 ```
 
-**Explanation**:  
+**Explanation**:
 - The value at index `2` is updated to `25`.
 - The modified array is printed.
 
@@ -392,6 +392,49 @@ var result = add(3, 4);
 print("Result: " + result);  // Output: Result: 7
 ```
 
+### **Higher-Order Functions**
+
+Vasuki supports higher-order functions, which are functions that can take other functions as arguments or return functions as results.
+
+#### **Functions as Arguments**
+
+You can pass functions as arguments to other functions:
+
+```bash
+// Function to apply an operation to each element of an array
+def apply_to_array(arr, operation) {
+    var result = [];
+    var i = 1;
+    while (i <= length(arr)) {
+        push(result, operation(arr[i]));
+        i = i + 1;
+    };
+    return result;
+};
+
+// Function to double a number
+def double(x) {
+    return x * 2;
+};
+
+// Function to square a number
+def square(x) {
+    return x * x;
+};
+
+var numbers = [1, 2, 3, 4, 5];
+var doubled = apply_to_array(numbers, double);
+var squared = apply_to_array(numbers, square);
+
+print("Doubled: " + doubled);  // Output: Doubled: [2, 4, 6, 8, 10]
+print("Squared: " + squared);  // Output: Squared: [1, 4, 9, 16, 25]
+```
+
+**Explanation**:
+- The `apply_to_array` function takes an array and a function as arguments.
+- It applies the function to each element of the array and returns a new array with the results.
+- We use it with the `double` and `square` functions to transform the array.
+
 ---
 
 ## **Arrays**
@@ -413,11 +456,321 @@ print(arr[1]);  // Output: 1
 print(arr[2]);  // Output: 2
 ```
 
+### **Array Functions**
+
+Vasuki provides several built-in functions for working with arrays:
+
+- **length(array)**: Returns the number of elements in an array
+- **push(array, element)**: Adds an element to the end of an array
+- **pop(array)**: Removes and returns the last element of an array
+- **max(array)**: Returns the maximum value in the array
+- **min(array)**: Returns the minimum value in the array
+
+#### **Example**
+```bash
+var numbers = [1, 2, 3];
+print("Array length: " + length(numbers));  // Output: Array length: 3
+
+push(numbers, 4);
+print("Updated array: " + numbers);  // Output: Updated array: [1, 2, 3, 4]
+
+var last = pop(numbers);
+print("Popped element: " + last);  // Output: Popped element: 4
+print("Array after pop: " + numbers);  // Output: Array after pop: [1, 2, 3]
+
+var maxValue = max(numbers);
+print("Maximum value: " + maxValue);  // Output: Maximum value: 3
+
+var minValue = min(numbers);
+print("Minimum value: " + minValue);  // Output: Minimum value: 1
+```
+
+---
+
+## **Dictionary Operations**
+
+Vasuki supports dictionaries (key-value pairs) through built-in functions:
+
+### **Creating and Manipulating Dictionaries**
+
+- **dict()**: Creates a new dictionary
+- **dict_put(dict, key, value)**: Adds or updates a key-value pair
+- **dict_get(dict, key)**: Gets the value for a key
+- **dict_contains(dict, key)**: Checks if a key exists
+- **dict_remove(dict, key)**: Removes a key-value pair
+
+#### **Example**
+```bash
+var person = dict();
+dict_put(person, "name", "Alice");
+dict_put(person, "age", 30);
+dict_put(person, "city", "New York");
+
+print("Name: " + dict_get(person, "name"));  // Output: Name: Alice
+print("Has email? " + dict_contains(person, "email"));  // Output: Has email? false
+
+dict_remove(person, "city");
+print("City exists? " + dict_contains(person, "city"));  // Output: City exists? false
+```
+
+### **Dictionary Utilities**
+
+- **dict_keys(dict)**: Returns an array of all keys
+- **dict_values(dict)**: Returns an array of all values
+- **dict_size(dict)**: Returns the number of key-value pairs
+- **dict_clear(dict)**: Removes all key-value pairs
+
+#### **Example**
+```bash
+var scores = dict();
+dict_put(scores, "Alice", 95);
+dict_put(scores, "Bob", 87);
+dict_put(scores, "Charlie", 92);
+
+print("Number of students: " + dict_size(scores));  // Output: Number of students: 3
+
+var students = dict_keys(scores);
+print("Students: " + students);  // Output: Students: ["Alice", "Bob", "Charlie"]
+
+var allScores = dict_values(scores);
+print("Scores: " + allScores);  // Output: Scores: [95, 87, 92]
+
+dict_clear(scores);
+print("Dictionary size after clear: " + dict_size(scores));  // Output: Dictionary size after clear: 0
+```
+
+---
+
+## **String Functions**
+
+Vasuki provides a rich set of functions for working with strings:
+
+### **String Manipulation**
+
+- **substring(str, start, length)**: Extracts a portion of a string
+- **uppercase(str)**: Converts a string to uppercase
+- **lowercase(str)**: Converts a string to lowercase
+- **trim(str)**: Removes whitespace from the beginning and end of a string
+- **replace(str, old, new)**: Replaces all occurrences of a substring
+
+#### **Example**
+```bash
+var message = "Hello, World!";
+print(uppercase(message));  // Output: HELLO, WORLD!
+print(lowercase(message));  // Output: hello, world!
+print(substring(message, 0, 5));  // Output: Hello
+print(trim("  Hello  "));  // Output: Hello
+print(replace(message, "World", "Vasuki"));  // Output: Hello, Vasuki!
+```
+
+### **String Inspection**
+
+- **length(str)**: Returns the length of a string
+- **contains(str, substr)**: Checks if a string contains a substring
+- **startswith(str, prefix)**: Checks if a string starts with a prefix
+- **endswith(str, suffix)**: Checks if a string ends with a suffix
+
+#### **Example**
+```bash
+var text = "Vasuki Programming Language";
+print("Length: " + length(text));  // Output: Length: 28
+print("Contains 'Program': " + contains(text, "Program"));  // Output: Contains 'Program': true
+print("Starts with 'Vas': " + startswith(text, "Vas"));  // Output: Starts with 'Vas': true
+print("Ends with 'age': " + endswith(text, "age"));  // Output: Ends with 'age': true
+```
+
+### **String Splitting**
+
+- **split(str, delimiter)**: Splits a string into an array of substrings
+
+#### **Example**
+```bash
+var csv = "Alice,Bob,Charlie,Diana";
+var names = split(csv, ",");
+print("First name: " + names[1]);  // Output: First name: Alice
+print("Last name: " + names[4]);  // Output: Last name: Diana
+```
+
+---
+
+## **Type Operations**
+
+Vasuki includes functions for working with types:
+
+### **Type Checking**
+
+- **is_int(value)**: Checks if a value is an integer
+- **is_float(value)**: Checks if a value is a float
+- **is_string(value)**: Checks if a value is a string
+- **is_bool(value)**: Checks if a value is a boolean
+- **is_array(value)**: Checks if a value is an array
+- **is_dict(value)**: Checks if a value is a dictionary
+- **is_function(value)**: Checks if a value is a function
+- **get_type(value)**: Returns the type of a value as a string
+
+#### **Example**
+```bash
+var num = 42;
+var text = "Hello";
+var arr = [1, 2, 3];
+
+print("num is int: " + is_int(num));  // Output: num is int: true
+print("text is string: " + is_string(text));  // Output: text is string: true
+print("arr is array: " + is_array(arr));  // Output: arr is array: true
+
+print("Type of num: " + get_type(num));  // Output: Type of num: int
+print("Type of text: " + get_type(text));  // Output: Type of text: string
+```
+
+### **Type Conversion**
+
+- **to_int(value)**: Converts a value to an integer
+- **to_float(value)**: Converts a value to a float
+- **to_string(value)**: Converts a value to a string
+- **to_bool(value)**: Converts a value to a boolean
+
+#### **Example**
+```bash
+var numStr = "42";
+var floatStr = "3.14";
+var boolStr = "true";
+
+var num = to_int(numStr);
+print("Converted to int: " + num + " (type: " + get_type(num) + ")");  // Output: Converted to int: 42 (type: int)
+
+var pi = to_float(floatStr);
+print("Converted to float: " + pi + " (type: " + get_type(pi) + ")");  // Output: Converted to float: 3.14 (type: float)
+
+var flag = to_bool(boolStr);
+print("Converted to bool: " + flag + " (type: " + get_type(flag) + ")");  // Output: Converted to bool: true (type: bool)
+```
+
+---
+
+## **Input/Output Functions**
+
+Vasuki provides several functions for reading input from the user:
+
+### **Basic Input**
+
+- **read_line()**: Reads a line of text from the terminal
+- **read_int()**: Reads an integer from the terminal
+- **read_float()**: Reads a floating-point number from the terminal
+
+#### **Example**
+```bash
+print("What is your name?");
+var name = read_line();
+print("Hello, " + name + "!");
+
+print("How old are you?");
+var age = read_int();
+print("In 5 years, you will be " + (age + 5) + " years old.");
+
+print("Enter a decimal number:");
+var decimal = read_float();
+print("You entered: " + decimal);
+```
+
+### **Advanced Input**
+
+- **read_ints(count)**: Reads multiple integers
+- **read_floats(count)**: Reads multiple floating-point numbers
+- **read_lines(count)**: Reads multiple lines
+- **read_all()**: Reads all available input until EOF
+
+#### **Example**
+```bash
+print("Enter 3 numbers:");
+var numbers = read_ints(3);
+print("Sum: " + (numbers[1] + numbers[2] + numbers[3]));
+
+print("Enter 2 lines of text:");
+var lines = read_lines(2);
+print("You entered: " + lines[1] + " and " + lines[2]);
+```
+
 ---
 
 ## **Special Features**
 
 Vasuki includes several unique features that make it stand out. These features are designed to enhance flexibility, readability, and debugging capabilities.
+
+### **Dynamic Variables and Functions**
+
+Vasuki supports dynamic scoping through the `dynamic` keyword, which allows variables and functions to be accessed from any context.
+
+#### **Dynamic Variables**
+
+Dynamic variables are declared using the `dynamic var` syntax:
+
+```bash
+dynamic var counter = 0;
+
+def increment() {
+    counter = counter + 1;  // Accesses the dynamic variable
+    return counter;
+};
+
+print(increment());  // Output: 1
+print(increment());  // Output: 2
+```
+
+Dynamic variables are accessible from any function, regardless of where they were declared.
+
+#### **Dynamic Functions**
+
+Similarly, dynamic functions are declared using the `dynamic def` syntax:
+
+```bash
+dynamic def greet(name) {
+    print("Hello, " + name + "!");
+};
+
+def call_greeter() {
+    greet("World");  // Calls the dynamic function
+};
+
+call_greeter();  // Output: Hello, World!
+```
+
+Dynamic functions can be called from any context, making them useful for utility functions that need to be accessed globally.
+
+### **Break and Continue Statements**
+
+Vasuki supports `break` and `continue` statements for controlling loop execution:
+
+#### **Break Statement**
+
+The `break` statement exits a loop immediately:
+
+```bash
+var i = 1;
+while (i <= 10) {
+    if (i == 5) {
+        break;  // Exit the loop when i equals 5
+    };
+    print(i);
+    i = i + 1;
+};
+// Output: 1 2 3 4
+```
+
+#### **Continue Statement**
+
+The `continue` statement skips the rest of the current iteration and proceeds to the next one:
+
+```bash
+var i = 0;
+while (i < 10) {
+    i = i + 1;
+    if (i % 2 == 0) {
+        continue;  // Skip even numbers
+    };
+    print(i);
+};
+// Output: 1 3 5 7 9
+```
 
 ---
 
@@ -425,10 +778,10 @@ Vasuki includes several unique features that make it stand out. These features a
 
 Vasuki supports **dual scoping mechanisms**, which include **static scoping** and **dynamic scoping**. These mechanisms determine how variables are resolved during program execution.
 
-- **Static Scoping**:  
+- **Static Scoping**:
   Variables are resolved based on their declaration location in the code. This ensures predictable behavior, as the variable's value is determined by the structure of the program.
 
-- **Dynamic Scoping**:  
+- **Dynamic Scoping**:
   Variables are resolved in the context of the caller's environment if they are not found in the static scope. This provides additional flexibility, especially in scenarios involving closures or nested function calls.
 
 #### **Example: Static and Dynamic Scoping**
@@ -442,7 +795,7 @@ def testScope() {
 testScope();  // Output: 100
 ```
 
-**Explanation**:  
+**Explanation**:
 In this example, the variable `globalVar` is declared in the global scope. The function `testScope` accesses `globalVar` using static scoping, as it is resolved in the environment where it was declared.
 
 ---
@@ -458,7 +811,7 @@ var result = if (x > 5) { x } else { 0 };
 print("Result: " + result);  // Output: Result: 10
 ```
 
-**Explanation**:  
+**Explanation**:
 In this example, the `if` statement evaluates the condition `x > 5`. Since the condition is true, the value of `x` (10) is returned and assigned to the variable `result`.
 
 #### **Example: For Loop with Return Value**
@@ -470,7 +823,7 @@ for (var i = 1; i <= 3; i = i + 1) {
 print("Sum: " + sum);  // Output: Sum: 6
 ```
 
-**Explanation**:  
+**Explanation**:
 The `for` loop iterates from 1 to 3, adding each value to `sum`. The final value of `sum` is returned after the loop completes.
 
 ---
@@ -488,7 +841,7 @@ def multiply(a, b) {
 print(multiply(3, 4));  // Output: 12
 ```
 
-**Explanation**:  
+**Explanation**:
 In this example, the function `multiply` does not explicitly use the `return` keyword. Instead, the last expression `a * b` is implicitly returned.
 
 #### **Example: Implicit Return in Control Structures**
@@ -497,8 +850,46 @@ var result = if (x > 5) { x } else { 0 };
 print("Result: " + result);  // Output: Result: 10
 ```
 
-**Explanation**:  
+**Explanation**:
 The `if` statement implicitly returns the value of the executed block, which is assigned to the variable `result`.
+
+### **Labels and Non-linear Control Flow**
+
+Vasuki supports labels and non-linear control flow through the `goandreturn` statement, which allows you to jump to a labeled section of code and then return to the original execution point.
+
+#### **Labels**
+
+Labels are defined using the syntax `labelName:`:
+
+```bash
+start:
+    print("This is the start label");
+```
+
+#### **GoAndReturn Statement**
+
+The `goandreturn` statement jumps to a label, executes the code, and then returns to the point after the `goandreturn` statement:
+
+```bash
+print("Before jump");
+
+goandreturn start;  // Jump to the 'start' label and return
+
+print("After jump");
+
+start:
+    print("Inside labeled block");
+```
+
+**Output**:
+```
+Before jump
+Inside labeled block
+After jump
+```
+
+**Explanation**:
+The `goandreturn` statement temporarily transfers control to the labeled block, executes it, and then returns to continue execution after the `goandreturn` statement.
 
 ---
 
@@ -514,10 +905,10 @@ Syntax errors occur when the code violates Vasuki's grammatical rules.
 var x = 10  // Missing semicolon
 ```
 
-**Error Message**:  
+**Error Message**:
 `SyntaxError: Expected ';' at the end of the statement.`
 
-**Solution**:  
+**Solution**:
 Add the missing semicolon:
 ```bash
 var x = 10;
@@ -531,10 +922,10 @@ Runtime errors occur during program execution, such as dividing by zero or acces
 var result = 10 / 0;  // Division by zero
 ```
 
-**Error Message**:  
+**Error Message**:
 `RuntimeError: Division by zero.`
 
-**Solution**:  
+**Solution**:
 Ensure that the denominator is not zero:
 ```bash
 var denominator = 2;
@@ -549,14 +940,58 @@ Lexical or parsing errors occur when the lexer or parser encounters invalid inpu
 var 123abc = 10;  // Invalid variable name
 ```
 
-**Error Message**:  
+**Error Message**:
 `LexicalError: Invalid token '123abc'.`
 
-**Solution**:  
+**Solution**:
 Use a valid variable name:
 ```bash
 var validName = 10;
 ```
+
+---
+
+## **Bytecode Execution**
+
+Vasuki programs can be executed using a bytecode virtual machine, which provides better performance than direct interpretation.
+
+### **Running Programs with Bytecode**
+
+To run a Vasuki program using the bytecode implementation:
+
+```bash
+python run_bytecode.py your_program.vasuki
+```
+
+This will compile your program to bytecode and execute it on the Vasuki virtual machine.
+
+### **Understanding Bytecode**
+
+Bytecode is a low-level representation of your program that can be efficiently executed by the virtual machine. When you run a program with the bytecode implementation, the following steps occur:
+
+1. Your Vasuki code is parsed into an Abstract Syntax Tree (AST)
+2. The AST is converted to bytecode instructions
+3. The bytecode is executed by the virtual machine
+
+### **Example: Bytecode Execution**
+
+Consider this simple program:
+
+```bash
+def add(a, b) {
+    return a + b;
+};
+
+print(add(5, 10));
+```
+
+When executed with the bytecode implementation, it produces the following output:
+
+```
+15
+```
+
+Behind the scenes, the program is converted to bytecode instructions that push values onto a stack, perform operations, and call functions.
 
 ---
 
@@ -595,7 +1030,7 @@ def testScope() {
 testScope();  // Output: 100
 ```
 
-**Explanation**:  
+**Explanation**:
 - The program demonstrates variable declaration, control structures, and functions.
 - It highlights Vasuki's unique features, such as implicit returns and dual scoping mechanisms.
 - The `testScope` function accesses the global variable `globalVar` using static scoping.
