@@ -13,7 +13,22 @@ css: assets/custom.css
     <li><a href="#lexical-analysis-lexer">Lexical Analysis (Lexer)</a></li>
     <li><a href="#parsing-and-ast">Parsing and AST</a></li>
     <li><a href="#interpreter-and-environment">Interpreter and Environment</a></li>
-    <li><a href="#advanced-constructs">Advanced Constructs</a></li>
+    <li><a href="#bytecode-implementation">Bytecode Implementation</a></li>
+    <li><a href="#extended-bytecode-features">Extended Bytecode Features</a></li>
+    <li><a href="#compiler-pipeline">Compiler Pipeline</a></li>
+    <li><a href="#advanced-constructs">Advanced Constructs</a>
+      <ul>
+        <li><a href="#higher-order-functions">Higher-Order Functions</a></li>
+        <li><a href="#global-variables-and-functions">Global Variables and Functions</a></li>
+        <li><a href="#arrays-and-array-operations">Arrays and Array Operations</a></li>
+        <li><a href="#dictionary-operations">Dictionary Operations</a></li>
+        <li><a href="#string-operations">String Operations</a></li>
+        <li><a href="#type-operations">Type Operations</a></li>
+        <li><a href="#labels-and-non-linear-control-flow">Labels and Control Flow</a></li>
+        <li><a href="#control-flow-statements">Control Flow Statements</a></li>
+        <li><a href="#inputoutput-functions">Input/Output Functions</a></li>
+      </ul>
+    </li>
     <li><a href="#special-language-features">Special Language Features</a></li>
     <li><a href="#error-handling-and-debugging">Error Handling and Debugging</a></li>
     <li><a href="#example-program-walkthrough">Example Program Walkthrough</a></li>
@@ -22,7 +37,7 @@ css: assets/custom.css
 </div>
 
 
- 
+
 ---
 
 Welcome to the advanced documentation for Vasuki. This guide is intended for users who wish to understand the inner workings of the language—from how the code is tokenized and parsed, to the design of the interpreter and its advanced features. Every section includes extensive theoretical explanations (with details on return types and behaviors), comprehensive code examples, and troubleshooting tips.
@@ -31,15 +46,14 @@ Welcome to the advanced documentation for Vasuki. This guide is intended for use
 
 ## **Overview**
 
-Vasuki is a lightweight scripting language that combines simplicity with powerful features. Key aspects include:  
+Vasuki is a lightweight scripting language that combines simplicity with powerful features. Key aspects include:
 
-- **Dual Scoping Mechanisms**:  
-  Supports both static and dynamic scoping, allowing variables to be resolved based on both their declaration site and the calling context.
-- **Implicit Returns**:  
+
+- **Implicit Returns**:
   Lines written without a semicolon are treated as having an implicit `return` at the end.
-- **Control Structures with Return Values**:  
+- **Control Structures with Return Values**:
   If, for, and while constructs return the value of their executed block.
-- **Modular Architecture**:  
+- **Modular Architecture**:
   Comprised of a lexer, parser, AST builder, and interpreter.
 
 ---
@@ -48,22 +62,22 @@ Vasuki is a lightweight scripting language that combines simplicity with powerfu
 
 Vasuki’s syntax is minimal yet expressive. Its key elements include:
 
-- **Statements**:  
+- **Statements**:
   Each statement typically ends with a semicolon (`;`). Omission of a semicolon causes an implicit return of that expression.
-- **Blocks**:  
+- **Blocks**:
   Groups of statements enclosed in `{ }` for control structures.
-- **Expressions**:  
+- **Expressions**:
   Every expression has a type (e.g., integer, float, boolean) and returns a value upon evaluation.
 
 ### **Detailed Syntax**
 
-- **Variable Declaration**:  
+- **Variable Declaration**:
   ```bash
   var x = 10;
   ```
   Explanation: Declares variable x with an integer value 10. Returns 10.
 
-- **Assignment**:  
+- **Assignment**:
   ```bash
   x = x + 5;
   ```
@@ -164,11 +178,8 @@ The interpreter evaluates the AST within an environment that supports variable s
 
 ### **Environment Model**
 
-Static Scoping:
-Variables are resolved based on the environment where they were declared.
-
-Dynamic Scoping:
-Variables are resolved based on the calling context if not found in the static environment.
+Lexical Scoping:
+Variables are resolved based on the environment where they were declared. This ensures predictable behavior, as the variable's value is determined by the structure of the program.
 
 ### **Evaluation Process**
 
@@ -178,33 +189,438 @@ Variables are resolved based on the calling context if not found in the static e
 
 ## **Advanced Constructs**
 
-Vasuki includes several advanced programming features:
+Vasuki includes several advanced programming features that enhance its expressiveness and flexibility:
 
-Functions
-Syntax:
+### **Higher-Order Functions**
 
+Vasuki supports higher-order functions, allowing functions to be passed as arguments and returned from other functions.
+
+**Syntax and Behavior**:
 ```bash
-def functionName(param1, param2) {
-    // function body
-    return expression;
+// Function that takes another function as an argument
+def applyFunction(value, func) {
+    return func(value);
+}
+
+// Function to be passed as an argument
+def square(x) {
+    return x * x;
+}
+
+// Usage
+var result = applyFunction(5, square);  // Returns 25
+```
+
+**Implementation Details**:
+Functions in Vasuki are first-class citizens, represented internally as closures that capture their lexical environment:
+
+```python
+class UserFunction:
+    def __init__(self, params, body, env):
+        self.params = params
+        self.body = body
+        self.env = env  # Captures the lexical environment
+
+    def __call__(self, args, call_env=None):
+        # Create a new environment with the parent set to the lexical environment
+        local_env = Environment(self.env)
+        # Bind parameters to arguments
+        for i, param in enumerate(self.params):
+            local_env.declare(param, args[i])
+        # Execute the function body in the new environment
+        return evaluate(self.body, local_env)
+```
+
+### **Global Variables and Functions**
+
+Vasuki supports global variables and functions that can be accessed from any context through lexical scoping.
+
+**Syntax for Global Variables**:
+```bash
+var counter = 0;  // Global variable
+
+def increment() {
+    counter = counter + 1;  // Accesses the global variable
+    return counter;
+}
+
+print(increment());  // Output: 1
+print(increment());  // Output: 2
+```
+
+**Syntax for Global Functions**:
+```bash
+def greet(name) {
+    print("Hello, " + name + "!");
+}
+
+def callGreeter() {
+    greet("World");  // Calls the global function
+}
+
+callGreeter();  // Output: Hello, World!
+```
+
+**Implementation Details**:
+Variables are stored in environments that follow lexical scoping rules:
+
+```python
+# Lookup mechanism that follows lexical scoping
+def lookup(name, env):
+    # First try to find in current scope
+    if name in env.values:
+        return env.values[name]
+    # If not found, check parent scope
+    elif env.parent is not None:
+        return lookup(name, env.parent)
+    # If not found, raise an error
+    else:
+        raise NameError(f"Variable '{name}' not found")
+```
+
+### **Arrays and Array Operations**
+
+Vasuki provides comprehensive support for arrays with one-based indexing and various built-in operations.
+
+**Syntax and Operations**:
+```bash
+// Creating an array
+var arr = [1, 2, 3, 4, 5];
+
+// Accessing elements (one-based indexing)
+print(arr[1]);  // Output: 1 (first element)
+
+// Array functions
+print(length(arr));  // Output: 5
+push(arr, 6);        // Adds 6 to the end
+print(arr);          // Output: [1, 2, 3, 4, 5, 6]
+var last = pop(arr); // Removes and returns the last element
+print(last);         // Output: 6
+print(arr);          // Output: [1, 2, 3, 4, 5]
+
+// Finding min/max values
+print(min(arr));     // Output: 1
+print(max(arr));     // Output: 5
+```
+
+**Implementation Details**:
+Arrays are implemented as Python lists with special handling for one-based indexing:
+
+```python
+def array_get(arr, index):
+    # Convert from 1-based to 0-based indexing
+    if index < 1 or index > len(arr):
+        raise IndexError(f"Array index {index} out of bounds")
+    return arr[index - 1]
+
+def array_set(arr, index, value):
+    # Convert from 1-based to 0-based indexing
+    if index < 1 or index > len(arr):
+        raise IndexError(f"Array index {index} out of bounds")
+    arr[index - 1] = value
+    return value
+```
+
+### **Dictionary Operations**
+
+Vasuki supports dictionaries (key-value pairs) through built-in functions.
+
+**Syntax and Operations**:
+```bash
+// Creating a dictionary
+var person = dict();
+
+// Adding key-value pairs
+dict_put(person, "name", "Alice");
+dict_put(person, "age", 30);
+dict_put(person, "city", "New York");
+
+// Accessing values
+print(dict_get(person, "name"));  // Output: Alice
+
+// Checking if a key exists
+print(dict_contains(person, "email"));  // Output: false
+
+// Removing a key-value pair
+dict_remove(person, "city");
+
+// Getting all keys and values
+var keys = dict_keys(person);     // Returns ["name", "age"]
+var values = dict_values(person); // Returns ["Alice", 30]
+
+// Getting dictionary size
+print(dict_size(person));         // Output: 2
+
+// Clearing a dictionary
+dict_clear(person);
+```
+
+**Implementation Details**:
+Dictionaries are implemented as Python dictionaries with wrapper functions:
+
+```python
+def dict_create():
+    return {}
+
+def dict_put(d, key, value):
+    d[key] = value
+    return value
+
+def dict_get(d, key):
+    if key not in d:
+        raise KeyError(f"Key '{key}' not found in dictionary")
+    return d[key]
+
+# Additional dictionary operations...
+```
+
+### **String Operations**
+
+Vasuki provides a rich set of string manipulation functions.
+
+**Syntax and Operations**:
+```bash
+var text = "Hello, World!";
+
+// String manipulation
+print(uppercase(text));           // Output: HELLO, WORLD!
+print(lowercase(text));           // Output: hello, world!
+print(substring(text, 0, 5));     // Output: Hello
+print(trim("  Hello  "));         // Output: Hello
+print(replace(text, "World", "Vasuki")); // Output: Hello, Vasuki!
+
+// String inspection
+print(length(text));              // Output: 13
+print(contains(text, "World"));   // Output: true
+print(startswith(text, "Hello")); // Output: true
+print(endswith(text, "!"));       // Output: true
+
+// String splitting
+var parts = split("a,b,c", ",");  // Returns ["a", "b", "c"]
+```
+
+**Implementation Details**:
+String operations are implemented as wrapper functions around Python's string methods:
+
+```python
+def string_length(s):
+    return len(s)
+
+def string_contains(s, substr):
+    return substr in s
+
+def string_uppercase(s):
+    return s.upper()
+
+# Additional string operations...
+```
+
+### **Type Operations**
+
+Vasuki includes functions for working with types.
+
+**Syntax and Operations**:
+```bash
+var num = 42;
+var text = "Hello";
+var arr = [1, 2, 3];
+
+// Type checking
+print(is_int(num));       // Output: true
+print(is_string(text));   // Output: true
+print(is_array(arr));     // Output: true
+
+// Getting type information
+print(get_type(num));     // Output: int
+print(get_type(text));    // Output: string
+
+// Type conversion
+var numStr = "42";
+var converted = to_int(numStr);
+print(converted);         // Output: 42
+print(get_type(converted)); // Output: int
+```
+
+**Implementation Details**:
+Type operations are implemented as functions that check and convert Python types:
+
+```python
+def is_int(value):
+    return isinstance(value, int)
+
+def is_string(value):
+    return isinstance(value, str)
+
+def to_int(value):
+    return int(value)
+
+# Additional type operations...
+```
+
+### **Labels and Non-linear Control Flow**
+
+Vasuki supports labels and non-linear control flow through the `goandreturn` statement.
+
+**Syntax and Behavior**:
+```bash
+print("Before jump");
+
+goandreturn start;  // Jump to the 'start' label and return
+
+print("After jump");
+
+start:
+    print("Inside labeled block");
+```
+
+**Output**:
+```
+Before jump
+Inside labeled block
+After jump
+```
+
+**Implementation Details**:
+Labels and non-linear control flow are implemented using a special mechanism that stores labeled blocks and allows jumping to them:
+
+```python
+# Dictionary to store labeled blocks
+labels = {}
+
+def register_label(name, block):
+    labels[name] = block
+
+def goto_and_return(name, env):
+    if name not in labels:
+        raise ValueError(f"Label '{name}' not found")
+    # Execute the labeled block
+    result = evaluate(labels[name], env)
+    # Return to the original execution point
+    return result
+```
+
+### **Control Flow Statements**
+
+Vasuki supports standard control flow statements with additional features.
+
+**If-Else Statements with Return Values**:
+```bash
+var x = 10;
+var result = if (x > 5) {
+    "x is greater than 5"
+} else {
+    "x is 5 or less"
+};
+print(result);  // Output: x is greater than 5
+```
+
+**For Loops with Break and Continue**:
+```bash
+for (var i = 1; i <= 5; i = i + 1) {
+    if (i == 3) {
+        continue;  // Skip iteration when i is 3
+    }
+    if (i == 5) {
+        break;     // Exit loop when i is 5
+    }
+    print(i);      // Output: 1 2 4
 }
 ```
 
-Arrays
-Syntax:
-
+**While Loops with Break and Continue**:
 ```bash
-var arr = [1, 2, 3];
-print(arr[2]);  // One-based indexing: returns 2
+var i = 0;
+while (i < 10) {
+    i = i + 1;
+    if (i % 2 == 0) {
+        continue;  // Skip even numbers
+    }
+    if (i > 7) {
+        break;     // Exit loop when i exceeds 7
+    }
+    print(i);      // Output: 1 3 5 7
+}
 ```
 
-Labels and Custom Flow Control
-Syntax:
+**Implementation Details**:
+Control flow statements are implemented as AST nodes with special evaluation logic:
 
+```python
+def evaluate(node, env):
+    match node:
+        case If(condition, then_branch, else_branches, else_branch):
+            cond_value = evaluate(condition, env)
+            if is_truthy(cond_value):
+                return evaluate(then_branch, env)
+            # ... handle else-if branches ...
+            elif else_branch:
+                return evaluate(else_branch, env)
+            return None
+
+        case While(condition, body):
+            result = None
+            while is_truthy(evaluate(condition, env)):
+                try:
+                    result = evaluate(body, env)
+                except BreakException:
+                    break
+                except ContinueException:
+                    continue
+            return result
+
+        # ... other control flow statements ...
+```
+
+### **Input/Output Functions**
+
+Vasuki provides a comprehensive set of I/O functions.
+
+**Basic Input/Output**:
 ```bash
-labelName:
-    // code block
-goandreturn labelName;
+// Output
+print("Enter your name:");
+
+// Input
+var name = read_line();
+print("Hello, " + name + "!");
+
+// Reading numbers
+print("Enter your age:");
+var age = read_int();
+print("In 5 years, you will be " + (age + 5) + " years old.");
+```
+
+**Advanced Input**:
+```bash
+// Reading multiple values
+print("Enter 3 numbers separated by spaces:");
+var numbers = read_ints(3);
+print("Sum: " + (numbers[1] + numbers[2] + numbers[3]));
+
+// Reading multiple lines
+print("Enter 2 lines of text:");
+var lines = read_lines(2);
+print("You entered: " + lines[1] + " and " + lines[2]);
+```
+
+**Implementation Details**:
+I/O functions are implemented as wrappers around Python's input and print functions:
+
+```python
+def print_value(value):
+    print(value)
+    return value
+
+def read_line():
+    return input()
+
+def read_int():
+    return int(input())
+
+def read_ints(count):
+    values = list(map(int, input().split()))
+    # Convert to 1-indexed array
+    return [None] + values[:count]
 ```
 
 ---
@@ -213,48 +629,36 @@ goandreturn labelName;
 
 Vasuki offers several unique features that set it apart from other scripting languages. These features enhance flexibility, readability, and debugging capabilities.
 
-### **Dual Scoping Mechanisms**
 
-- **Static Scoping**:  
-  Variables are resolved based on their declaration location in the code. This ensures predictable behavior, as the variable's value is determined by the structure of the program.
-
-- **Dynamic Scoping**:  
-  Variables are resolved in the context of the caller's environment if they are not found in the static scope. This provides additional flexibility, especially in scenarios involving closures or nested function calls.
-
-**Detailed Explanation**:  
-Static scoping ensures that variables are bound to their declaration context, making the code easier to debug and understand. Dynamic scoping, on the other hand, allows for more dynamic behavior, enabling variables to adapt to the calling context.  
-*Examples and diagrams illustrating both scoping mechanisms are provided in the appendix.*
-
----
 
 ### **Control Structures with Return Values**
 
-- **Behavior**:  
+- **Behavior**:
   Control structures such as `if`, `for`, and `while` return the value of the last executed statement within their block. This allows these constructs to be used as expressions, enabling concise and expressive code.
 
-**Detailed Explanation**:  
-For example, an `if` statement can directly return a value:  
+**Detailed Explanation**:
+For example, an `if` statement can directly return a value:
 ```bash
 var result = if (x > 10) { x } else { 0 };
 ```
-Here, `result` will hold the value of `x` if the condition is true, or `0` otherwise. This feature simplifies code by reducing the need for additional variables or explicit return statements.  
+Here, `result` will hold the value of `x` if the condition is true, or `0` otherwise. This feature simplifies code by reducing the need for additional variables or explicit return statements.
 *Further examples and chaining techniques are discussed in the appendix.*
 
 ---
 
 ### **Implicit Return on Omitted Semicolons**
 
-- **Behavior**:  
+- **Behavior**:
   When a semicolon is omitted at the end of a statement, Vasuki treats it as an implicit `return`. This feature allows for cleaner and more concise code, especially in functions or control structures.
 
-**Detailed Explanation**:  
-For instance:  
+**Detailed Explanation**:
+For instance:
 ```bash
 def add(a, b) {
     a + b  // Implicitly returns the sum of a and b
 }
 ```
-This behavior reduces boilerplate code but requires careful use to avoid unintended returns.  
+This behavior reduces boilerplate code but requires careful use to avoid unintended returns.
 *Best practices and potential pitfalls are covered in the appendix.*
 
 ---
@@ -265,34 +669,34 @@ Robust error handling is a cornerstone of effective development. Vasuki provides
 
 ### **Common Error Types**
 
-1. **Syntax Errors**:  
-   - **Examples**: Missing semicolons, unmatched braces, or typos in keywords.  
-   - **Detailed Explanation**:  
-     Syntax errors occur when the code violates Vasuki's grammatical rules. For example:  
+1. **Syntax Errors**:
+   - **Examples**: Missing semicolons, unmatched braces, or typos in keywords.
+   - **Detailed Explanation**:
+     Syntax errors occur when the code violates Vasuki's grammatical rules. For example:
      ```bash
      var x = 10  // Missing semicolon
      ```
-     Vasuki will report an error indicating the missing semicolon.  
+     Vasuki will report an error indicating the missing semicolon.
      *Step-by-step debugging procedures are provided in the appendix.*
 
-2. **Runtime Errors**:  
-   - **Examples**: Undefined variables, invalid operations (e.g., division by zero).  
-   - **Detailed Explanation**:  
-     Runtime errors occur during program execution. For instance:  
+2. **Runtime Errors**:
+   - **Examples**: Undefined variables, invalid operations (e.g., division by zero).
+   - **Detailed Explanation**:
+     Runtime errors occur during program execution. For instance:
      ```bash
      var result = 10 / 0;  // Division by zero
      ```
-     Vasuki will halt execution and provide a stack trace to help locate the issue.  
+     Vasuki will halt execution and provide a stack trace to help locate the issue.
      *Strategies for handling runtime errors are discussed in detail.*
 
-3. **Lexical/Parsing Errors**:  
-   - **Examples**: Invalid tokens, unexpected symbols, or malformed expressions.  
-   - **Detailed Explanation**:  
-     These errors occur when the lexer or parser encounters invalid input. For example:  
+3. **Lexical/Parsing Errors**:
+   - **Examples**: Invalid tokens, unexpected symbols, or malformed expressions.
+   - **Detailed Explanation**:
+     These errors occur when the lexer or parser encounters invalid input. For example:
      ```bash
      var 123abc = 10;  // Invalid variable name
      ```
-     Vasuki will report an error indicating the invalid token.  
+     Vasuki will report an error indicating the invalid token.
      *Practical tips for resolving such errors are included in the appendix.*
 
 ---
@@ -301,16 +705,16 @@ Robust error handling is a cornerstone of effective development. Vasuki provides
 
 To effectively debug your Vasuki programs, follow these general guidelines:
 
-- **Read Error Messages Carefully**:  
+- **Read Error Messages Carefully**:
   Vasuki provides detailed error messages that often indicate the exact issue and its location.
 
-- **Isolate Problematic Code Blocks**:  
+- **Isolate Problematic Code Blocks**:
   Test individual sections of your code in isolation to identify the source of the error.
 
-- **Use Comments to Annotate Code**:  
+- **Use Comments to Annotate Code**:
   Add comments to clarify complex logic or temporarily disable sections of code for testing.
 
-- **Review Documentation**:  
+- **Review Documentation**:
   Refer to this documentation and the appendix for guidance on correct syntax, behavior, and best practices.
 
 By following these tips and leveraging Vasuki's debugging tools, you can quickly identify and resolve issues in your code.
@@ -319,81 +723,157 @@ By following these tips and leveraging Vasuki's debugging tools, you can quickly
 
 ## **Example Program Walkthrough**
 
-Below is a comprehensive advanced example that integrates many language features, including dual scoping, control structures with return values, and implicit returns.
+Below is a comprehensive advanced example that integrates many language features, including higher-order functions, dynamic variables, dictionaries, arrays, and non-linear control flow.
 
 ```bash
 // Advanced Example: Comprehensive Integration
 
-// Declare and initialize variables
-var x = 10;
-var y = 5;
+// Global variable declaration
+var counter = 0;
 
-// Compute the sum of x and y
-var sum = x + y;
-print("Sum: " + sum);  // Expected output: Sum: 15
+// Function to increment the counter
+def increment() {
+    counter = counter + 1;
+    return counter;
+}
 
-// Conditional with implicit return
-if (sum > 10) {
-    print("Sum is greater than 10");
+// Higher-order function that applies a function n times
+def apply_n_times(func, n) {
+    var results = [];
+    for (var i = 0; i < n; i = i + 1) {
+        push(results, func());
+    }
+    return results;
+}
+
+// Apply the increment function 5 times
+var counts = apply_n_times(increment, 5);
+print("Counts: " + counts);  // Output: Counts: [1, 2, 3, 4, 5]
+
+// Dictionary operations
+var person = dict();
+dict_put(person, "name", "Alice");
+dict_put(person, "age", 30);
+dict_put(person, "skills", ["Python", "JavaScript", "Vasuki"]);
+
+// Accessing dictionary values
+print("Name: " + dict_get(person, "name"));  // Output: Name: Alice
+print("Skills: " + dict_get(person, "skills"));  // Output: Skills: ["Python", "JavaScript", "Vasuki"]
+
+// String operations
+var greeting = "  Hello, " + dict_get(person, "name") + "!  ";
+print("Original: '" + greeting + "'");  // Output: Original: '  Hello, Alice!  '
+print("Trimmed: '" + trim(greeting) + "'");  // Output: Trimmed: 'Hello, Alice!'
+print("Uppercase: '" + uppercase(greeting) + "'");  // Output: Uppercase: '  HELLO, ALICE!  '
+
+// Control flow with return values
+var age = dict_get(person, "age");
+var status = if (age < 18) {
+    "minor"
+} else if (age < 65) {
+    "adult"
 } else {
-    print("Sum is 10 or less");
+    "senior"
+};
+print(dict_get(person, "name") + " is a " + status);  // Output: Alice is a adult
+
+// Array operations with break and continue
+var numbers = [10, 15, 3, 7, 22, 8, 13];
+print("Original array: " + numbers);
+
+// Find all numbers greater than 10
+var largeNumbers = [];
+for (var i = 1; i <= length(numbers); i = i + 1) {
+    var num = numbers[i];
+    if (num <= 10) {
+        continue;  // Skip numbers <= 10
+    }
+    push(largeNumbers, num);
+    if (length(largeNumbers) >= 3) {
+        break;  // Stop after finding 3 large numbers
+    }
 }
+print("Large numbers: " + largeNumbers);  // Output: Large numbers: [15, 22, 13]
 
-// For loop with control structure returning a value implicitly
-for (var i = 0; i < 3; i = i + 1) {
-    print("Iteration " + i);
-}
+// Type operations
+print("Type of age: " + get_type(age));  // Output: Type of age: int
+print("Is array? " + is_array(largeNumbers));  // Output: Is array? true
+print("Converted to string: " + to_string(age));  // Output: Converted to string: 30
 
-// Function definition (advanced usage)
-def add(a, b) {
-    a + b  // Implicit return of a+b due to omitted semicolon
-}
-print("Addition: " + add(3, 4));  // Expected output: Addition: 7
+// Labels and non-linear control flow
+print("Before jump");
 
-// Array usage with one-based indexing
-var arr = [10, 20, 30];
-print("Second element: " + arr[2]);  // Expected output: Second element: 20
+goandreturn processData;  // Jump to the processData label
 
-// Using labels for custom flow control
-startLabel:
-    print("Inside labeled block");
-goandreturn startLabel;  // Jumps to startLabel and returns from the block
+print("After jump");
+
+// Label for data processing
+processData:
+    print("Processing data...");
+    var sum = 0;
+    for (var i = 1; i <= length(numbers); i = i + 1) {
+        sum = sum + numbers[i];
+    }
+    print("Sum of all numbers: " + sum);
 ```
 
-Detailed Explanation:
-• Variables & Arithmetic:
+### **Detailed Explanation**
 
-x and y are initialized, and their sum is computed (returning an integer). • Conditional Statement:
+This comprehensive example demonstrates the advanced features of Vasuki:
 
-The if statement evaluates sum > 10 and executes the appropriate block. If semicolons are omitted, the block’s value is implicitly returned. • Loop:
+1. **Global Variables**:
+   - The `counter` variable is declared in the global scope, making it accessible from any function.
+   - The `increment` function can access and modify this variable through lexical scoping.
 
-The for loop iterates three times, demonstrating implicit return behavior. • Functions:
+2. **Higher-Order Functions**:
+   - `apply_n_times` takes a function as an argument and applies it multiple times.
+   - It demonstrates how functions can be passed as values and called within other functions.
 
-The function add is defined using implicit return syntax. It demonstrates how parameters are passed and how the function returns a value. • Arrays:
+3. **Dictionary Operations**:
+   - A dictionary is created to store person information.
+   - Various dictionary operations are demonstrated: adding key-value pairs, retrieving values, and storing complex data types (arrays).
 
-Arrays are created with literal syntax and accessed using one-based indexing. • Labels:
+4. **String Operations**:
+   - String concatenation, trimming, and case conversion are demonstrated.
+   - These operations show how strings can be manipulated in Vasuki.
 
-Labels and the goandreturn statement allow for advanced control flow, illustrating non-linear execution paths.
+5. **Control Flow with Return Values**:
+   - The `if-else if-else` structure returns a value that is assigned to the `status` variable.
+   - This demonstrates how control structures can be used as expressions.
+
+6. **Array Operations with Break and Continue**:
+   - The example shows how to iterate through an array using one-based indexing.
+   - `continue` is used to skip elements that don't meet a condition.
+   - `break` is used to exit the loop early once a certain number of elements are found.
+
+7. **Type Operations**:
+   - Type checking and conversion functions are demonstrated.
+   - These operations show how to work with different data types in Vasuki.
+
+8. **Labels and Non-linear Control Flow**:
+   - The `goandreturn` statement jumps to the `processData` label, executes that code, and then returns.
+   - This demonstrates Vasuki's support for non-linear control flow.
+
+This example showcases the flexibility and power of Vasuki, integrating multiple language features in a cohesive program.
 
 ---
 
 ## **Appendix: Extended Explanations and Examples**
 
 Appendix A: Detailed Variable Scoping and Environment Handling
-In Vasuki, variable resolution uses both static and dynamic scoping.
-Static scoping resolves variables in the context of their declaration.
-Dynamic scoping considers the call stack for variable resolution.
+In Vasuki, variable resolution uses lexical scoping.
+Variables are resolved in the context of their declaration.
 Example:
 
 ```bash
 var globalVar = 100;
 def testScope() {
-    print(globalVar);  // Resolves via static scope if not shadowed dynamically
+    print(globalVar);  // Resolves via lexical scope
 }
 testScope();
 ```
 
-Explanation: The function testScope prints globalVar by looking up the static environment.
+Explanation: The function testScope prints globalVar by looking up the lexical environment.
 (…continued in-depth explanation…)
 
 Appendix B: Extended Operator Precedence and Evaluation Order
@@ -459,6 +939,3 @@ print("Complex Function Output: " + complexFunction(15, 5));
 (Detailed explanation of each part of the function, including scoping, control flow, and return behavior.)
 
 ---
-</div>
-
-
