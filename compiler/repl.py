@@ -1,8 +1,25 @@
+"""
+Read-Eval-Print Loop (REPL) for the Vasuki programming language.
+
+This module provides an interactive shell for executing Vasuki code.
+It supports multi-line input and maintains state between commands.
+"""
+
 from compiler.parser import parse
 from compiler.errors import ParserError
 from compiler.top import e, Environment
 
 def main():
+    """Run the Vasuki REPL.
+
+    Creates an interactive shell that:
+    1. Reads user input, supporting multi-line code blocks
+    2. Parses and evaluates the input
+    3. Prints the result of the evaluation
+    4. Maintains environment state between commands
+
+    The REPL continues until the user enters 'exit' or sends an EOF signal (Ctrl+D).
+    """
     env = Environment()
     print("\033[1;92m")
     print("╔════════════════════════════════════════════╗")

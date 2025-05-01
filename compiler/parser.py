@@ -1,21 +1,51 @@
-from top import (BinOp, UnOp, Float, Int, String, Boolean, If, Parentheses, Program, VarDecl, DynamicVarDecl,
+"""
+Parser for the Vasuki programming language.
+
+This module provides functionality to parse tokens from the lexer into an abstract
+syntax tree (AST) that represents the structure and semantics of the program.
+It implements a recursive descent parser with precedence climbing for expressions.
+"""
+
+from compiler.top import (BinOp, UnOp, Float, Int, String, Boolean, If, Parentheses, Program, VarDecl, DynamicVarDecl,
                  VarReference, Assignment, AST, For, While, Print,
                  ArrayLiteral, ArrayIndex, ArrayAssignment, StringIndex, DictLiteral, DictGet, FunctionCall, FunctionDef, DynamicFunctionDef, Return, Yield, Label, LabelReturn, GoAndReturn,
                  Break, Continue)
 
-
-from lexer import IntToken, FloatToken, StringToken, OperatorToken, KeywordToken, ParenToken, Token, lex
-from errors import ParserError, SourceLocation
+from compiler.lexer import IntToken, FloatToken, StringToken, OperatorToken, KeywordToken, ParenToken, Token, lex
+from compiler.errors import ParserError, SourceLocation
 import builtins
 from more_itertools import peekable
 
 def parse(s: str, filename="<input>") -> AST:
+    """Parse a string of Vasuki source code into an abstract syntax tree.
+
+    This function tokenizes the input string and then constructs an AST
+    by analyzing the sequence of tokens according to the language grammar.
+
+    Args:
+        s: The source code string to parse
+        filename: Optional name of the source file (for error reporting)
+
+    Returns:
+        The root AST node representing the parsed program
+
+    Raises:
+        ParserError: If the input contains syntax errors
+    """
     # Get the tokens with source location information
     t = peekable(lex(s, filename))
     source_lines = s.splitlines()
 
-    # Helper function to raise parser errors with location information
     def raise_parser_error(message, token=None):
+        """Raise a parser error with detailed location information.
+
+        Args:
+            message: The error message
+            token: Optional token where the error occurred (defaults to current token)
+
+        Raises:
+            ParserError: With location information and source line
+        """
         if token is None:
             token = t.peek(None)
 
@@ -28,6 +58,14 @@ def parse(s: str, filename="<input>") -> AST:
             raise ParserError(message)
 
     def expect(what: Token):
+        """Consume the next token if it matches the expected token.
+
+        Args:
+            what: The expected token
+
+        Raises:
+            ParserError: If the next token doesn't match the expected token
+        """
         if t.peek(None) == what:
             next(t)
             return
@@ -39,6 +77,13 @@ def parse(s: str, filename="<input>") -> AST:
             raise_parser_error(f"Expected {what}, but got {current}")
 
     def parse_logic_or():
+        """Parse logical OR expressions.
+
+        Handles expressions with the 'or' operator, which has the lowest precedence.
+
+        Returns:
+            An AST node representing the parsed expression
+        """
         left = parse_logic_and()
         while t.peek(None) == KeywordToken("or"):
             next(t)
@@ -47,6 +92,14 @@ def parse(s: str, filename="<input>") -> AST:
         return left
 
     def parse_logic_and():
+        """Parse logical AND expressions.
+
+        Handles expressions with the 'and' operator, which has higher precedence
+        than 'or' but lower than comparison operators.
+
+        Returns:
+            An AST node representing the parsed expression
+        """
         left = parse_equality()
         while t.peek(None) == KeywordToken("and"):
             next(t)
@@ -55,6 +108,13 @@ def parse(s: str, filename="<input>") -> AST:
         return left
 
     def parse_equality():
+        """Parse equality expressions.
+
+        Handles expressions with '==' and '!=' operators.
+
+        Returns:
+            An AST node representing the parsed expression
+        """
         left = parse_comparison()
         while t.peek(None) in [OperatorToken("=="), OperatorToken("!=")]:
             op = next(t).o
@@ -63,6 +123,13 @@ def parse(s: str, filename="<input>") -> AST:
         return left
 
     def parse_comparison():
+        """Parse comparison expressions.
+
+        Handles expressions with '<', '>', '<=', and '>=' operators.
+
+        Returns:
+            An AST node representing the parsed expression
+        """
         left = parse_term()
         while t.peek(None) in [OperatorToken("<"), OperatorToken(">"), OperatorToken("<="), OperatorToken(">=")]:
             op = next(t).o
@@ -71,6 +138,13 @@ def parse(s: str, filename="<input>") -> AST:
         return left
 
     def parse_term():
+        """Parse addition and subtraction expressions.
+
+        Handles expressions with '+' and '-' operators.
+
+        Returns:
+            An AST node representing the parsed expression
+        """
         left = parse_factor()
         while t.peek(None) in [OperatorToken("+"), OperatorToken("-")]:
             op = next(t).o
@@ -79,6 +153,13 @@ def parse(s: str, filename="<input>") -> AST:
         return left
 
     def parse_factor():
+        """Parse multiplication, division, and modulo expressions.
+
+        Handles expressions with '*', '/', and '%' operators.
+
+        Returns:
+            An AST node representing the parsed expression
+        """
         left = parse_power()
         while t.peek(None) in [OperatorToken("*"), OperatorToken("/"), OperatorToken("%")]:
             op = next(t).o
@@ -87,6 +168,13 @@ def parse(s: str, filename="<input>") -> AST:
         return left
 
     def parse_power():
+        """Parse exponentiation expressions.
+
+        Handles expressions with the '**' operator, which is right-associative.
+
+        Returns:
+            An AST node representing the parsed expression
+        """
         left = parse_if()
         if t.peek(None) == OperatorToken("**"):
             next(t)
@@ -95,6 +183,13 @@ def parse(s: str, filename="<input>") -> AST:
         return left
 
     def parse_if():
+        """Parse if-else expressions and statements.
+
+        Handles if expressions, if-else expressions, and if-elseif-else chains.
+
+        Returns:
+            An AST node representing the parsed if expression or statement
+        """
         if t.peek(None) != KeywordToken("if"):
             return parse_atom()
         next(t)  # consume "if"
@@ -114,6 +209,16 @@ def parse(s: str, filename="<input>") -> AST:
         return If(cond, then_expr, elseif_branches, None)
 
     def parse_while():
+        """Parse while loops.
+
+        Handles while loops with a condition in parentheses and a block body.
+
+        Returns:
+            A While AST node
+
+        Raises:
+            ParserError: If the while loop syntax is invalid
+        """
         next(t)  # consume "while"
         if t.peek(None) != ParenToken('('):
             raise_parser_error("Expected '(' after 'while'")
@@ -127,6 +232,17 @@ def parse(s: str, filename="<input>") -> AST:
         return While(condition, body)
 
     def parse_for():
+        """Parse for loops.
+
+        Handles C-style for loops with initializer, condition, and increment
+        expressions separated by semicolons.
+
+        Returns:
+            A For AST node
+
+        Raises:
+            ParserError: If the for loop syntax is invalid
+        """
         next(t)  # consume "for"
         try:
             expect(ParenToken('('))

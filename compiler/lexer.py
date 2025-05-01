@@ -1,18 +1,38 @@
-# lexer.py
+"""
+Lexical analyzer for the Vasuki programming language.
+
+This module provides functionality to tokenize source code into a stream of tokens
+that can be processed by the parser. It handles various token types including
+integers, floats, operators, keywords, parentheses, and strings.
+"""
 from collections.abc import Iterator
-from errors import LexerError, SourceLocation
+from compiler.errors import LexerError, SourceLocation
 
 class Token:
-    """Base class for all tokens."""
+    """Base class for all tokens in the Vasuki language.
+
+    All specific token types inherit from this class and implement their own
+    equality comparison methods.
+    """
     def __init__(self):
         self.location = SourceLocation()
 
     def set_location(self, line, column, file=None):
-        """Set the source location for this token."""
+        """Set the source location for this token.
+
+        Args:
+            line: The line number where the token appears (1-based)
+            column: The column number where the token starts (1-based)
+            file: Optional filename where the token appears
+
+        Returns:
+            self: Returns the token instance for method chaining
+        """
         self.location = SourceLocation(line, column, file)
         return self
 
 class IntToken(Token):
+    """Token representing an integer literal in the source code."""
     def __init__(self, v):
         super().__init__()
         self.v = v
@@ -23,6 +43,7 @@ class IntToken(Token):
         return self.v == other.v
 
 class FloatToken(Token):
+    """Token representing a floating-point literal in the source code."""
     def __init__(self, v):
         super().__init__()
         self.v = v
@@ -33,6 +54,11 @@ class FloatToken(Token):
         return self.v == other.v
 
 class OperatorToken(Token):
+    """Token representing an operator or delimiter in the source code.
+
+    This includes arithmetic operators, comparison operators, and delimiters
+    like braces, brackets, and semicolons.
+    """
     def __init__(self, o):
         super().__init__()
         self.o = o
@@ -43,6 +69,11 @@ class OperatorToken(Token):
         return self.o == other.o
 
 class KeywordToken(Token):
+    """Token representing a keyword or identifier in the source code.
+
+    This includes language keywords like 'if', 'else', 'var', etc.,
+    as well as user-defined identifiers.
+    """
     def __init__(self, w):
         super().__init__()
         self.w = w
@@ -53,6 +84,11 @@ class KeywordToken(Token):
         return self.w == other.w
 
 class ParenToken(Token):
+    """Token representing parentheses in the source code.
+
+    This specifically handles '(' and ')' characters, which are used for
+    grouping expressions and function calls.
+    """
     def __init__(self, w):
         super().__init__()
         self.w = w
@@ -63,6 +99,7 @@ class ParenToken(Token):
         return self.w == other.w
 
 class StringToken(Token):
+    """Token representing a string literal in the source code."""
     def __init__(self, s):
         super().__init__()
         self.s = s
@@ -73,18 +110,52 @@ class StringToken(Token):
         return self.s == other.s
 
 def lex(s: str, filename="<input>") -> Iterator[Token]:
+    """Tokenize the input string into a stream of tokens.
+
+    This function scans through the input string character by character,
+    identifying tokens according to the Vasuki language syntax rules.
+    It handles whitespace, comments, numbers, identifiers, operators,
+    and other language elements.
+
+    Args:
+        s: The source code string to tokenize
+        filename: Optional name of the source file (for error reporting)
+
+    Returns:
+        An iterator yielding Token objects
+
+    Raises:
+        LexerError: If invalid syntax is encountered
+    """
     i = 0
     line = 1
     column = 1
 
-    # Helper function to create tokens with location information
     def create_token_with_location(token_class, value, start_column):
+        """Create a token with source location information.
+
+        Args:
+            token_class: The token class to instantiate
+            value: The value to pass to the token constructor
+            start_column: The column where the token starts
+
+        Returns:
+            A new token with location information set
+        """
         token = token_class(value)
         token.set_location(line, start_column, filename)
         return token
 
-    # Helper function to raise lexer errors with location information
     def raise_lexer_error(message, error_column=None):
+        """Raise a lexer error with detailed location information.
+
+        Args:
+            message: The error message
+            error_column: Optional specific column where the error occurred
+
+        Raises:
+            LexerError: With location information and source line
+        """
         loc = SourceLocation(line, error_column or column, filename)
         source_line = s.splitlines()[line-1] if line <= len(s.splitlines()) else None
         raise LexerError(message, loc, source_line)
@@ -187,9 +258,8 @@ def lex(s: str, filename="<input>") -> Iterator[Token]:
                     line += 1
                     column = 1
             elif s[i+1] == '*':
-                # Multi-line comment
-                comment_start_line = line
-                comment_start_column = column
+                # Multi-line comment with support for nested comments
+                start_column = column
                 i += 2  # Skip '/*' characters
                 column += 2
                 nesting = 1
@@ -210,7 +280,7 @@ def lex(s: str, filename="<input>") -> Iterator[Token]:
                         i += 1
                         column += 1
                 if nesting > 0:
-                    raise_lexer_error('Unterminated multi-line comment', comment_start_column)
+                    raise_lexer_error('Unterminated multi-line comment', start_column)
             else:
                 # Regular division operator
                 yield create_token_with_location(OperatorToken, '/', start_column)

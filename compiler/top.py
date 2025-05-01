@@ -1,21 +1,47 @@
+"""
+Core interpreter and abstract syntax tree (AST) definitions for the Vasuki language.
+
+This module defines the AST node classes, the evaluation function, and core data structures
+used by the Vasuki language interpreter. It includes implementations of dictionaries,
+environments for variable scoping, and the main evaluation logic.
+"""
+
 from dataclasses import dataclass
 import builtins
-from errors import NameError, TypeError, ValueError, IndexError, KeyError, DivisionByZeroError, RuntimeError
+from compiler.errors import NameError, TypeError, ValueError, IndexError, KeyError, DivisionByZeroError, RuntimeError
 
 class AST:
+    """Base class for all abstract syntax tree nodes."""
     pass
-
-
-# Dictionary implementation using hash map with buckets for collision resolution
 class Dictionary:
+    """Custom dictionary implementation using a hash map with buckets for collision resolution.
+
+    This class provides a dictionary data structure built from scratch rather than
+    using Python's built-in dictionary. It implements common dictionary operations
+    like get, put, contains, etc.
+    """
     def __init__(self, capacity=16):
+        """Initialize a new dictionary with the specified capacity.
+
+        Args:
+            capacity: Initial number of buckets in the hash map
+        """
         self.capacity = capacity
         self.size = 0
         self.buckets = [[] for _ in range(capacity)]
         self.load_factor_threshold = 0.75
 
     def _hash(self, key):
-        # Simple hash function
+        """Calculate a hash value for the given key.
+
+        Implements different hashing strategies based on the key type.
+
+        Args:
+            key: The key to hash
+
+        Returns:
+            An integer hash value within the capacity range
+        """
         if isinstance(key, int):
             return key % self.capacity
         elif isinstance(key, float):
@@ -33,18 +59,29 @@ class Dictionary:
             return id(key) % self.capacity
 
     def _find_entry(self, key):
-        # Find the entry with the given key in the appropriate bucket
+        """Find the entry with the given key in the appropriate bucket.
+
+        Args:
+            key: The key to find
+
+        Returns:
+            A tuple (bucket_index, entry_index) where entry_index is -1 if not found
+        """
         bucket_index = self._hash(key)
         bucket = self.buckets[bucket_index]
 
-        for i, (k, v) in enumerate(bucket):
+        for i, (k, _) in enumerate(bucket):
             if k == key:
                 return bucket_index, i
 
         return bucket_index, -1
 
     def _resize(self, new_capacity):
-        # Resize the hash map when load factor exceeds threshold
+        """Resize the hash map when the load factor exceeds the threshold.
+
+        Args:
+            new_capacity: The new capacity for the hash map
+        """
         old_buckets = self.buckets
         self.capacity = new_capacity
         self.buckets = [[] for _ in range(new_capacity)]
@@ -56,7 +93,12 @@ class Dictionary:
                 self.put(key, value)
 
     def put(self, key, value):
-        # Insert or update a key-value pair
+        """Insert or update a key-value pair in the dictionary.
+
+        Args:
+            key: The key to insert or update
+            value: The value to associate with the key
+        """
         bucket_index, entry_index = self._find_entry(key)
 
         if entry_index >= 0:
@@ -72,7 +114,15 @@ class Dictionary:
                 self._resize(self.capacity * 2)
 
     def get(self, key, default=None):
-        # Get the value for a key, or default if key not found
+        """Get the value for a key, or a default value if the key is not found.
+
+        Args:
+            key: The key to look up
+            default: The value to return if the key is not found
+
+        Returns:
+            The value associated with the key, or the default value
+        """
         bucket_index, entry_index = self._find_entry(key)
 
         if entry_index >= 0:
@@ -81,12 +131,26 @@ class Dictionary:
             return default
 
     def contains(self, key):
-        # Check if the dictionary contains a key
+        """Check if the dictionary contains a key.
+
+        Args:
+            key: The key to check for
+
+        Returns:
+            True if the key exists in the dictionary, False otherwise
+        """
         _, entry_index = self._find_entry(key)
         return entry_index >= 0
 
     def remove(self, key):
-        # Remove a key-value pair
+        """Remove a key-value pair from the dictionary.
+
+        Args:
+            key: The key to remove
+
+        Returns:
+            True if the key was found and removed, False otherwise
+        """
         bucket_index, entry_index = self._find_entry(key)
 
         if entry_index >= 0:
@@ -98,7 +162,11 @@ class Dictionary:
             return False
 
     def keys(self):
-        # Get all keys
+        """Get all keys in the dictionary.
+
+        Returns:
+            A list of all keys
+        """
         result = []
         for bucket in self.buckets:
             for key, _ in bucket:
@@ -106,7 +174,11 @@ class Dictionary:
         return result
 
     def values(self):
-        # Get all values
+        """Get all values in the dictionary.
+
+        Returns:
+            A list of all values
+        """
         result = []
         for bucket in self.buckets:
             for _, value in bucket:
@@ -114,7 +186,11 @@ class Dictionary:
         return result
 
     def items(self):
-        # Get all key-value pairs
+        """Get all key-value pairs in the dictionary.
+
+        Returns:
+            A list of (key, value) tuples
+        """
         result = []
         for bucket in self.buckets:
             for key, value in bucket:
@@ -122,12 +198,16 @@ class Dictionary:
         return result
 
     def clear(self):
-        # Clear the dictionary
+        """Clear all entries from the dictionary."""
         self.buckets = [[] for _ in range(self.capacity)]
         self.size = 0
 
     def __str__(self):
-        # String representation
+        """Get a string representation of the dictionary.
+
+        Returns:
+            A string in the format "{key1: value1, key2: value2, ...}"
+        """
         items = []
         for bucket in self.buckets:
             for key, value in bucket:
@@ -150,13 +230,42 @@ BUILTIN_FUNCTIONS = [
     "random", "random_int", "random_float", "random_range", "random_choice", "random_seed"
 ]
 
-# Environment class supporting both static and dynamic scoping
 class Environment:
+    """Environment for variable and function scoping in the Vasuki language.
+
+    This class implements both static (lexical) and dynamic scoping for variables
+    and functions. It maintains a hierarchy of environments for static scoping
+    and uses global registries for dynamic scoping.
+    """
     def __init__(self, parent=None):
+        """Initialize a new environment.
+
+        Args:
+            parent: Optional parent environment for static scoping
+        """
         self.parent = parent
         self.values = {}
         self.variables = {}
+
     def lookup(self, name):
+        """Look up a variable or function by name.
+
+        Searches in the following order:
+        1. Current environment (static scope)
+        2. Parent environments (static scope)
+        3. Dynamic variables registry
+        4. Dynamic functions registry
+        5. Built-in functions
+
+        Args:
+            name: The name to look up
+
+        Returns:
+            The value associated with the name
+
+        Raises:
+            NameError: If the name is not defined in any scope
+        """
         # First try to find in static scope
         if name in self.values:
             return self.values[name]
@@ -171,11 +280,23 @@ class Environment:
         # If not found in dynamic functions, check built-in functions
         elif name in BUILTIN_FUNCTIONS:
             # Return a special marker to indicate this is a built-in function
-            # The actual function will be handled in the FunctionCall case
             return "__builtin__"
         else:
             raise NameError(f"Variable or function '{name}' is not defined")
+
     def assign(self, name, value):
+        """Assign a value to an existing variable or function.
+
+        Searches for the name in the same order as lookup() and updates
+        the first occurrence found.
+
+        Args:
+            name: The name to assign to
+            value: The value to assign
+
+        Raises:
+            NameError: If the name is not defined in any scope
+        """
         # First try to assign in static scope
         if name in self.values:
             self.values[name] = value
@@ -189,171 +310,276 @@ class Environment:
             dynamic_functions[name] = value
         else:
             raise NameError(f"Cannot assign to '{name}': variable or function is not defined")
+
     def declare(self, name, value):
+        """Declare a new variable or function in the current environment.
+
+        Args:
+            name: The name to declare
+            value: The initial value
+        """
         self.values[name] = value
+
     def declare_dynamic(self, name, value):
-        # Dynamic variables are stored in the global registry
+        """Declare a new dynamic variable in the global registry.
+
+        Args:
+            name: The name to declare
+            value: The initial value
+        """
         dynamic_variables[name] = value
+
     def declare_dynamic_function(self, name, value):
-        # Dynamic functions are stored in the global registry
+        """Declare a new dynamic function in the global registry.
+
+        Args:
+            name: The name to declare
+            value: The function value
+        """
         dynamic_functions[name] = value
 
 @dataclass
 class BinOp(AST):
+    """Binary operation node (e.g., addition, subtraction, etc.)."""
     op: str
     left: AST
     right: AST
+
 @dataclass
 class UnOp(AST):
+    """Unary operation node (e.g., negation)."""
     op: str
     num: AST
+
 @dataclass
 class Float(AST):
+    """Floating-point literal node."""
     val: str
+
 @dataclass
 class Int(AST):
+    """Integer literal node."""
     val: str
 
 @dataclass
 class String(AST):
+    """String literal node."""
     val: str
 
 @dataclass
 class Boolean(AST):
+    """Boolean literal node (true or false)."""
     val: bool
 
 @dataclass
 class Parentheses(AST):
+    """Parenthesized expression node."""
     val: AST
+
 @dataclass
 class If(AST):
+    """If-else conditional node."""
     cond: AST
     then: AST
     elseif_branches: list[tuple[AST, AST]]
     elsee: AST
+
 @dataclass
 class VarDecl(AST):
+    """Variable declaration node."""
     name: str
     value: AST
 
 @dataclass
 class DynamicVarDecl(AST):
+    """Dynamic variable declaration node."""
     name: str
     value: AST
 
 @dataclass
 class VarReference(AST):
+    """Variable reference node."""
     name: str
+
 @dataclass
 class Assignment(AST):
+    """Variable assignment node."""
     name: str
     value: AST
+
 @dataclass
 class Program(AST):
+    """Program node containing a list of statements."""
     statements: list[AST]
+
 @dataclass
 class For(AST):
+    """For loop node."""
     init: AST
     condition: AST
     increment: AST
     body: AST
+
 @dataclass
 class While(AST):
+    """While loop node."""
     condition: AST
     body: AST
+
 @dataclass
 class Print(AST):
+    """Print statement node."""
     expr: AST
+
 @dataclass
 class FunctionCall(AST):
+    """Function call node."""
     name: str
     args: list[AST]
+
 @dataclass
 class Label(AST):
+    """Label declaration node."""
     name: str
+
 @dataclass
 class LabelReturn(AST):
+    """Label return node."""
     name: str
+
 @dataclass
 class GoAndReturn(AST):
+    """Go-and-return statement node."""
     name: str
-# New AST nodes for arrays
+
 @dataclass
 class ArrayLiteral(AST):
+    """Array literal node."""
     elements: list[AST]
+
 @dataclass
 class ArrayIndex(AST):
+    """Array indexing node."""
     array: AST
     index: AST
 
 @dataclass
 class ArrayAssignment(AST):
+    """Array element assignment node."""
     array: AST
     index: AST
     value: AST
 
 @dataclass
 class Break(AST):
+    """Break statement node."""
     pass
 
 @dataclass
 class Continue(AST):
+    """Continue statement node."""
     pass
 
 @dataclass
 class StringIndex(AST):
+    """String indexing node."""
     string: AST
     index: AST
 
 @dataclass
 class DictLiteral(AST):
+    """Dictionary literal node."""
     keys: list[AST]
     values: list[AST]
 
 @dataclass
 class DictGet(AST):
+    """Dictionary key access node."""
     dict_expr: AST
     key: AST
 
 @dataclass
 class FunctionDef(AST):
+    """Function definition node."""
     name: str
     params: list[str]
     body: AST
 
 @dataclass
 class DynamicFunctionDef(AST):
+    """Dynamic function definition node."""
     name: str
     params: list[str]
     body: AST
 
-# A helper to represent a user‐defined function (its parameter names, body, and the closure in which it was defined)
 @dataclass
 class UserFunction:
+    """Helper class to represent a user-defined function.
+
+    Stores the parameter names, function body, and the closure
+    environment in which the function was defined.
+    """
     params: list[str]
     body: AST
     closure: Environment
+
 @dataclass
 class Return(AST):
+    """Return statement node."""
     value: AST
 
 @dataclass
 class Yield(AST):
+    """Yield statement node."""
     value: AST
 
 class ReturnException(Exception):
+    """Exception raised to handle return and yield statements.
+
+    This exception is used to implement non-local control flow for
+    return and yield statements, allowing them to exit multiple
+    levels of nested blocks.
+    """
     def __init__(self, value, is_yield=False):
+        """Initialize a new return exception.
+
+        Args:
+            value: The value to return or yield
+            is_yield: True if this is a yield statement, False for return
+        """
         self.value = value
         self.is_yield = is_yield
 
 class BreakException(Exception):
+    """Exception raised to handle break statements.
+
+    This exception is used to implement non-local control flow for
+    break statements, allowing them to exit loops.
+    """
     pass
 
 class ContinueException(Exception):
+    """Exception raised to handle continue statements.
+
+    This exception is used to implement non-local control flow for
+    continue statements, allowing them to skip to the next iteration.
+    """
     pass
 
 
 def e(tree: AST, env=None) -> int:
+    """Evaluate an AST node in the given environment.
+
+    This is the main evaluation function for the Vasuki language. It recursively
+    evaluates AST nodes according to the language semantics.
+
+    Args:
+        tree: The AST node to evaluate
+        env: The environment in which to evaluate the node (creates a new one if None)
+
+    Returns:
+        The result of evaluating the node
+    """
     if env is None:
         env = Environment()
     match tree:
