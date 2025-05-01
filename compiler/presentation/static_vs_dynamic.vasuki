@@ -1,6 +1,8 @@
 var static_var = 10;
 dynamic var dynamic_var = 20;
 
+print(dynamic_var);
+
 def test_scoping() {
     var static_var = 30;
     dynamic var dynamic_var = 40;

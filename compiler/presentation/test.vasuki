@@ -1,0 +1,13 @@
+dynamic var a = "lexical";
+
+def f(){
+    print(a);
+};
+
+def g(){
+    a = "dynamic";
+    f();
+};
+
+g();
+print(a);
