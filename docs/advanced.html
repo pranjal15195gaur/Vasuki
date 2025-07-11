@@ -1,0 +1,1086 @@
+<!DOCTYPE html>
+<html xmlns="http://www.w3.org/1999/xhtml" lang="en" xml:lang="en"><head>
+
+<meta charset="utf-8">
+<meta name="generator" content="quarto-1.6.42">
+
+<meta name="viewport" content="width=device-width, initial-scale=1.0, user-scalable=yes">
+
+
+<title>Vasuki Advanced Documentation – Vasuki Documentation</title>
+<style>
+code{white-space: pre-wrap;}
+span.smallcaps{font-variant: small-caps;}
+div.columns{display: flex; gap: min(4vw, 1.5em);}
+div.column{flex: auto; overflow-x: auto;}
+div.hanging-indent{margin-left: 1.5em; text-indent: -1.5em;}
+ul.task-list{list-style: none;}
+ul.task-list li input[type="checkbox"] {
+  width: 0.8em;
+  margin: 0 0.8em 0.2em -1em; /* quarto-specific, see https://github.com/quarto-dev/quarto-cli/issues/4556 */ 
+  vertical-align: middle;
+}
+/* CSS for syntax highlighting */
+pre > code.sourceCode { white-space: pre; position: relative; }
+pre > code.sourceCode > span { line-height: 1.25; }
+pre > code.sourceCode > span:empty { height: 1.2em; }
+.sourceCode { overflow: visible; }
+code.sourceCode > span { color: inherit; text-decoration: inherit; }
+div.sourceCode { margin: 1em 0; }
+pre.sourceCode { margin: 0; }
+@media screen {
+div.sourceCode { overflow: auto; }
+}
+@media print {
+pre > code.sourceCode { white-space: pre-wrap; }
+pre > code.sourceCode > span { display: inline-block; text-indent: -5em; padding-left: 5em; }
+}
+pre.numberSource code
+  { counter-reset: source-line 0; }
+pre.numberSource code > span
+  { position: relative; left: -4em; counter-increment: source-line; }
+pre.numberSource code > span > a:first-child::before
+  { content: counter(source-line);
+    position: relative; left: -1em; text-align: right; vertical-align: baseline;
+    border: none; display: inline-block;
+    -webkit-touch-callout: none; -webkit-user-select: none;
+    -khtml-user-select: none; -moz-user-select: none;
+    -ms-user-select: none; user-select: none;
+    padding: 0 4px; width: 4em;
+  }
+pre.numberSource { margin-left: 3em;  padding-left: 4px; }
+div.sourceCode
+  {   }
+@media screen {
+pre > code.sourceCode > span > a:first-child::before { text-decoration: underline; }
+}
+</style>
+
+
+<script src="site_libs/quarto-nav/quarto-nav.js"></script>
+<script src="site_libs/quarto-nav/headroom.min.js"></script>
+<script src="site_libs/clipboard/clipboard.min.js"></script>
+<script src="site_libs/quarto-search/autocomplete.umd.js"></script>
+<script src="site_libs/quarto-search/fuse.min.js"></script>
+<script src="site_libs/quarto-search/quarto-search.js"></script>
+<meta name="quarto:offset" content="./">
+<link href="./assets/logo.png" rel="icon" type="image/png">
+<script src="site_libs/quarto-html/quarto.js"></script>
+<script src="site_libs/quarto-html/popper.min.js"></script>
+<script src="site_libs/quarto-html/tippy.umd.min.js"></script>
+<script src="site_libs/quarto-html/anchor.min.js"></script>
+<link href="site_libs/quarto-html/tippy.css" rel="stylesheet">
+<link href="site_libs/quarto-html/quarto-syntax-highlighting-2f5df379a58b258e96c21c0638c20c03.css" rel="stylesheet" class="quarto-color-scheme" id="quarto-text-highlighting-styles">
+<link href="site_libs/quarto-html/quarto-syntax-highlighting-dark-b53751a350365c71b6c909e95f209ed1.css" rel="prefetch" class="quarto-color-scheme quarto-color-alternate" id="quarto-text-highlighting-styles">
+<script src="site_libs/bootstrap/bootstrap.min.js"></script>
+<link href="site_libs/bootstrap/bootstrap-icons.css" rel="stylesheet">
+<link href="site_libs/bootstrap/bootstrap-c104070abbf09777c786a7f68708a5f3.min.css" rel="stylesheet" append-hash="true" class="quarto-color-scheme" id="quarto-bootstrap" data-mode="light">
+<link href="site_libs/bootstrap/bootstrap-dark-66e461ae5d86116a5127912488658fee.min.css" rel="prefetch" append-hash="true" class="quarto-color-scheme quarto-color-alternate" id="quarto-bootstrap" data-mode="dark">
+<script id="quarto-search-options" type="application/json">{
+  "location": "navbar",
+  "copy-button": false,
+  "collapse-after": 3,
+  "panel-placement": "end",
+  "type": "overlay",
+  "limit": 50,
+  "keyboard-shortcut": [
+    "f",
+    "/",
+    "s"
+  ],
+  "show-item-context": false,
+  "language": {
+    "search-no-results-text": "No results",
+    "search-matching-documents-text": "matching documents",
+    "search-copy-link-title": "Copy link to search",
+    "search-hide-matches-text": "Hide additional matches",
+    "search-more-match-text": "more match in this document",
+    "search-more-matches-text": "more matches in this document",
+    "search-clear-button-title": "Clear",
+    "search-text-placeholder": "",
+    "search-detached-cancel-button-title": "Cancel",
+    "search-submit-button-title": "Submit",
+    "search-label": "Search"
+  }
+}</script>
+
+
+<link rel="stylesheet" href="assets/custom.css">
+</head>
+
+<body class="nav-fixed fullcontent">
+
+<div id="quarto-search-results"></div>
+  <header id="quarto-header" class="headroom fixed-top">
+    <nav class="navbar navbar-expand-lg " data-bs-theme="dark">
+      <div class="navbar-container container-fluid">
+      <div class="navbar-brand-container mx-auto">
+    <a class="navbar-brand" href="./index.html">
+    <span class="navbar-title">Vasuki Documentation</span>
+    </a>
+  </div>
+            <div id="quarto-search" class="" title="Search"></div>
+          <button class="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target="#navbarCollapse" aria-controls="navbarCollapse" role="menu" aria-expanded="false" aria-label="Toggle navigation" onclick="if (window.quartoToggleHeadroom) { window.quartoToggleHeadroom(); }">
+  <span class="navbar-toggler-icon"></span>
+</button>
+          <div class="collapse navbar-collapse" id="navbarCollapse">
+            <ul class="navbar-nav navbar-nav-scroll me-auto">
+  <li class="nav-item">
+    <a class="nav-link" href="./index.html"> 
+<span class="menu-text">Home</span></a>
+  </li>  
+  <li class="nav-item">
+    <a class="nav-link" href="./beginner.html"> 
+<span class="menu-text">Beginner</span></a>
+  </li>  
+  <li class="nav-item">
+    <a class="nav-link active" href="./advanced.html" aria-current="page"> 
+<span class="menu-text">Advanced</span></a>
+  </li>  
+</ul>
+          </div> <!-- /navcollapse -->
+            <div class="quarto-navbar-tools">
+  <a href="" class="quarto-color-scheme-toggle quarto-navigation-tool  px-1" onclick="window.quartoToggleColorScheme(); return false;" title="Toggle dark mode"><i class="bi"></i></a>
+</div>
+      </div> <!-- /container-fluid -->
+    </nav>
+</header>
+<!-- content -->
+<div id="quarto-content" class="quarto-container page-columns page-rows-contents page-layout-article page-navbar">
+<!-- sidebar -->
+<!-- margin-sidebar -->
+    
+<!-- main -->
+<main class="content" id="quarto-document-content">
+
+<header id="title-block-header" class="quarto-title-block default">
+<div class="quarto-title">
+<h1 class="title">Vasuki Advanced Documentation</h1>
+</div>
+
+
+
+<div class="quarto-title-meta">
+
+    
+  
+    
+  </div>
+  
+
+
+</header>
+
+
+<div style="position: fixed; left: 0; top: 0; width: 200px; height: 100%; background-color: #f4f4f4; padding: 10px; overflow-y: auto; border-right: 1px solid #ddd;">
+<h3 class="anchored">
+Navigation
+</h3>
+<ul style="list-style-type: none; padding: 0;">
+<li>
+<a href="https://github.com/YourUser/VasukiDocs/edit/main/advanced.qmd" target="_blank">Edit on GitHub</a>
+</li>
+<li>
+<a href="#overview">Overview</a>
+</li>
+<li>
+<a href="#syntax-structure-overview">Syntax Structure Overview</a>
+</li>
+<li>
+<a href="#lexical-analysis-lexer">Lexical Analysis (Lexer)</a>
+</li>
+<li>
+<a href="#parsing-and-ast">Parsing and AST</a>
+</li>
+<li>
+<a href="#interpreter-and-environment">Interpreter and Environment</a>
+</li>
+<li>
+<a href="#advanced-constructs">Advanced Constructs</a>
+</li>
+<li>
+<a href="#special-language-features">Special Language Features</a>
+</li>
+<li>
+<a href="#error-handling-and-debugging">Error Handling and Debugging</a>
+</li>
+<li>
+<a href="#example-program-walkthrough">Example Program Walkthrough</a>
+</li>
+<li>
+<a href="#appendix-extended-explanations-and-examples">Appendix: Extended Explanations and Examples</a>
+</li>
+</ul>
+</div>
+<hr>
+<p>Welcome to the advanced documentation for Vasuki. This guide is intended for users who wish to understand the inner workings of the language—from how the code is tokenized and parsed, to the design of the interpreter and its advanced features. Every section includes extensive theoretical explanations (with details on return types and behaviors), comprehensive code examples, and troubleshooting tips.</p>
+<hr>
+<section id="overview" class="level2">
+<h2 class="anchored" data-anchor-id="overview"><strong>Overview</strong></h2>
+<p>Vasuki is a lightweight scripting language that combines simplicity with powerful features. Key aspects include:</p>
+<ul>
+<li><strong>Dual Scoping Mechanisms</strong>:<br>
+Supports both static and dynamic scoping, allowing variables to be resolved based on both their declaration site and the calling context.</li>
+<li><strong>Implicit Returns</strong>:<br>
+Lines written without a semicolon are treated as having an implicit <code>return</code> at the end.</li>
+<li><strong>Control Structures with Return Values</strong>:<br>
+If, for, and while constructs return the value of their executed block.</li>
+<li><strong>Modular Architecture</strong>:<br>
+Comprised of a lexer, parser, AST builder, and interpreter.</li>
+</ul>
+<hr>
+</section>
+<section id="syntax-structure-overview" class="level2">
+<h2 class="anchored" data-anchor-id="syntax-structure-overview"><strong>Syntax Structure Overview</strong></h2>
+<p>Vasuki’s syntax is minimal yet expressive. Its key elements include:</p>
+<ul>
+<li><strong>Statements</strong>:<br>
+Each statement typically ends with a semicolon (<code>;</code>). Omission of a semicolon causes an implicit return of that expression.</li>
+<li><strong>Blocks</strong>:<br>
+Groups of statements enclosed in <code>{ }</code> for control structures.</li>
+<li><strong>Expressions</strong>:<br>
+Every expression has a type (e.g., integer, float, boolean) and returns a value upon evaluation.</li>
+</ul>
+<section id="detailed-syntax" class="level3">
+<h3 class="anchored" data-anchor-id="detailed-syntax"><strong>Detailed Syntax</strong></h3>
+<ul>
+<li><p><strong>Variable Declaration</strong>:</p>
+<div class="sourceCode" id="cb1"><pre class="sourceCode bash code-with-copy"><code class="sourceCode bash"><span id="cb1-1"><a href="#cb1-1" aria-hidden="true" tabindex="-1"></a><span class="ex">var</span> x = 10<span class="kw">;</span></span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<p>Explanation: Declares variable x with an integer value 10. Returns 10.</p></li>
+<li><p><strong>Assignment</strong>:</p>
+<div class="sourceCode" id="cb2"><pre class="sourceCode bash code-with-copy"><code class="sourceCode bash"><span id="cb2-1"><a href="#cb2-1" aria-hidden="true" tabindex="-1"></a><span class="ex">x</span> = x + 5<span class="kw">;</span></span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<p>Explanation: Updates x to 15. Returns 15.</p></li>
+</ul>
+<hr>
+</section>
+</section>
+<section id="lexical-analysis-lexer" class="level2">
+<h2 class="anchored" data-anchor-id="lexical-analysis-lexer"><strong>Lexical Analysis (Lexer)</strong></h2>
+<p>The lexer is responsible for tokenizing the input source code.</p>
+<section id="token-types" class="level3">
+<h3 class="anchored" data-anchor-id="token-types"><strong>Token Types</strong></h3>
+<p>IntToken &amp; FloatToken: Represent numeric literals. Syntax Example:</p>
+<div class="sourceCode" id="cb3"><pre class="sourceCode bash code-with-copy"><code class="sourceCode bash"><span id="cb3-1"><a href="#cb3-1" aria-hidden="true" tabindex="-1"></a><span class="ex">IntToken</span><span class="er">(</span><span class="st">"123"</span><span class="kw">);</span></span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div class="sourceCode" id="cb4"><pre class="sourceCode bash code-with-copy"><code class="sourceCode bash"><span id="cb4-1"><a href="#cb4-1" aria-hidden="true" tabindex="-1"></a><span class="ex">FloatToken</span><span class="er">(</span><span class="st">"3.14"</span><span class="kw">);</span></span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<p>OperatorToken: Represents operators such as +, -, *, /, %, **, &lt;, &lt;=, etc. Example:</p>
+<div class="sourceCode" id="cb5"><pre class="sourceCode bash code-with-copy"><code class="sourceCode bash"><span id="cb5-1"><a href="#cb5-1" aria-hidden="true" tabindex="-1"></a><span class="ex">OperatorToken</span><span class="er">(</span><span class="st">'+'</span><span class="kw">);</span></span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<p>KeywordToken: For reserved words like if, else, var, for, while, and def. (…extended explanation on keyword versus identifier differentiation…)</p>
+<p>ParenToken: Represents parentheses used for grouping. (…complete discussion on handling nested parentheses…)</p>
+</section>
+<section id="lexer-process" class="level3">
+<h3 class="anchored" data-anchor-id="lexer-process"><strong>Lexer Process</strong></h3>
+<hr>
+</section>
+</section>
+<section id="parsing-and-ast" class="level2">
+<h2 class="anchored" data-anchor-id="parsing-and-ast"><strong>Parsing and AST</strong></h2>
+<p>The parser constructs an Abstract Syntax Tree (AST) from the token stream.</p>
+<section id="ast-nodes-and-their-syntax" class="level3">
+<h3 class="anchored" data-anchor-id="ast-nodes-and-their-syntax"><strong>AST Nodes and Their Syntax</strong></h3>
+<p>Binary Operations (BinOp):</p>
+<div class="sourceCode" id="cb6"><pre class="sourceCode bash code-with-copy"><code class="sourceCode bash"><span id="cb6-1"><a href="#cb6-1" aria-hidden="true" tabindex="-1"></a><span class="ex">BinOp</span><span class="er">(</span><span class="st">'+'</span><span class="ex">,</span> Int<span class="er">(</span><span class="ex">10</span><span class="kw">)</span><span class="ex">,</span> Int<span class="er">(</span><span class="ex">5</span><span class="kw">));</span></span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<p>Explanation: Represents the addition of 10 and 5, returning 15.</p>
+<p>Unary Operations (UnOp):</p>
+<div class="sourceCode" id="cb7"><pre class="sourceCode bash code-with-copy"><code class="sourceCode bash"><span id="cb7-1"><a href="#cb7-1" aria-hidden="true" tabindex="-1"></a><span class="ex">UnOp</span><span class="er">(</span><span class="st">'-'</span><span class="ex">,</span> Int<span class="er">(</span><span class="ex">5</span><span class="kw">));</span></span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<p>Numeric Literals (Int, Float): (…complete details on how literals are stored, type conversion, etc.)</p>
+<p>Conditional Statements (If):</p>
+<div class="sourceCode" id="cb8"><pre class="sourceCode bash code-with-copy"><code class="sourceCode bash"><span id="cb8-1"><a href="#cb8-1" aria-hidden="true" tabindex="-1"></a><span class="ex">If</span><span class="er">(</span><span class="ex">BinOp</span><span class="er">(</span><span class="st">'&lt;'</span><span class="ex">,</span> VarReference<span class="er">(</span><span class="st">"x"</span><span class="kw">)</span><span class="ex">,</span> Int<span class="er">(</span><span class="ex">20</span><span class="kw">))</span><span class="ex">,</span> Print<span class="er">(</span><span class="st">"x is less than 20"</span><span class="kw">)</span><span class="ex">,</span> [], Print<span class="er">(</span><span class="st">"x is 20 or greater"</span><span class="kw">));</span></span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<p>Explanation: Represents conditional branching logic.</p>
+<p>Loops (For, While): Detailed syntax for both for and while loops with explanations on initialization, condition, increment, and block evaluation. (…multiple examples provided…)</p>
+<p>Function Definitions and Calls:</p>
+<div class="sourceCode" id="cb9"><pre class="sourceCode bash code-with-copy"><code class="sourceCode bash"><span id="cb9-1"><a href="#cb9-1" aria-hidden="true" tabindex="-1"></a><span class="ex">FunctionDef</span><span class="er">(</span><span class="ex">name,</span> parameters, body<span class="kw">);</span></span>
+<span id="cb9-2"><a href="#cb9-2" aria-hidden="true" tabindex="-1"></a><span class="ex">FunctionCall</span><span class="er">(</span><span class="ex">name,</span> arguments<span class="kw">);</span></span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+</section>
+<section id="parsing-process" class="level3">
+<h3 class="anchored" data-anchor-id="parsing-process"><strong>Parsing Process</strong></h3>
+<hr>
+</section>
+</section>
+<section id="interpreter-and-environment" class="level2">
+<h2 class="anchored" data-anchor-id="interpreter-and-environment"><strong>Interpreter and Environment</strong></h2>
+<p>The interpreter evaluates the AST within an environment that supports variable scoping and function closures.</p>
+<section id="environment-model" class="level3">
+<h3 class="anchored" data-anchor-id="environment-model"><strong>Environment Model</strong></h3>
+<p>Static Scoping: Variables are resolved based on the environment where they were declared.</p>
+<p>Dynamic Scoping: Variables are resolved based on the calling context if not found in the static environment.</p>
+</section>
+<section id="evaluation-process" class="level3">
+<h3 class="anchored" data-anchor-id="evaluation-process"><strong>Evaluation Process</strong></h3>
+<p>(…Step-by-step walkthrough of the interpreter’s evaluation process for each AST node type. Detailed examples show how a BinOp node is evaluated, how control structures return values, and how implicit returns are handled.)</p>
+<hr>
+</section>
+</section>
+<section id="advanced-constructs" class="level2">
+<h2 class="anchored" data-anchor-id="advanced-constructs"><strong>Advanced Constructs</strong></h2>
+<p>Vasuki includes several advanced programming features:</p>
+<p>Functions Syntax:</p>
+<div class="sourceCode" id="cb10"><pre class="sourceCode bash code-with-copy"><code class="sourceCode bash"><span id="cb10-1"><a href="#cb10-1" aria-hidden="true" tabindex="-1"></a><span class="ex">def</span> functionName<span class="er">(</span><span class="ex">param1,</span> param2<span class="kw">)</span> <span class="kw">{</span></span>
+<span id="cb10-2"><a href="#cb10-2" aria-hidden="true" tabindex="-1"></a>    <span class="ex">//</span> function body</span>
+<span id="cb10-3"><a href="#cb10-3" aria-hidden="true" tabindex="-1"></a>    <span class="cf">return</span> <span class="ex">expression</span><span class="kw">;</span></span>
+<span id="cb10-4"><a href="#cb10-4" aria-hidden="true" tabindex="-1"></a><span class="kw">}</span></span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<p>Arrays Syntax:</p>
+<div class="sourceCode" id="cb11"><pre class="sourceCode bash code-with-copy"><code class="sourceCode bash"><span id="cb11-1"><a href="#cb11-1" aria-hidden="true" tabindex="-1"></a><span class="ex">var</span> arr = [1, 2, 3]<span class="kw">;</span></span>
+<span id="cb11-2"><a href="#cb11-2" aria-hidden="true" tabindex="-1"></a><span class="ex">print</span><span class="er">(</span><span class="va">arr</span><span class="op">[</span><span class="dv">2</span><span class="op">]</span><span class="kw">);</span>  <span class="ex">//</span> One-based indexing: returns 2</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<p>Labels and Custom Flow Control Syntax:</p>
+<div class="sourceCode" id="cb12"><pre class="sourceCode bash code-with-copy"><code class="sourceCode bash"><span id="cb12-1"><a href="#cb12-1" aria-hidden="true" tabindex="-1"></a><span class="ex">labelName:</span></span>
+<span id="cb12-2"><a href="#cb12-2" aria-hidden="true" tabindex="-1"></a>    <span class="ex">//</span> code block</span>
+<span id="cb12-3"><a href="#cb12-3" aria-hidden="true" tabindex="-1"></a><span class="ex">goandreturn</span> labelName<span class="kw">;</span></span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<hr>
+</section>
+<section id="special-language-features" class="level2">
+<h2 class="anchored" data-anchor-id="special-language-features"><strong>Special Language Features</strong></h2>
+<p>Vasuki offers several unique features that set it apart from other scripting languages. These features enhance flexibility, readability, and debugging capabilities.</p>
+<section id="dual-scoping-mechanisms" class="level3">
+<h3 class="anchored" data-anchor-id="dual-scoping-mechanisms"><strong>Dual Scoping Mechanisms</strong></h3>
+<ul>
+<li><p><strong>Static Scoping</strong>:<br>
+Variables are resolved based on their declaration location in the code. This ensures predictable behavior, as the variable’s value is determined by the structure of the program.</p></li>
+<li><p><strong>Dynamic Scoping</strong>:<br>
+Variables are resolved in the context of the caller’s environment if they are not found in the static scope. This provides additional flexibility, especially in scenarios involving closures or nested function calls.</p></li>
+</ul>
+<p><strong>Detailed Explanation</strong>:<br>
+Static scoping ensures that variables are bound to their declaration context, making the code easier to debug and understand. Dynamic scoping, on the other hand, allows for more dynamic behavior, enabling variables to adapt to the calling context.<br>
+<em>Examples and diagrams illustrating both scoping mechanisms are provided in the appendix.</em></p>
+<hr>
+</section>
+<section id="control-structures-with-return-values" class="level3">
+<h3 class="anchored" data-anchor-id="control-structures-with-return-values"><strong>Control Structures with Return Values</strong></h3>
+<ul>
+<li><strong>Behavior</strong>:<br>
+Control structures such as <code>if</code>, <code>for</code>, and <code>while</code> return the value of the last executed statement within their block. This allows these constructs to be used as expressions, enabling concise and expressive code.</li>
+</ul>
+<p><strong>Detailed Explanation</strong>:<br>
+For example, an <code>if</code> statement can directly return a value:</p>
+<div class="sourceCode" id="cb13"><pre class="sourceCode bash code-with-copy"><code class="sourceCode bash"><span id="cb13-1"><a href="#cb13-1" aria-hidden="true" tabindex="-1"></a><span class="ex">var</span> result = if <span class="er">(</span><span class="ex">x</span> <span class="op">&gt;</span> 10<span class="kw">)</span> <span class="kw">{</span> <span class="ex">x</span> } else { 0 }<span class="kw">;</span></span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<p>Here, <code>result</code> will hold the value of <code>x</code> if the condition is true, or <code>0</code> otherwise. This feature simplifies code by reducing the need for additional variables or explicit return statements.<br>
+<em>Further examples and chaining techniques are discussed in the appendix.</em></p>
+<hr>
+</section>
+<section id="implicit-return-on-omitted-semicolons" class="level3">
+<h3 class="anchored" data-anchor-id="implicit-return-on-omitted-semicolons"><strong>Implicit Return on Omitted Semicolons</strong></h3>
+<ul>
+<li><strong>Behavior</strong>:<br>
+When a semicolon is omitted at the end of a statement, Vasuki treats it as an implicit <code>return</code>. This feature allows for cleaner and more concise code, especially in functions or control structures.</li>
+</ul>
+<p><strong>Detailed Explanation</strong>:<br>
+For instance:</p>
+<div class="sourceCode" id="cb14"><pre class="sourceCode bash code-with-copy"><code class="sourceCode bash"><span id="cb14-1"><a href="#cb14-1" aria-hidden="true" tabindex="-1"></a><span class="ex">def</span> add<span class="er">(</span><span class="ex">a,</span> b<span class="kw">)</span> <span class="kw">{</span></span>
+<span id="cb14-2"><a href="#cb14-2" aria-hidden="true" tabindex="-1"></a>    <span class="ex">a</span> + b  // Implicitly returns the sum of a and b</span>
+<span id="cb14-3"><a href="#cb14-3" aria-hidden="true" tabindex="-1"></a><span class="kw">}</span></span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<p>This behavior reduces boilerplate code but requires careful use to avoid unintended returns.<br>
+<em>Best practices and potential pitfalls are covered in the appendix.</em></p>
+<hr>
+</section>
+</section>
+<section id="error-handling-and-debugging" class="level2">
+<h2 class="anchored" data-anchor-id="error-handling-and-debugging"><strong>Error Handling and Debugging</strong></h2>
+<p>Robust error handling is a cornerstone of effective development. Vasuki provides detailed error messages and debugging tools to help developers identify and resolve issues efficiently.</p>
+<section id="common-error-types" class="level3">
+<h3 class="anchored" data-anchor-id="common-error-types"><strong>Common Error Types</strong></h3>
+<ol type="1">
+<li><strong>Syntax Errors</strong>:
+<ul>
+<li><p><strong>Examples</strong>: Missing semicolons, unmatched braces, or typos in keywords.<br>
+</p></li>
+<li><p><strong>Detailed Explanation</strong>:<br>
+Syntax errors occur when the code violates Vasuki’s grammatical rules. For example:</p>
+<div class="sourceCode" id="cb15"><pre class="sourceCode bash code-with-copy"><code class="sourceCode bash"><span id="cb15-1"><a href="#cb15-1" aria-hidden="true" tabindex="-1"></a><span class="ex">var</span> x = 10  // Missing semicolon</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<p>Vasuki will report an error indicating the missing semicolon.<br>
+<em>Step-by-step debugging procedures are provided in the appendix.</em></p></li>
+</ul></li>
+<li><strong>Runtime Errors</strong>:
+<ul>
+<li><p><strong>Examples</strong>: Undefined variables, invalid operations (e.g., division by zero).<br>
+</p></li>
+<li><p><strong>Detailed Explanation</strong>:<br>
+Runtime errors occur during program execution. For instance:</p>
+<div class="sourceCode" id="cb16"><pre class="sourceCode bash code-with-copy"><code class="sourceCode bash"><span id="cb16-1"><a href="#cb16-1" aria-hidden="true" tabindex="-1"></a><span class="ex">var</span> result = 10 / 0<span class="kw">;</span>  <span class="ex">//</span> Division by zero</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<p>Vasuki will halt execution and provide a stack trace to help locate the issue.<br>
+<em>Strategies for handling runtime errors are discussed in detail.</em></p></li>
+</ul></li>
+<li><strong>Lexical/Parsing Errors</strong>:
+<ul>
+<li><p><strong>Examples</strong>: Invalid tokens, unexpected symbols, or malformed expressions.<br>
+</p></li>
+<li><p><strong>Detailed Explanation</strong>:<br>
+These errors occur when the lexer or parser encounters invalid input. For example:</p>
+<div class="sourceCode" id="cb17"><pre class="sourceCode bash code-with-copy"><code class="sourceCode bash"><span id="cb17-1"><a href="#cb17-1" aria-hidden="true" tabindex="-1"></a><span class="ex">var</span> 123abc = 10<span class="kw">;</span>  <span class="ex">//</span> Invalid variable name</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<p>Vasuki will report an error indicating the invalid token.<br>
+<em>Practical tips for resolving such errors are included in the appendix.</em></p></li>
+</ul></li>
+</ol>
+<hr>
+</section>
+<section id="troubleshooting-tips" class="level3">
+<h3 class="anchored" data-anchor-id="troubleshooting-tips"><strong>Troubleshooting Tips</strong></h3>
+<p>To effectively debug your Vasuki programs, follow these general guidelines:</p>
+<ul>
+<li><p><strong>Read Error Messages Carefully</strong>:<br>
+Vasuki provides detailed error messages that often indicate the exact issue and its location.</p></li>
+<li><p><strong>Isolate Problematic Code Blocks</strong>:<br>
+Test individual sections of your code in isolation to identify the source of the error.</p></li>
+<li><p><strong>Use Comments to Annotate Code</strong>:<br>
+Add comments to clarify complex logic or temporarily disable sections of code for testing.</p></li>
+<li><p><strong>Review Documentation</strong>:<br>
+Refer to this documentation and the appendix for guidance on correct syntax, behavior, and best practices.</p></li>
+</ul>
+<p>By following these tips and leveraging Vasuki’s debugging tools, you can quickly identify and resolve issues in your code.</p>
+<hr>
+</section>
+</section>
+<section id="example-program-walkthrough" class="level2">
+<h2 class="anchored" data-anchor-id="example-program-walkthrough"><strong>Example Program Walkthrough</strong></h2>
+<p>Below is a comprehensive advanced example that integrates many language features, including dual scoping, control structures with return values, and implicit returns.</p>
+<div class="sourceCode" id="cb18"><pre class="sourceCode bash code-with-copy"><code class="sourceCode bash"><span id="cb18-1"><a href="#cb18-1" aria-hidden="true" tabindex="-1"></a><span class="ex">//</span> Advanced Example: Comprehensive Integration</span>
+<span id="cb18-2"><a href="#cb18-2" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb18-3"><a href="#cb18-3" aria-hidden="true" tabindex="-1"></a><span class="ex">//</span> Declare and initialize variables</span>
+<span id="cb18-4"><a href="#cb18-4" aria-hidden="true" tabindex="-1"></a><span class="ex">var</span> x = 10<span class="kw">;</span></span>
+<span id="cb18-5"><a href="#cb18-5" aria-hidden="true" tabindex="-1"></a><span class="ex">var</span> y = 5<span class="kw">;</span></span>
+<span id="cb18-6"><a href="#cb18-6" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb18-7"><a href="#cb18-7" aria-hidden="true" tabindex="-1"></a><span class="ex">//</span> Compute the sum of x and y</span>
+<span id="cb18-8"><a href="#cb18-8" aria-hidden="true" tabindex="-1"></a><span class="ex">var</span> sum = x + y<span class="kw">;</span></span>
+<span id="cb18-9"><a href="#cb18-9" aria-hidden="true" tabindex="-1"></a><span class="ex">print</span><span class="er">(</span><span class="st">"Sum: "</span> + sum<span class="kw">);</span>  <span class="ex">//</span> Expected output: Sum: 15</span>
+<span id="cb18-10"><a href="#cb18-10" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb18-11"><a href="#cb18-11" aria-hidden="true" tabindex="-1"></a><span class="ex">//</span> Conditional with implicit return</span>
+<span id="cb18-12"><a href="#cb18-12" aria-hidden="true" tabindex="-1"></a><span class="cf">if</span> <span class="kw">(</span><span class="fu">sum</span> <span class="op">&gt;</span> 10<span class="kw">)</span> <span class="kw">{</span></span>
+<span id="cb18-13"><a href="#cb18-13" aria-hidden="true" tabindex="-1"></a>    <span class="ex">print</span><span class="er">(</span><span class="st">"Sum is greater than 10"</span><span class="kw">);</span></span>
+<span id="cb18-14"><a href="#cb18-14" aria-hidden="true" tabindex="-1"></a><span class="kw">}</span> <span class="cf">else</span> <span class="kw">{</span></span>
+<span id="cb18-15"><a href="#cb18-15" aria-hidden="true" tabindex="-1"></a>    <span class="ex">print</span><span class="er">(</span><span class="st">"Sum is 10 or less"</span><span class="kw">);</span></span>
+<span id="cb18-16"><a href="#cb18-16" aria-hidden="true" tabindex="-1"></a><span class="kw">}</span></span>
+<span id="cb18-17"><a href="#cb18-17" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb18-18"><a href="#cb18-18" aria-hidden="true" tabindex="-1"></a><span class="ex">//</span> For loop with control structure returning a value implicitly</span>
+<span id="cb18-19"><a href="#cb18-19" aria-hidden="true" tabindex="-1"></a><span class="cf">for</span> <span class="kw">(</span><span class="ex">var</span> i = 0<span class="kw">;</span> <span class="ex">i</span> <span class="op">&lt;</span> 3<span class="kw">;</span> <span class="ex">i</span> = i + 1<span class="kw">)</span> <span class="kw">{</span></span>
+<span id="cb18-20"><a href="#cb18-20" aria-hidden="true" tabindex="-1"></a>    <span class="ex">print</span><span class="er">(</span><span class="st">"Iteration "</span> + i<span class="kw">);</span></span>
+<span id="cb18-21"><a href="#cb18-21" aria-hidden="true" tabindex="-1"></a><span class="kw">}</span></span>
+<span id="cb18-22"><a href="#cb18-22" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb18-23"><a href="#cb18-23" aria-hidden="true" tabindex="-1"></a><span class="ex">//</span> Function definition <span class="er">(</span><span class="ex">advanced</span> usage<span class="kw">)</span></span>
+<span id="cb18-24"><a href="#cb18-24" aria-hidden="true" tabindex="-1"></a><span class="ex">def</span> add<span class="er">(</span><span class="ex">a,</span> b<span class="kw">)</span> <span class="kw">{</span></span>
+<span id="cb18-25"><a href="#cb18-25" aria-hidden="true" tabindex="-1"></a>    <span class="ex">a</span> + b  // Implicit return of a+b due to omitted semicolon</span>
+<span id="cb18-26"><a href="#cb18-26" aria-hidden="true" tabindex="-1"></a><span class="kw">}</span></span>
+<span id="cb18-27"><a href="#cb18-27" aria-hidden="true" tabindex="-1"></a><span class="ex">print</span><span class="er">(</span><span class="st">"Addition: "</span> + add<span class="er">(</span><span class="ex">3,</span> 4<span class="kw">));</span>  <span class="ex">//</span> Expected output: Addition: 7</span>
+<span id="cb18-28"><a href="#cb18-28" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb18-29"><a href="#cb18-29" aria-hidden="true" tabindex="-1"></a><span class="ex">//</span> Array usage with one-based indexing</span>
+<span id="cb18-30"><a href="#cb18-30" aria-hidden="true" tabindex="-1"></a><span class="ex">var</span> arr = [10, 20, 30]<span class="kw">;</span></span>
+<span id="cb18-31"><a href="#cb18-31" aria-hidden="true" tabindex="-1"></a><span class="ex">print</span><span class="er">(</span><span class="st">"Second element: "</span> + arr<span class="pp">[</span><span class="ss">2</span><span class="pp">]</span><span class="kw">);</span>  <span class="ex">//</span> Expected output: Second element: 20</span>
+<span id="cb18-32"><a href="#cb18-32" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb18-33"><a href="#cb18-33" aria-hidden="true" tabindex="-1"></a><span class="ex">//</span> Using labels for custom flow control</span>
+<span id="cb18-34"><a href="#cb18-34" aria-hidden="true" tabindex="-1"></a><span class="ex">startLabel:</span></span>
+<span id="cb18-35"><a href="#cb18-35" aria-hidden="true" tabindex="-1"></a>    <span class="ex">print</span><span class="er">(</span><span class="st">"Inside labeled block"</span><span class="kw">);</span></span>
+<span id="cb18-36"><a href="#cb18-36" aria-hidden="true" tabindex="-1"></a><span class="ex">goandreturn</span> startLabel<span class="kw">;</span>  <span class="ex">//</span> Jumps to startLabel and returns from the block</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<p>Detailed Explanation: • Variables &amp; Arithmetic:</p>
+<p>x and y are initialized, and their sum is computed (returning an integer). • Conditional Statement:</p>
+<p>The if statement evaluates sum &gt; 10 and executes the appropriate block. If semicolons are omitted, the block’s value is implicitly returned. • Loop:</p>
+<p>The for loop iterates three times, demonstrating implicit return behavior. • Functions:</p>
+<p>The function add is defined using implicit return syntax. It demonstrates how parameters are passed and how the function returns a value. • Arrays:</p>
+<p>Arrays are created with literal syntax and accessed using one-based indexing. • Labels:</p>
+<p>Labels and the goandreturn statement allow for advanced control flow, illustrating non-linear execution paths.</p>
+<hr>
+</section>
+<section id="appendix-extended-explanations-and-examples" class="level2">
+<h2 class="anchored" data-anchor-id="appendix-extended-explanations-and-examples"><strong>Appendix: Extended Explanations and Examples</strong></h2>
+<p>Appendix A: Detailed Variable Scoping and Environment Handling In Vasuki, variable resolution uses both static and dynamic scoping. Static scoping resolves variables in the context of their declaration. Dynamic scoping considers the call stack for variable resolution. Example:</p>
+<div class="sourceCode" id="cb19"><pre class="sourceCode bash code-with-copy"><code class="sourceCode bash"><span id="cb19-1"><a href="#cb19-1" aria-hidden="true" tabindex="-1"></a><span class="ex">var</span> globalVar = 100<span class="kw">;</span></span>
+<span id="cb19-2"><a href="#cb19-2" aria-hidden="true" tabindex="-1"></a><span class="ex">def</span> testScope<span class="er">(</span><span class="kw">)</span> <span class="kw">{</span></span>
+<span id="cb19-3"><a href="#cb19-3" aria-hidden="true" tabindex="-1"></a>    <span class="ex">print</span><span class="er">(</span><span class="ex">globalVar</span><span class="kw">);</span>  <span class="ex">//</span> Resolves via static scope if not shadowed dynamically</span>
+<span id="cb19-4"><a href="#cb19-4" aria-hidden="true" tabindex="-1"></a><span class="kw">}</span></span>
+<span id="cb19-5"><a href="#cb19-5" aria-hidden="true" tabindex="-1"></a><span class="fu">testScope()</span><span class="kw">;</span></span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<p>Explanation: The function testScope prints globalVar by looking up the static environment. (…continued in-depth explanation…)</p>
+<p>Appendix B: Extended Operator Precedence and Evaluation Order In Vasuki, operators follow standard mathematical precedence. Exponentiation (**) is evaluated before multiplication and division. Example:</p>
+<div class="sourceCode" id="cb20"><pre class="sourceCode bash code-with-copy"><code class="sourceCode bash"><span id="cb20-1"><a href="#cb20-1" aria-hidden="true" tabindex="-1"></a><span class="ex">var</span> result = 2 <span class="pp">**</span> 3 <span class="pp">*</span> 4<span class="kw">;</span></span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<p>Explanation:</p>
+<p>2 ** 3 evaluates to 8, then multiplied by 4 gives 32. (Detailed breakdown of each step…)</p>
+<p>Appendix C: In-Depth Control Structures and Implicit Return Mechanism Control structures in Vasuki are unique in that they return a value. Example:</p>
+<div class="sourceCode" id="cb21"><pre class="sourceCode bash code-with-copy"><code class="sourceCode bash"><span id="cb21-1"><a href="#cb21-1" aria-hidden="true" tabindex="-1"></a><span class="ex">var</span> condResult = if <span class="er">(</span><span class="ex">x</span> <span class="op">&lt;</span> 20<span class="kw">)</span> <span class="kw">{</span> <span class="ex">100</span> } else { 200 }</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<p>Explanation:</p>
+<p>If x &lt; 20 is true, condResult becomes 100; otherwise, it becomes 200. (Extended discussion on using control structures in expressions, including pitfalls and best practices.)</p>
+<p>Appendix D: Error Handling – Extended Debugging Techniques Syntax errors typically occur due to missing semicolons. Example error and fix:</p>
+<div class="sourceCode" id="cb22"><pre class="sourceCode bash code-with-copy"><code class="sourceCode bash"><span id="cb22-1"><a href="#cb22-1" aria-hidden="true" tabindex="-1"></a><span class="ex">var</span> a = 10  // Missing semicolon causes implicit return and potential errors</span>
+<span id="cb22-2"><a href="#cb22-2" aria-hidden="true" tabindex="-1"></a><span class="ex">var</span> b = a + 5<span class="kw">;</span></span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<p>Corrected:</p>
+<div class="sourceCode" id="cb23"><pre class="sourceCode bash code-with-copy"><code class="sourceCode bash"><span id="cb23-1"><a href="#cb23-1" aria-hidden="true" tabindex="-1"></a><span class="ex">var</span> a = 10<span class="kw">;</span></span>
+<span id="cb23-2"><a href="#cb23-2" aria-hidden="true" tabindex="-1"></a><span class="ex">var</span> b = a + 5<span class="kw">;</span></span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<p>(Extensive discussion on interpreting error messages, with over 100 troubleshooting cases documented in detail.)</p>
+<p>Appendix E: Full Advanced Examples and Use Cases Here we compile a series of advanced examples that utilize every language feature. Example: Complex function with nested control structures, array manipulation, and label usage.</p>
+<div class="sourceCode" id="cb24"><pre class="sourceCode bash code-with-copy"><code class="sourceCode bash"><span id="cb24-1"><a href="#cb24-1" aria-hidden="true" tabindex="-1"></a><span class="ex">def</span> complexFunction<span class="er">(</span><span class="ex">a,</span> b<span class="kw">)</span> <span class="kw">{</span></span>
+<span id="cb24-2"><a href="#cb24-2" aria-hidden="true" tabindex="-1"></a>    <span class="ex">var</span> result = if <span class="er">(</span><span class="ex">a</span> <span class="op">&gt;</span> b<span class="kw">)</span> <span class="kw">{</span> <span class="ex">a</span> <span class="at">-</span> b } else { b <span class="at">-</span> a }</span>
+<span id="cb24-3"><a href="#cb24-3" aria-hidden="true" tabindex="-1"></a>    <span class="cf">for</span> <span class="kw">(</span><span class="ex">var</span> i = 0<span class="kw">;</span> <span class="ex">i</span> <span class="op">&lt;</span> result<span class="kw">;</span> <span class="ex">i</span> = i + 1<span class="kw">)</span> <span class="kw">{</span></span>
+<span id="cb24-4"><a href="#cb24-4" aria-hidden="true" tabindex="-1"></a>        <span class="ex">print</span><span class="er">(</span><span class="st">"Loop iteration: "</span> + i<span class="kw">);</span></span>
+<span id="cb24-5"><a href="#cb24-5" aria-hidden="true" tabindex="-1"></a>    <span class="kw">}</span></span>
+<span id="cb24-6"><a href="#cb24-6" aria-hidden="true" tabindex="-1"></a>    <span class="ex">result</span>  // Implicit return of result</span>
+<span id="cb24-7"><a href="#cb24-7" aria-hidden="true" tabindex="-1"></a><span class="kw">}</span></span>
+<span id="cb24-8"><a href="#cb24-8" aria-hidden="true" tabindex="-1"></a><span class="ex">print</span><span class="er">(</span><span class="st">"Complex Function Output: "</span> + complexFunction<span class="er">(</span><span class="ex">15,</span> 5<span class="kw">));</span></span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<p>(Detailed explanation of each part of the function, including scoping, control flow, and return behavior.)</p>
+<hr>
+</section></main></div>
+
+
+
+
+ <!-- /main -->
+<script id="quarto-html-after-body" type="application/javascript">
+window.document.addEventListener("DOMContentLoaded", function (event) {
+  const toggleBodyColorMode = (bsSheetEl) => {
+    const mode = bsSheetEl.getAttribute("data-mode");
+    const bodyEl = window.document.querySelector("body");
+    if (mode === "dark") {
+      bodyEl.classList.add("quarto-dark");
+      bodyEl.classList.remove("quarto-light");
+    } else {
+      bodyEl.classList.add("quarto-light");
+      bodyEl.classList.remove("quarto-dark");
+    }
+  }
+  const toggleBodyColorPrimary = () => {
+    const bsSheetEl = window.document.querySelector("link#quarto-bootstrap");
+    if (bsSheetEl) {
+      toggleBodyColorMode(bsSheetEl);
+    }
+  }
+  toggleBodyColorPrimary();  
+  const disableStylesheet = (stylesheets) => {
+    for (let i=0; i < stylesheets.length; i++) {
+      const stylesheet = stylesheets[i];
+      stylesheet.rel = 'prefetch';
+    }
+  }
+  const enableStylesheet = (stylesheets) => {
+    for (let i=0; i < stylesheets.length; i++) {
+      const stylesheet = stylesheets[i];
+      stylesheet.rel = 'stylesheet';
+    }
+  }
+  const manageTransitions = (selector, allowTransitions) => {
+    const els = window.document.querySelectorAll(selector);
+    for (let i=0; i < els.length; i++) {
+      const el = els[i];
+      if (allowTransitions) {
+        el.classList.remove('notransition');
+      } else {
+        el.classList.add('notransition');
+      }
+    }
+  }
+  const toggleGiscusIfUsed = (isAlternate, darkModeDefault) => {
+    const baseTheme = document.querySelector('#giscus-base-theme')?.value ?? 'light';
+    const alternateTheme = document.querySelector('#giscus-alt-theme')?.value ?? 'dark';
+    let newTheme = '';
+    if(darkModeDefault) {
+      newTheme = isAlternate ? baseTheme : alternateTheme;
+    } else {
+      newTheme = isAlternate ? alternateTheme : baseTheme;
+    }
+    const changeGiscusTheme = () => {
+      // From: https://github.com/giscus/giscus/issues/336
+      const sendMessage = (message) => {
+        const iframe = document.querySelector('iframe.giscus-frame');
+        if (!iframe) return;
+        iframe.contentWindow.postMessage({ giscus: message }, 'https://giscus.app');
+      }
+      sendMessage({
+        setConfig: {
+          theme: newTheme
+        }
+      });
+    }
+    const isGiscussLoaded = window.document.querySelector('iframe.giscus-frame') !== null;
+    if (isGiscussLoaded) {
+      changeGiscusTheme();
+    }
+  }
+  const toggleColorMode = (alternate) => {
+    // Switch the stylesheets
+    const alternateStylesheets = window.document.querySelectorAll('link.quarto-color-scheme.quarto-color-alternate');
+    manageTransitions('#quarto-margin-sidebar .nav-link', false);
+    if (alternate) {
+      enableStylesheet(alternateStylesheets);
+      for (const sheetNode of alternateStylesheets) {
+        if (sheetNode.id === "quarto-bootstrap") {
+          toggleBodyColorMode(sheetNode);
+        }
+      }
+    } else {
+      disableStylesheet(alternateStylesheets);
+      toggleBodyColorPrimary();
+    }
+    manageTransitions('#quarto-margin-sidebar .nav-link', true);
+    // Switch the toggles
+    const toggles = window.document.querySelectorAll('.quarto-color-scheme-toggle');
+    for (let i=0; i < toggles.length; i++) {
+      const toggle = toggles[i];
+      if (toggle) {
+        if (alternate) {
+          toggle.classList.add("alternate");     
+        } else {
+          toggle.classList.remove("alternate");
+        }
+      }
+    }
+    // Hack to workaround the fact that safari doesn't
+    // properly recolor the scrollbar when toggling (#1455)
+    if (navigator.userAgent.indexOf('Safari') > 0 && navigator.userAgent.indexOf('Chrome') == -1) {
+      manageTransitions("body", false);
+      window.scrollTo(0, 1);
+      setTimeout(() => {
+        window.scrollTo(0, 0);
+        manageTransitions("body", true);
+      }, 40);  
+    }
+  }
+  const isFileUrl = () => { 
+    return window.location.protocol === 'file:';
+  }
+  const hasAlternateSentinel = () => {  
+    let styleSentinel = getColorSchemeSentinel();
+    if (styleSentinel !== null) {
+      return styleSentinel === "alternate";
+    } else {
+      return false;
+    }
+  }
+  const setStyleSentinel = (alternate) => {
+    const value = alternate ? "alternate" : "default";
+    if (!isFileUrl()) {
+      window.localStorage.setItem("quarto-color-scheme", value);
+    } else {
+      localAlternateSentinel = value;
+    }
+  }
+  const getColorSchemeSentinel = () => {
+    if (!isFileUrl()) {
+      const storageValue = window.localStorage.getItem("quarto-color-scheme");
+      return storageValue != null ? storageValue : localAlternateSentinel;
+    } else {
+      return localAlternateSentinel;
+    }
+  }
+  const darkModeDefault = false;
+  let localAlternateSentinel = darkModeDefault ? 'alternate' : 'default';
+  // Dark / light mode switch
+  window.quartoToggleColorScheme = () => {
+    // Read the current dark / light value 
+    let toAlternate = !hasAlternateSentinel();
+    toggleColorMode(toAlternate);
+    setStyleSentinel(toAlternate);
+    toggleGiscusIfUsed(toAlternate, darkModeDefault);
+  };
+  // Ensure there is a toggle, if there isn't float one in the top right
+  if (window.document.querySelector('.quarto-color-scheme-toggle') === null) {
+    const a = window.document.createElement('a');
+    a.classList.add('top-right');
+    a.classList.add('quarto-color-scheme-toggle');
+    a.href = "";
+    a.onclick = function() { try { window.quartoToggleColorScheme(); } catch {} return false; };
+    const i = window.document.createElement("i");
+    i.classList.add('bi');
+    a.appendChild(i);
+    window.document.body.appendChild(a);
+  }
+  // Switch to dark mode if need be
+  if (hasAlternateSentinel()) {
+    toggleColorMode(true);
+  } else {
+    toggleColorMode(false);
+  }
+  const icon = "";
+  const anchorJS = new window.AnchorJS();
+  anchorJS.options = {
+    placement: 'right',
+    icon: icon
+  };
+  anchorJS.add('.anchored');
+  const isCodeAnnotation = (el) => {
+    for (const clz of el.classList) {
+      if (clz.startsWith('code-annotation-')) {                     
+        return true;
+      }
+    }
+    return false;
+  }
+  const onCopySuccess = function(e) {
+    // button target
+    const button = e.trigger;
+    // don't keep focus
+    button.blur();
+    // flash "checked"
+    button.classList.add('code-copy-button-checked');
+    var currentTitle = button.getAttribute("title");
+    button.setAttribute("title", "Copied!");
+    let tooltip;
+    if (window.bootstrap) {
+      button.setAttribute("data-bs-toggle", "tooltip");
+      button.setAttribute("data-bs-placement", "left");
+      button.setAttribute("data-bs-title", "Copied!");
+      tooltip = new bootstrap.Tooltip(button, 
+        { trigger: "manual", 
+          customClass: "code-copy-button-tooltip",
+          offset: [0, -8]});
+      tooltip.show();    
+    }
+    setTimeout(function() {
+      if (tooltip) {
+        tooltip.hide();
+        button.removeAttribute("data-bs-title");
+        button.removeAttribute("data-bs-toggle");
+        button.removeAttribute("data-bs-placement");
+      }
+      button.setAttribute("title", currentTitle);
+      button.classList.remove('code-copy-button-checked');
+    }, 1000);
+    // clear code selection
+    e.clearSelection();
+  }
+  const getTextToCopy = function(trigger) {
+      const codeEl = trigger.previousElementSibling.cloneNode(true);
+      for (const childEl of codeEl.children) {
+        if (isCodeAnnotation(childEl)) {
+          childEl.remove();
+        }
+      }
+      return codeEl.innerText;
+  }
+  const clipboard = new window.ClipboardJS('.code-copy-button:not([data-in-quarto-modal])', {
+    text: getTextToCopy
+  });
+  clipboard.on('success', onCopySuccess);
+  if (window.document.getElementById('quarto-embedded-source-code-modal')) {
+    const clipboardModal = new window.ClipboardJS('.code-copy-button[data-in-quarto-modal]', {
+      text: getTextToCopy,
+      container: window.document.getElementById('quarto-embedded-source-code-modal')
+    });
+    clipboardModal.on('success', onCopySuccess);
+  }
+    var localhostRegex = new RegExp(/^(?:http|https):\/\/localhost\:?[0-9]*\//);
+    var mailtoRegex = new RegExp(/^mailto:/);
+      var filterRegex = new RegExp('/' + window.location.host + '/');
+    var isInternal = (href) => {
+        return filterRegex.test(href) || localhostRegex.test(href) || mailtoRegex.test(href);
+    }
+    // Inspect non-navigation links and adorn them if external
+ 	var links = window.document.querySelectorAll('a[href]:not(.nav-link):not(.navbar-brand):not(.toc-action):not(.sidebar-link):not(.sidebar-item-toggle):not(.pagination-link):not(.no-external):not([aria-hidden]):not(.dropdown-item):not(.quarto-navigation-tool):not(.about-link)');
+    for (var i=0; i<links.length; i++) {
+      const link = links[i];
+      if (!isInternal(link.href)) {
+        // undo the damage that might have been done by quarto-nav.js in the case of
+        // links that we want to consider external
+        if (link.dataset.originalHref !== undefined) {
+          link.href = link.dataset.originalHref;
+        }
+      }
+    }
+  function tippyHover(el, contentFn, onTriggerFn, onUntriggerFn) {
+    const config = {
+      allowHTML: true,
+      maxWidth: 500,
+      delay: 100,
+      arrow: false,
+      appendTo: function(el) {
+          return el.parentElement;
+      },
+      interactive: true,
+      interactiveBorder: 10,
+      theme: 'quarto',
+      placement: 'bottom-start',
+    };
+    if (contentFn) {
+      config.content = contentFn;
+    }
+    if (onTriggerFn) {
+      config.onTrigger = onTriggerFn;
+    }
+    if (onUntriggerFn) {
+      config.onUntrigger = onUntriggerFn;
+    }
+    window.tippy(el, config); 
+  }
+  const noterefs = window.document.querySelectorAll('a[role="doc-noteref"]');
+  for (var i=0; i<noterefs.length; i++) {
+    const ref = noterefs[i];
+    tippyHover(ref, function() {
+      // use id or data attribute instead here
+      let href = ref.getAttribute('data-footnote-href') || ref.getAttribute('href');
+      try { href = new URL(href).hash; } catch {}
+      const id = href.replace(/^#\/?/, "");
+      const note = window.document.getElementById(id);
+      if (note) {
+        return note.innerHTML;
+      } else {
+        return "";
+      }
+    });
+  }
+  const xrefs = window.document.querySelectorAll('a.quarto-xref');
+  const processXRef = (id, note) => {
+    // Strip column container classes
+    const stripColumnClz = (el) => {
+      el.classList.remove("page-full", "page-columns");
+      if (el.children) {
+        for (const child of el.children) {
+          stripColumnClz(child);
+        }
+      }
+    }
+    stripColumnClz(note)
+    if (id === null || id.startsWith('sec-')) {
+      // Special case sections, only their first couple elements
+      const container = document.createElement("div");
+      if (note.children && note.children.length > 2) {
+        container.appendChild(note.children[0].cloneNode(true));
+        for (let i = 1; i < note.children.length; i++) {
+          const child = note.children[i];
+          if (child.tagName === "P" && child.innerText === "") {
+            continue;
+          } else {
+            container.appendChild(child.cloneNode(true));
+            break;
+          }
+        }
+        if (window.Quarto?.typesetMath) {
+          window.Quarto.typesetMath(container);
+        }
+        return container.innerHTML
+      } else {
+        if (window.Quarto?.typesetMath) {
+          window.Quarto.typesetMath(note);
+        }
+        return note.innerHTML;
+      }
+    } else {
+      // Remove any anchor links if they are present
+      const anchorLink = note.querySelector('a.anchorjs-link');
+      if (anchorLink) {
+        anchorLink.remove();
+      }
+      if (window.Quarto?.typesetMath) {
+        window.Quarto.typesetMath(note);
+      }
+      if (note.classList.contains("callout")) {
+        return note.outerHTML;
+      } else {
+        return note.innerHTML;
+      }
+    }
+  }
+  for (var i=0; i<xrefs.length; i++) {
+    const xref = xrefs[i];
+    tippyHover(xref, undefined, function(instance) {
+      instance.disable();
+      let url = xref.getAttribute('href');
+      let hash = undefined; 
+      if (url.startsWith('#')) {
+        hash = url;
+      } else {
+        try { hash = new URL(url).hash; } catch {}
+      }
+      if (hash) {
+        const id = hash.replace(/^#\/?/, "");
+        const note = window.document.getElementById(id);
+        if (note !== null) {
+          try {
+            const html = processXRef(id, note.cloneNode(true));
+            instance.setContent(html);
+          } finally {
+            instance.enable();
+            instance.show();
+          }
+        } else {
+          // See if we can fetch this
+          fetch(url.split('#')[0])
+          .then(res => res.text())
+          .then(html => {
+            const parser = new DOMParser();
+            const htmlDoc = parser.parseFromString(html, "text/html");
+            const note = htmlDoc.getElementById(id);
+            if (note !== null) {
+              const html = processXRef(id, note);
+              instance.setContent(html);
+            } 
+          }).finally(() => {
+            instance.enable();
+            instance.show();
+          });
+        }
+      } else {
+        // See if we can fetch a full url (with no hash to target)
+        // This is a special case and we should probably do some content thinning / targeting
+        fetch(url)
+        .then(res => res.text())
+        .then(html => {
+          const parser = new DOMParser();
+          const htmlDoc = parser.parseFromString(html, "text/html");
+          const note = htmlDoc.querySelector('main.content');
+          if (note !== null) {
+            // This should only happen for chapter cross references
+            // (since there is no id in the URL)
+            // remove the first header
+            if (note.children.length > 0 && note.children[0].tagName === "HEADER") {
+              note.children[0].remove();
+            }
+            const html = processXRef(null, note);
+            instance.setContent(html);
+          } 
+        }).finally(() => {
+          instance.enable();
+          instance.show();
+        });
+      }
+    }, function(instance) {
+    });
+  }
+      let selectedAnnoteEl;
+      const selectorForAnnotation = ( cell, annotation) => {
+        let cellAttr = 'data-code-cell="' + cell + '"';
+        let lineAttr = 'data-code-annotation="' +  annotation + '"';
+        const selector = 'span[' + cellAttr + '][' + lineAttr + ']';
+        return selector;
+      }
+      const selectCodeLines = (annoteEl) => {
+        const doc = window.document;
+        const targetCell = annoteEl.getAttribute("data-target-cell");
+        const targetAnnotation = annoteEl.getAttribute("data-target-annotation");
+        const annoteSpan = window.document.querySelector(selectorForAnnotation(targetCell, targetAnnotation));
+        const lines = annoteSpan.getAttribute("data-code-lines").split(",");
+        const lineIds = lines.map((line) => {
+          return targetCell + "-" + line;
+        })
+        let top = null;
+        let height = null;
+        let parent = null;
+        if (lineIds.length > 0) {
+            //compute the position of the single el (top and bottom and make a div)
+            const el = window.document.getElementById(lineIds[0]);
+            top = el.offsetTop;
+            height = el.offsetHeight;
+            parent = el.parentElement.parentElement;
+          if (lineIds.length > 1) {
+            const lastEl = window.document.getElementById(lineIds[lineIds.length - 1]);
+            const bottom = lastEl.offsetTop + lastEl.offsetHeight;
+            height = bottom - top;
+          }
+          if (top !== null && height !== null && parent !== null) {
+            // cook up a div (if necessary) and position it 
+            let div = window.document.getElementById("code-annotation-line-highlight");
+            if (div === null) {
+              div = window.document.createElement("div");
+              div.setAttribute("id", "code-annotation-line-highlight");
+              div.style.position = 'absolute';
+              parent.appendChild(div);
+            }
+            div.style.top = top - 2 + "px";
+            div.style.height = height + 4 + "px";
+            div.style.left = 0;
+            let gutterDiv = window.document.getElementById("code-annotation-line-highlight-gutter");
+            if (gutterDiv === null) {
+              gutterDiv = window.document.createElement("div");
+              gutterDiv.setAttribute("id", "code-annotation-line-highlight-gutter");
+              gutterDiv.style.position = 'absolute';
+              const codeCell = window.document.getElementById(targetCell);
+              const gutter = codeCell.querySelector('.code-annotation-gutter');
+              gutter.appendChild(gutterDiv);
+            }
+            gutterDiv.style.top = top - 2 + "px";
+            gutterDiv.style.height = height + 4 + "px";
+          }
+          selectedAnnoteEl = annoteEl;
+        }
+      };
+      const unselectCodeLines = () => {
+        const elementsIds = ["code-annotation-line-highlight", "code-annotation-line-highlight-gutter"];
+        elementsIds.forEach((elId) => {
+          const div = window.document.getElementById(elId);
+          if (div) {
+            div.remove();
+          }
+        });
+        selectedAnnoteEl = undefined;
+      };
+        // Handle positioning of the toggle
+    window.addEventListener(
+      "resize",
+      throttle(() => {
+        elRect = undefined;
+        if (selectedAnnoteEl) {
+          selectCodeLines(selectedAnnoteEl);
+        }
+      }, 10)
+    );
+    function throttle(fn, ms) {
+    let throttle = false;
+    let timer;
+      return (...args) => {
+        if(!throttle) { // first call gets through
+            fn.apply(this, args);
+            throttle = true;
+        } else { // all the others get throttled
+            if(timer) clearTimeout(timer); // cancel #2
+            timer = setTimeout(() => {
+              fn.apply(this, args);
+              timer = throttle = false;
+            }, ms);
+        }
+      };
+    }
+      // Attach click handler to the DT
+      const annoteDls = window.document.querySelectorAll('dt[data-target-cell]');
+      for (const annoteDlNode of annoteDls) {
+        annoteDlNode.addEventListener('click', (event) => {
+          const clickedEl = event.target;
+          if (clickedEl !== selectedAnnoteEl) {
+            unselectCodeLines();
+            const activeEl = window.document.querySelector('dt[data-target-cell].code-annotation-active');
+            if (activeEl) {
+              activeEl.classList.remove('code-annotation-active');
+            }
+            selectCodeLines(clickedEl);
+            clickedEl.classList.add('code-annotation-active');
+          } else {
+            // Unselect the line
+            unselectCodeLines();
+            clickedEl.classList.remove('code-annotation-active');
+          }
+        });
+      }
+  const findCites = (el) => {
+    const parentEl = el.parentElement;
+    if (parentEl) {
+      const cites = parentEl.dataset.cites;
+      if (cites) {
+        return {
+          el,
+          cites: cites.split(' ')
+        };
+      } else {
+        return findCites(el.parentElement)
+      }
+    } else {
+      return undefined;
+    }
+  };
+  var bibliorefs = window.document.querySelectorAll('a[role="doc-biblioref"]');
+  for (var i=0; i<bibliorefs.length; i++) {
+    const ref = bibliorefs[i];
+    const citeInfo = findCites(ref);
+    if (citeInfo) {
+      tippyHover(citeInfo.el, function() {
+        var popup = window.document.createElement('div');
+        citeInfo.cites.forEach(function(cite) {
+          var citeDiv = window.document.createElement('div');
+          citeDiv.classList.add('hanging-indent');
+          citeDiv.classList.add('csl-entry');
+          var biblioDiv = window.document.getElementById('ref-' + cite);
+          if (biblioDiv) {
+            citeDiv.innerHTML = biblioDiv.innerHTML;
+          }
+          popup.appendChild(citeDiv);
+        });
+        return popup.innerHTML;
+      });
+    }
+  }
+});
+</script>
+ <!-- /content -->
+
+
+
+
+</body></html>

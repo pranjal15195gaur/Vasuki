@@ -1,0 +1,261 @@
+[
+  {
+    "objectID": "about.html",
+    "href": "about.html",
+    "title": "About",
+    "section": "",
+    "text": "About this site"
+  },
+  {
+    "objectID": "about.html#beginners",
+    "href": "about.html#beginners",
+    "title": "About",
+    "section": "For Absolute Beginners",
+    "text": "For Absolute Beginners\nLearn the basics in a step-by-step manner:\n\nIntroduction to Syntax\n\nWorking with Variables\n\nRunning Your First Program\n\n\nBeginner Tutorial\nFollow these steps to write and run your first program: 1. … 2. … 3. …"
+  },
+  {
+    "objectID": "about.html#seasoned",
+    "href": "about.html#seasoned",
+    "title": "About",
+    "section": "For Seasoned Programmers",
+    "text": "For Seasoned Programmers\nAdvanced concepts and optimizations:\n\nLanguage Internals\nPerformance Tuning\nDebugging Techniques"
+  },
+  {
+    "objectID": "about-seasoned.html",
+    "href": "about-seasoned.html",
+    "title": "Advanced Track",
+    "section": "",
+    "text": "Advanced concepts and optimizations:\n\nLanguage Internals\nPerformance Tuning\nDebugging Techniques"
+  },
+  {
+    "objectID": "about-seasoned.html#for-seasoned-programmers",
+    "href": "about-seasoned.html#for-seasoned-programmers",
+    "title": "Advanced Track",
+    "section": "",
+    "text": "Advanced concepts and optimizations:\n\nLanguage Internals\nPerformance Tuning\nDebugging Techniques"
+  },
+  {
+    "objectID": "index.html",
+    "href": "index.html",
+    "title": "Welcome to Vasuki",
+    "section": "",
+    "text": "Welcome to Vasuki Documentation\nVasuki is a modern programming language designed to empower both beginners and seasoned programmers. Please choose your track below:\n\nBeginner Track Advanced Track"
+  },
+  {
+    "objectID": "about-beginners.html",
+    "href": "about-beginners.html",
+    "title": "Beginner Track",
+    "section": "",
+    "text": "Learn the basics in a step-by-step manner:\n\nIntroduction to Syntax\n\nWorking with Variables\n\nRunning Your First Program\n\n\n\nFollow these steps to write and run your first program: 1. … 2. … 3. …"
+  },
+  {
+    "objectID": "about-beginners.html#for-absolute-beginners",
+    "href": "about-beginners.html#for-absolute-beginners",
+    "title": "Beginner Track",
+    "section": "",
+    "text": "Learn the basics in a step-by-step manner:\n\nIntroduction to Syntax\n\nWorking with Variables\n\nRunning Your First Program\n\n\n\nFollow these steps to write and run your first program: 1. … 2. … 3. …"
+  },
+  {
+    "objectID": "advanced.html",
+    "href": "advanced.html",
+    "title": "Vasuki Advanced Documentation",
+    "section": "",
+    "text": "Edit on GitHub\n\n\nOverview\n\n\nSyntax Structure Overview\n\n\nLexical Analysis (Lexer)\n\n\nParsing and AST\n\n\nInterpreter and Environment\n\n\nAdvanced Constructs\n\n\nSpecial Language Features\n\n\nError Handling and Debugging\n\n\nExample Program Walkthrough\n\n\nAppendix: Extended Explanations and Examples\nWelcome to the advanced documentation for Vasuki. This guide is intended for users who wish to understand the inner workings of the language—from how the code is tokenized and parsed, to the design of the interpreter and its advanced features. Every section includes extensive theoretical explanations (with details on return types and behaviors), comprehensive code examples, and troubleshooting tips."
+  },
+  {
+    "objectID": "beginner.html",
+    "href": "beginner.html",
+    "title": "Vasuki Beginner’s Documentation",
+    "section": "",
+    "text": "Edit on GitHub\n\n\nIntroduction\n\n\nGetting Started\n\n\nBasic Syntax\n\n\nControl Structures\n\n\nFunctions\n\n\nArrays\n\n\nSpecial Features\n\n\nError Handling\n\n\nExample Program Walkthrough"
+  },
+  {
+    "objectID": "beginner.html#installation",
+    "href": "beginner.html#installation",
+    "title": "Vasuki Beginner Documentation",
+    "section": "Installation",
+    "text": "Installation\nBefore writing code in Vasuki, set up your environment by following these steps:\n\nStep 1: Clone the Repository\nClone the Vasuki repository from GitHub and setup environment:\ngit clone https://github.com/pranjal15195gaur/Vasuki.git\n./run.sh\nPurpose: This command downloads the entire Vasuki project to your local machine. It gives you access to the interpreter, source code, and additional resources.\nReturn Type: Git outputs progress messages as text; it does not return a value for use in the code.\nTroubleshooting:\n\nError: “repository not found”\n\nSolution: Verify the repository URL and ensure you have proper access permissions.\n\n\n\n\nStep 2: Check Your Vasuki Version\nRun:\nvasuki --version\nPurpose: This command displays the current Python version installed on your system.\nImportance: Vasuki requires Python 3.8 or newer to run correctly.\nReturn Type: A string such as “Python 3.9.1” is printed.\nTroubleshooting:\n\nError: “Python not recognized”\n\nSolution: Ensure Python is installed and properly added to your system’s PATH.\n\n\n\n\nStep 3: Run the Interpreter\nCreate a source file (e.g., program.txt) containing your Vasuki code, then execute:\nvasuki program.vasuki\nPurpose: This command starts the Vasuki interpreter, which reads and executes your code from the specified file.\nReturn Type: The interpreter evaluates the code and prints the output (if any) to the console.\nTroubleshooting:\n\nError: “File not found”\n\nSolution: Verify the file name and location."
+  },
+  {
+    "objectID": "beginner.html#overview",
+    "href": "beginner.html#overview",
+    "title": "Vasuki Beginner Documentation",
+    "section": "Overview",
+    "text": "Overview\nVasuki is a lightweight, interpreter-based scripting language with a focus on simplicity and flexibility. Its key features include:\n\nVariables: Store and manipulate data.\nArithmetic Operations: Perform basic math such as addition, subtraction, multiplication, division, exponentiation, and modulo.\nControl Structures: Execute code conditionally or repeatedly, and notably, these structures also return values.\nInput/Output: Use the print function to display results.\nFunction Calls: Leverage built-in functions like max and min.\nScoping: Vasuki supports both static and dynamic scoping for variable resolution.\nImplicit Return: If a statement is written without a semicolon, it is treated as if an implicit return is appended.\n\nTheory: Every expression in Vasuki returns a value (e.g., numbers, booleans, etc.). This makes it easy to chain expressions and use control structures in a more functional style."
+  },
+  {
+    "objectID": "beginner.html#basic-syntax-and-structure",
+    "href": "beginner.html#basic-syntax-and-structure",
+    "title": "Vasuki Beginner Documentation",
+    "section": "Basic Syntax and Structure",
+    "text": "Basic Syntax and Structure\nVasuki code is structured into statements and expressions with clear syntactic rules.\n\nKey Concepts\n\nCase Sensitivity: All keywords and variable names are case-sensitive.\nStatements: Each statement typically ends with a semicolon (;). Omitting the semicolon causes Vasuki to interpret the end-of-line as an implicit return.\nBlocks: Curly braces {} group multiple statements together; they are commonly used in control structures.\n\nTheory & Return Types:\n\nExpression Evaluation: An expression returns a specific type (integer, float, boolean, etc.).\nImplicit Return: A line without a semicolon is treated as returning the result of that expression.\n\nExample:\nvar x = 10;\nx = x + 5\nExplanation:\n\nLine 1: var x = 10; declares a variable x with the integer value 10.\nReturn Type: Integer (10).\nLine 2: x = x + 5 updates x by adding 5. Since no semicolon is present, Vasuki implicitly returns the new value 15.\nReturn Type: Integer (15).\n\nTroubleshooting:\n\nError: “Missing semicolon”\n\nSolution: Use semicolons consistently to avoid ambiguity with implicit returns."
+  },
+  {
+    "objectID": "beginner.html#data-types-and-variables",
+    "href": "beginner.html#data-types-and-variables",
+    "title": "Vasuki Beginner Documentation",
+    "section": "Data Types and Variables",
+    "text": "Data Types and Variables\nVariables in Vasuki are containers that hold data. Understanding their types is crucial for writing correct programs.\n\nVariables\nDeclaration:\nvar a = 10;\nExplanation:\n\nKeyword: var declares a variable.\nIdentifier: a is the name of the variable.\nValue: 10 (an integer) is assigned to a.\nReturn Type: The expression evaluates to an integer (10).\n\nAssignment:\na = a + 5;\nExplanation:\n\nUpdates a by adding 5 to its current value.\nReturn Type: Returns the new integer value (15).\n\n\n\nData Types\n\nInteger: Represents whole numbers (e.g., 10).\nReturn Type: Integer.\nFloat: Represents decimal numbers (e.g., 3.14).\nReturn Type: Floating-point number.\n\nTroubleshooting:\n\nError: “Invalid number token”\n\nSolution: Ensure numbers are correctly formatted (only one decimal point for floats)."
+  },
+  {
+    "objectID": "beginner.html#operators-and-expressions",
+    "href": "beginner.html#operators-and-expressions",
+    "title": "Vasuki Beginner Documentation",
+    "section": "Operators and Expressions",
+    "text": "Operators and Expressions\nOperators perform operations on variables and values to produce new values.\n\nArithmetic Operators\nOperators include +, -, *, /, %, and **.\nExample:\nvar sum = 10 + 5;\nprint(sum);\nExplanation:\n\nAddition: 10 + 5 evaluates to 15.\nReturn Type: Integer.\nprint: Displays the result on the console.\n\n\n\nLogical and Comparison Operators\nComparison operators (&lt;, &lt;=, &gt;, &gt;=, ==, !=) return booleans. Logical operators (and, or) combine boolean values.\nExample:\nif (a &gt; 5) {\n    print(\"a is greater than 5\");\n}\nExplanation:\n\nComparison: a &gt; 5 returns a boolean (true or false).\nReturn Type: Boolean.\n\nTroubleshooting:\n\nError: “Unexpected operator”\n\nSolution: Check for typos and ensure correct usage."
+  },
+  {
+    "objectID": "beginner.html#control-structures",
+    "href": "beginner.html#control-structures",
+    "title": "Vasuki Beginner Documentation",
+    "section": "Control Structures",
+    "text": "Control Structures\nControl structures determine the order in which your code is executed. In Vasuki, these structures can also return values.\n\nConditional Statements\nExample:\nif (x &lt; 20) {\n    print(\"x is less than 20\");\n} else {\n    print(\"x is 20 or greater\");\n}\nExplanation:\n\nCondition: Evaluates x &lt; 20 and returns a boolean.\nBranching: Executes the corresponding block based on the condition.\nReturn Type: The executed block may return a value, making the entire if-else expression useful in further expressions.\n\n\n\nLoops\nLoops execute code repeatedly until a condition is met. They too can return the value of the final executed block.\nFor Loop Example:\nfor (var i = 0; i &lt; 3; i = i + 1) {\n    print(i);\n}\nExplanation:\n\nInitialization: var i = 0 sets up the loop variable.\nCondition: i &lt; 3 continues the loop while true.\nIncrement: i = i + 1 increases i after each iteration.\nReturn Type: The loop returns the value of its last iteration (or its side effect).\n\nSpecial Note: If the loop body is written without a semicolon, its result is implicitly returned.\nWhile Loop Example:\nwhile (x &lt; 100) {\n    x = x + 10;\n    print(x);\n}\nExplanation:\n\nCondition: Continues as long as x &lt; 100.\nIteration: Adds 10 to x and prints the updated value.\nReturn Type: Returns the result of the final loop iteration if no semicolon is used.\n\nTroubleshooting:\n\nError: “Loop condition not met”\n\nSolution: Make sure the condition eventually becomes false to avoid infinite loops."
+  },
+  {
+    "objectID": "beginner.html#functions-and-io",
+    "href": "beginner.html#functions-and-io",
+    "title": "Vasuki Beginner Documentation",
+    "section": "Functions and I/O",
+    "text": "Functions and I/O\n\nOutput (I/O)\nThe print function displays data to the console.\nExample:\nprint(\"Hello, Vasuki!\");\nExplanation:\n\nPurpose: Outputs the text “Hello, Vasuki!” to the console.\nReturn Type: The print function returns no meaningful value (void); it is used for its side effect.\n\n\n\nFunctions (Basic Concept)\nWhile detailed user-defined functions are covered in the advanced documentation, here are the basics:\nTheory:\n\nDefinition: A function is a reusable block of code that may accept parameters and return a value.\nScoping: Vasuki uniquely supports both static scoping (resolving variables where they are declared) and dynamic scoping (resolving variables based on the calling context). This means if a variable isn’t found in the local scope, the interpreter will first search the static environment (where the function was defined) and then the dynamic environment (where the function was called).\nImplicit Return: If you omit the semicolon at the end of a statement, Vasuki automatically treats it as an implicit return of that expression’s value.\n\nExample (Using Implicit Return):\nvar result = 10 + 5\nExplanation:\n\nWithout a semicolon, Vasuki treats this as returning the value 15 implicitly.\n\nTroubleshooting:\n\nError: “Unknown function”\n\nSolution: Ensure that built-in functions (like print) are spelled correctly and that your environment is correctly set up."
+  },
+  {
+    "objectID": "beginner.html#special-language-features",
+    "href": "beginner.html#special-language-features",
+    "title": "Vasuki Beginner Documentation",
+    "section": "Special Language Features",
+    "text": "Special Language Features\nVasuki offers several unique features that enhance its flexibility:\n\nDual Scoping Mechanisms\n\nStatic Scoping: Variables are resolved based on where they are defined in your code.\nDynamic Scoping: Variables are also resolved based on the calling environment at runtime.\n\nImplication: This dual approach provides you with the flexibility to write functions that behave differently depending on their context, which is especially useful in larger, more complex programs.\n\n\nControl Structures with Return Values\n\nBehavior: Structures like if, for, and while can return a value. For example, the evaluated result of an if statement can be immediately used as part of an assignment.\nImplication: This allows for concise code where control structures contribute directly to expressions.\n\n\n\nImplicit Return on Omitted Semicolons\n\nBehavior: If a line is written without a semicolon, Vasuki automatically appends an implicit return at the end.\nImplication: This feature simplifies writing short expressions but requires careful, consistent use to avoid unexpected behavior."
+  },
+  {
+    "objectID": "beginner.html#error-handling-and-troubleshooting",
+    "href": "beginner.html#error-handling-and-troubleshooting",
+    "title": "Vasuki Beginner Documentation",
+    "section": "Error Handling and Troubleshooting",
+    "text": "Error Handling and Troubleshooting\n\nCommon Error Types\n\nSyntax Errors:\nExamples: Missing semicolons, unmatched braces, or typos.\nTheory: Syntax errors occur when the code does not adhere to Vasuki’s grammatical rules. The interpreter cannot parse such code.\nSolution: Check error messages for line numbers, and verify that all statements and blocks follow proper syntax.\nRuntime Errors:\nExamples: Using an undefined variable or invalid operations (e.g., division by zero).\nTheory: Runtime errors occur during execution, causing the program to halt.\nSolution: Declare all variables before use and validate operations to ensure they are mathematically or logically sound.\nLexical/Parsing Errors:\nExamples: Invalid tokens (malformed numbers, illegal characters) or unexpected symbols.\nTheory: These errors occur when the interpreter cannot tokenize or parse your source code.\nSolution: Ensure that your code adheres to the expected format for numbers, identifiers, and operators.\n\n\n\nTroubleshooting Tips\n\nRead Error Messages Carefully: They often indicate the exact location and type of error.\nTest in Small Sections: Isolate code blocks in the REPL to identify problematic segments.\nUse Comments: Annotate your code with comments (//) to clarify your logic.\nReview This Documentation: Revisit sections of the guide to ensure correct syntax and understanding of concepts."
+  },
+  {
+    "objectID": "beginner.html#example-program-walkthrough",
+    "href": "beginner.html#example-program-walkthrough",
+    "title": "Vasuki Beginner’s Documentation",
+    "section": "Example Program Walkthrough",
+    "text": "Example Program Walkthrough\nHere is a program that demonstrates Vasuki’s unique features, including dual scoping, control structures with return values, and implicit returns.\n// Declare variables\nvar x = 10;\nvar y = 5;\n\n// Compute the sum\nvar sum = x + y;\nprint(\"Sum: \" + sum);  // Output: Sum: 15\n\n// Use an if statement with return value\nvar result = if (sum &gt; 10) { sum } else { 0 };\nprint(\"Result: \" + result);  // Output: Result: 15\n\n// Define and call a function with implicit return\ndef add(a, b) {\n    a + b  // Implicit return\n}\nprint(\"Addition: \" + add(3, 4));  // Output: Addition: 7\n\n// Create and access an array\nvar arr = [10, 20, 30];\nprint(\"First element: \" + arr[1]);  // Output: First element: 10\n\n// Demonstrate scoping\nvar globalVar = 100;\ndef testScope() {\n    print(globalVar);  // Resolves via static scope\n}\ntestScope();  // Output: 100\nExplanation:\n- The program demonstrates variable declaration, control structures, and functions. - It highlights Vasuki’s unique features, such as implicit returns and dual scoping mechanisms. - The testScope function accesses the global variable globalVar using static scoping."
+  },
+  {
+    "objectID": "advanced.html#overview",
+    "href": "advanced.html#overview",
+    "title": "Vasuki Advanced Documentation",
+    "section": "Overview",
+    "text": "Overview\nVasuki is a lightweight scripting language that combines simplicity with powerful features. Key aspects include:\n\nDual Scoping Mechanisms:\nSupports both static and dynamic scoping, allowing variables to be resolved based on both their declaration site and the calling context.\nImplicit Returns:\nLines written without a semicolon are treated as having an implicit return at the end.\nControl Structures with Return Values:\nIf, for, and while constructs return the value of their executed block.\nModular Architecture:\nComprised of a lexer, parser, AST builder, and interpreter."
+  },
+  {
+    "objectID": "advanced.html#syntax-structure-overview",
+    "href": "advanced.html#syntax-structure-overview",
+    "title": "Vasuki Advanced Documentation",
+    "section": "Syntax Structure Overview",
+    "text": "Syntax Structure Overview\nVasuki’s syntax is minimal yet expressive. Its key elements include:\n\nStatements:\nEach statement typically ends with a semicolon (;). Omission of a semicolon causes an implicit return of that expression.\nBlocks:\nGroups of statements enclosed in { } for control structures.\nExpressions:\nEvery expression has a type (e.g., integer, float, boolean) and returns a value upon evaluation.\n\n\nDetailed Syntax\n\nVariable Declaration:\nvar x = 10;\nExplanation: Declares variable x with an integer value 10. Returns 10.\nAssignment:\nx = x + 5;\nExplanation: Updates x to 15. Returns 15."
+  },
+  {
+    "objectID": "advanced.html#lexical-analysis-lexer",
+    "href": "advanced.html#lexical-analysis-lexer",
+    "title": "Vasuki Advanced Documentation",
+    "section": "Lexical Analysis (Lexer)",
+    "text": "Lexical Analysis (Lexer)\nThe lexer is responsible for tokenizing the input source code.\n\nToken Types\nIntToken & FloatToken: Represent numeric literals. Syntax Example:\nIntToken(\"123\");\nFloatToken(\"3.14\");\nOperatorToken: Represents operators such as +, -, *, /, %, **, &lt;, &lt;=, etc. Example:\nOperatorToken('+');\nKeywordToken: For reserved words like if, else, var, for, while, and def. (…extended explanation on keyword versus identifier differentiation…)\nParenToken: Represents parentheses used for grouping. (…complete discussion on handling nested parentheses…)\n\n\nLexer Process"
+  },
+  {
+    "objectID": "advanced.html#parsing-and-ast",
+    "href": "advanced.html#parsing-and-ast",
+    "title": "Vasuki Advanced Documentation",
+    "section": "Parsing and AST",
+    "text": "Parsing and AST\nThe parser constructs an Abstract Syntax Tree (AST) from the token stream.\n\nAST Nodes and Their Syntax\nBinary Operations (BinOp):\nBinOp('+', Int(10), Int(5));\nExplanation: Represents the addition of 10 and 5, returning 15.\nUnary Operations (UnOp):\nUnOp('-', Int(5));\nNumeric Literals (Int, Float): (…complete details on how literals are stored, type conversion, etc.)\nConditional Statements (If):\nIf(BinOp('&lt;', VarReference(\"x\"), Int(20)), Print(\"x is less than 20\"), [], Print(\"x is 20 or greater\"));\nExplanation: Represents conditional branching logic.\nLoops (For, While): Detailed syntax for both for and while loops with explanations on initialization, condition, increment, and block evaluation. (…multiple examples provided…)\nFunction Definitions and Calls:\nFunctionDef(name, parameters, body);\nFunctionCall(name, arguments);\n\n\nParsing Process"
+  },
+  {
+    "objectID": "advanced.html#interpreter-and-environment",
+    "href": "advanced.html#interpreter-and-environment",
+    "title": "Vasuki Advanced Documentation",
+    "section": "Interpreter and Environment",
+    "text": "Interpreter and Environment\nThe interpreter evaluates the AST within an environment that supports variable scoping and function closures.\n\nEnvironment Model\nStatic Scoping: Variables are resolved based on the environment where they were declared.\nDynamic Scoping: Variables are resolved based on the calling context if not found in the static environment.\n\n\nEvaluation Process\n(…Step-by-step walkthrough of the interpreter’s evaluation process for each AST node type. Detailed examples show how a BinOp node is evaluated, how control structures return values, and how implicit returns are handled.)"
+  },
+  {
+    "objectID": "advanced.html#advanced-constructs",
+    "href": "advanced.html#advanced-constructs",
+    "title": "Vasuki Advanced Documentation",
+    "section": "Advanced Constructs",
+    "text": "Advanced Constructs\nVasuki includes several advanced programming features:\nFunctions Syntax:\ndef functionName(param1, param2) {\n    // function body\n    return expression;\n}\nArrays Syntax:\nvar arr = [1, 2, 3];\nprint(arr[2]);  // One-based indexing: returns 2\nLabels and Custom Flow Control Syntax:\nlabelName:\n    // code block\ngoandreturn labelName;"
+  },
+  {
+    "objectID": "advanced.html#special-language-features",
+    "href": "advanced.html#special-language-features",
+    "title": "Vasuki Advanced Documentation",
+    "section": "Special Language Features",
+    "text": "Special Language Features\nVasuki offers several unique features that set it apart from other scripting languages. These features enhance flexibility, readability, and debugging capabilities.\n\nDual Scoping Mechanisms\n\nStatic Scoping:\nVariables are resolved based on their declaration location in the code. This ensures predictable behavior, as the variable’s value is determined by the structure of the program.\nDynamic Scoping:\nVariables are resolved in the context of the caller’s environment if they are not found in the static scope. This provides additional flexibility, especially in scenarios involving closures or nested function calls.\n\nDetailed Explanation:\nStatic scoping ensures that variables are bound to their declaration context, making the code easier to debug and understand. Dynamic scoping, on the other hand, allows for more dynamic behavior, enabling variables to adapt to the calling context.\nExamples and diagrams illustrating both scoping mechanisms are provided in the appendix.\n\n\n\nControl Structures with Return Values\n\nBehavior:\nControl structures such as if, for, and while return the value of the last executed statement within their block. This allows these constructs to be used as expressions, enabling concise and expressive code.\n\nDetailed Explanation:\nFor example, an if statement can directly return a value:\nvar result = if (x &gt; 10) { x } else { 0 };\nHere, result will hold the value of x if the condition is true, or 0 otherwise. This feature simplifies code by reducing the need for additional variables or explicit return statements.\nFurther examples and chaining techniques are discussed in the appendix.\n\n\n\nImplicit Return on Omitted Semicolons\n\nBehavior:\nWhen a semicolon is omitted at the end of a statement, Vasuki treats it as an implicit return. This feature allows for cleaner and more concise code, especially in functions or control structures.\n\nDetailed Explanation:\nFor instance:\ndef add(a, b) {\n    a + b  // Implicitly returns the sum of a and b\n}\nThis behavior reduces boilerplate code but requires careful use to avoid unintended returns.\nBest practices and potential pitfalls are covered in the appendix."
+  },
+  {
+    "objectID": "advanced.html#error-handling-and-debugging",
+    "href": "advanced.html#error-handling-and-debugging",
+    "title": "Vasuki Advanced Documentation",
+    "section": "Error Handling and Debugging",
+    "text": "Error Handling and Debugging\nRobust error handling is a cornerstone of effective development. Vasuki provides detailed error messages and debugging tools to help developers identify and resolve issues efficiently.\n\nCommon Error Types\n\nSyntax Errors:\n\nExamples: Missing semicolons, unmatched braces, or typos in keywords.\n\nDetailed Explanation:\nSyntax errors occur when the code violates Vasuki’s grammatical rules. For example:\nvar x = 10  // Missing semicolon\nVasuki will report an error indicating the missing semicolon.\nStep-by-step debugging procedures are provided in the appendix.\n\nRuntime Errors:\n\nExamples: Undefined variables, invalid operations (e.g., division by zero).\n\nDetailed Explanation:\nRuntime errors occur during program execution. For instance:\nvar result = 10 / 0;  // Division by zero\nVasuki will halt execution and provide a stack trace to help locate the issue.\nStrategies for handling runtime errors are discussed in detail.\n\nLexical/Parsing Errors:\n\nExamples: Invalid tokens, unexpected symbols, or malformed expressions.\n\nDetailed Explanation:\nThese errors occur when the lexer or parser encounters invalid input. For example:\nvar 123abc = 10;  // Invalid variable name\nVasuki will report an error indicating the invalid token.\nPractical tips for resolving such errors are included in the appendix.\n\n\n\n\n\nTroubleshooting Tips\nTo effectively debug your Vasuki programs, follow these general guidelines:\n\nRead Error Messages Carefully:\nVasuki provides detailed error messages that often indicate the exact issue and its location.\nIsolate Problematic Code Blocks:\nTest individual sections of your code in isolation to identify the source of the error.\nUse Comments to Annotate Code:\nAdd comments to clarify complex logic or temporarily disable sections of code for testing.\nReview Documentation:\nRefer to this documentation and the appendix for guidance on correct syntax, behavior, and best practices.\n\nBy following these tips and leveraging Vasuki’s debugging tools, you can quickly identify and resolve issues in your code."
+  },
+  {
+    "objectID": "advanced.html#example-program-walkthrough",
+    "href": "advanced.html#example-program-walkthrough",
+    "title": "Vasuki Advanced Documentation",
+    "section": "Example Program Walkthrough",
+    "text": "Example Program Walkthrough\nBelow is a comprehensive advanced example that integrates many language features, including dual scoping, control structures with return values, and implicit returns.\n// Advanced Example: Comprehensive Integration\n\n// Declare and initialize variables\nvar x = 10;\nvar y = 5;\n\n// Compute the sum of x and y\nvar sum = x + y;\nprint(\"Sum: \" + sum);  // Expected output: Sum: 15\n\n// Conditional with implicit return\nif (sum &gt; 10) {\n    print(\"Sum is greater than 10\");\n} else {\n    print(\"Sum is 10 or less\");\n}\n\n// For loop with control structure returning a value implicitly\nfor (var i = 0; i &lt; 3; i = i + 1) {\n    print(\"Iteration \" + i);\n}\n\n// Function definition (advanced usage)\ndef add(a, b) {\n    a + b  // Implicit return of a+b due to omitted semicolon\n}\nprint(\"Addition: \" + add(3, 4));  // Expected output: Addition: 7\n\n// Array usage with one-based indexing\nvar arr = [10, 20, 30];\nprint(\"Second element: \" + arr[2]);  // Expected output: Second element: 20\n\n// Using labels for custom flow control\nstartLabel:\n    print(\"Inside labeled block\");\ngoandreturn startLabel;  // Jumps to startLabel and returns from the block\nDetailed Explanation: • Variables & Arithmetic:\nx and y are initialized, and their sum is computed (returning an integer). • Conditional Statement:\nThe if statement evaluates sum &gt; 10 and executes the appropriate block. If semicolons are omitted, the block’s value is implicitly returned. • Loop:\nThe for loop iterates three times, demonstrating implicit return behavior. • Functions:\nThe function add is defined using implicit return syntax. It demonstrates how parameters are passed and how the function returns a value. • Arrays:\nArrays are created with literal syntax and accessed using one-based indexing. • Labels:\nLabels and the goandreturn statement allow for advanced control flow, illustrating non-linear execution paths."
+  },
+  {
+    "objectID": "advanced.html#appendix-extended-explanations-and-examples",
+    "href": "advanced.html#appendix-extended-explanations-and-examples",
+    "title": "Vasuki Advanced Documentation",
+    "section": "Appendix: Extended Explanations and Examples",
+    "text": "Appendix: Extended Explanations and Examples\nAppendix A: Detailed Variable Scoping and Environment Handling In Vasuki, variable resolution uses both static and dynamic scoping. Static scoping resolves variables in the context of their declaration. Dynamic scoping considers the call stack for variable resolution. Example:\nvar globalVar = 100;\ndef testScope() {\n    print(globalVar);  // Resolves via static scope if not shadowed dynamically\n}\ntestScope();\nExplanation: The function testScope prints globalVar by looking up the static environment. (…continued in-depth explanation…)\nAppendix B: Extended Operator Precedence and Evaluation Order In Vasuki, operators follow standard mathematical precedence. Exponentiation (**) is evaluated before multiplication and division. Example:\nvar result = 2 ** 3 * 4;\nExplanation:\n2 ** 3 evaluates to 8, then multiplied by 4 gives 32. (Detailed breakdown of each step…)\nAppendix C: In-Depth Control Structures and Implicit Return Mechanism Control structures in Vasuki are unique in that they return a value. Example:\nvar condResult = if (x &lt; 20) { 100 } else { 200 }\nExplanation:\nIf x &lt; 20 is true, condResult becomes 100; otherwise, it becomes 200. (Extended discussion on using control structures in expressions, including pitfalls and best practices.)\nAppendix D: Error Handling – Extended Debugging Techniques Syntax errors typically occur due to missing semicolons. Example error and fix:\nvar a = 10  // Missing semicolon causes implicit return and potential errors\nvar b = a + 5;\nCorrected:\nvar a = 10;\nvar b = a + 5;\n(Extensive discussion on interpreting error messages, with over 100 troubleshooting cases documented in detail.)\nAppendix E: Full Advanced Examples and Use Cases Here we compile a series of advanced examples that utilize every language feature. Example: Complex function with nested control structures, array manipulation, and label usage.\ndef complexFunction(a, b) {\n    var result = if (a &gt; b) { a - b } else { b - a }\n    for (var i = 0; i &lt; result; i = i + 1) {\n        print(\"Loop iteration: \" + i);\n    }\n    result  // Implicit return of result\n}\nprint(\"Complex Function Output: \" + complexFunction(15, 5));\n(Detailed explanation of each part of the function, including scoping, control flow, and return behavior.)"
+  },
+  {
+    "objectID": "beginner.html#introduction",
+    "href": "beginner.html#introduction",
+    "title": "Vasuki Beginner’s Documentation",
+    "section": "Introduction",
+    "text": "Introduction\nVasuki is a lightweight scripting language that is simple to learn yet powerful enough for advanced use cases. It is designed with the following goals in mind:\n\nEase of Use: Minimalistic syntax that is easy to read and write.\nFlexibility: Features like dual scoping mechanisms and implicit returns make it versatile.\nPowerful Constructs: Control structures and functions are designed to be expressive and concise."
+  },
+  {
+    "objectID": "beginner.html#getting-started",
+    "href": "beginner.html#getting-started",
+    "title": "Vasuki Beginner’s Documentation",
+    "section": "Getting Started",
+    "text": "Getting Started\nTo begin using Vasuki, you need to install the Vasuki interpreter. Follow the steps below:\n\nDownload the Vasuki interpreter from the official website.\nInstall it on your system by following the installation guide.\nOpen a terminal and run the Vasuki REPL (Read-Eval-Print Loop) using the command:\nvasuki\nStart writing your first Vasuki program!"
+  },
+  {
+    "objectID": "beginner.html#basic-syntax",
+    "href": "beginner.html#basic-syntax",
+    "title": "Vasuki Beginner’s Documentation",
+    "section": "Basic Syntax",
+    "text": "Basic Syntax\nVasuki’s syntax is designed to be intuitive and beginner-friendly. This section provides a detailed explanation of the key elements of the language, along with examples to help you understand how to use them effectively.\n\n\nVariable Declaration\nVariables in Vasuki are declared using the var keyword. A variable is a named storage location that holds a value, which can be updated or reused later in the program.\n\nSyntax\nvar variableName = value;\n\n\nExample\nvar x = 10;\nprint(\"Value of x: \" + x);  // Output: Value of x: 10\nExplanation:\n- The var keyword is used to declare a variable named x. - The value 10 is assigned to x. - The print statement outputs the value of x.\n\n\n\n\nExpressions\nAn expression in Vasuki is a combination of variables, values, and operators that evaluates to a single value. Expressions are used in assignments, conditions, and function calls.\n\nSyntax\nvar result = expression;\n\n\nExample\nvar x = 10;\nvar y = x + 5;\nprint(\"Value of y: \" + y);  // Output: Value of y: 15\nExplanation:\n- The variable x is assigned the value 10. - The expression x + 5 evaluates to 15 and is assigned to y. - The print statement outputs the value of y.\n\n\n\n\nBlocks\nBlocks are groups of statements enclosed in curly braces { }. They are used to define the body of control structures, functions, and other constructs.\n\nSyntax\n{\n    // Statements\n}\n\n\nExample\nvar x = 10;\nif (x &gt; 5) {\n    print(\"x is greater than 5\");\n}\nExplanation:\n- The block { print(\"x is greater than 5\"); } is executed if the condition x &gt; 5 is true.\n\n\n\n\nControl Structures\nControl structures allow you to control the flow of your program. Vasuki supports if, for, and while constructs.\n\n\nIf Statements\nThe if statement evaluates a condition and executes the corresponding block of code if the condition is true. An optional else block can be used to handle the case where the condition is false.\n\n\nSyntax\nif (condition) {\n    // Code to execute if condition is true\n} else {\n    // Code to execute if condition is false\n}\n\n\nExample\nvar x = 10;\nif (x &gt; 5) {\n    print(\"x is greater than 5\");\n} else {\n    print(\"x is 5 or less\");\n}\nExplanation:\n- The condition x &gt; 5 is evaluated. - If true, the block { print(\"x is greater than 5\"); } is executed. - Otherwise, the block { print(\"x is 5 or less\"); } is executed.\n\n\n\nFor Loops\nThe for loop is used for iteration. It allows you to repeat a block of code a specific number of times.\n\n\nSyntax\nfor (initialization; condition; increment) {\n    // Code to execute in each iteration\n}\n\n\nExample\nfor (var i = 0; i &lt; 5; i = i + 1) {\n    print(\"Iteration: \" + i);\n}\nExplanation:\n- The loop starts with i = 0. - The condition i &lt; 5 is checked before each iteration. - The block { print(\"Iteration: \" + i); } is executed, and i is incremented by 1 after each iteration.\n\n\n\nWhile Loops\nThe while loop repeats a block of code as long as a condition is true.\n\n\nSyntax\nwhile (condition) {\n    // Code to execute while condition is true\n}\n\n\nExample\nvar count = 0;\nwhile (count &lt; 3) {\n    print(\"Count: \" + count);\n    count = count + 1;\n}\nExplanation:\n- The loop starts with count = 0. - The condition count &lt; 3 is checked before each iteration. - The block { print(\"Count: \" + count); count = count + 1; } is executed until the condition becomes false.\n\n\n\n\nFunctions\nFunctions in Vasuki allow you to encapsulate reusable blocks of code. They can take input parameters, perform operations, and return a result.\n\n\nDefining Functions\nFunctions are defined using the def keyword, followed by the function name, parameters, and a block of code.\n\n\nSyntax\ndef functionName(parameter1, parameter2, ...) {\n    // Code to execute\n    return value;  // Optional\n}\n\n\nExample\ndef add(a, b) {\n    return a + b;\n}\nExplanation:\n- The function add takes two parameters, a and b. - It returns the sum of a and b.\n\n\n\nCalling Functions\nYou can call a function by using its name and passing the required arguments.\n\n\nExample\nvar result = add(3, 4);\nprint(\"Result: \" + result);  // Output: Result: 7\nExplanation:\n- The function add is called with arguments 3 and 4. - The result of the function (7) is assigned to the variable result.\n\n\n\n\nArrays\nArrays in Vasuki are used to store collections of values. They are versatile and allow you to perform operations on multiple elements.\n\n\nCreating Arrays\nYou can create an array using square brackets [].\n\n\nSyntax\nvar arrayName = [value1, value2, ...];\n\n\nExample\nvar arr = [1, 2, 3];\nprint(\"Array: \" + arr);\nExplanation:\n- The array arr contains the values 1, 2, and 3. - The print statement outputs the array.\n\n\n\nAccessing Elements\nArray elements are accessed using one-based indexing.\n\n\nSyntax\narrayName[index];\n\n\nExample\nvar arr = [10, 20, 30];\nprint(\"First element: \" + arr[1]);  // Output: First element: 10\nprint(\"Second element: \" + arr[2]);  // Output: Second element: 20\nExplanation:\n- The first element of the array is accessed using arr[1]. - The second element is accessed using arr[2].\n\n\n\nModifying Elements\nYou can modify an array element by assigning a new value to a specific index.\n\n\nExample\nvar arr = [10, 20, 30];\narr[2] = 25;\nprint(\"Modified array: \" + arr);  // Output: Modified array: [10, 25, 30]\nExplanation:\n- The value at index 2 is updated to 25. - The modified array is printed.\n\n\n\n\nSummary\nThe Basic Syntax section provides a foundation for understanding Vasuki. By mastering variable declarations, expressions, blocks, control structures, functions, and arrays, you can write efficient and readable Vasuki programs. Each feature is designed to be intuitive, making Vasuki an excellent choice for both beginners and advanced users."
+  },
+  {
+    "objectID": "beginner.html#control-structures-1",
+    "href": "beginner.html#control-structures-1",
+    "title": "Vasuki Beginner’s Documentation",
+    "section": "Control Structures",
+    "text": "Control Structures\nControl structures in Vasuki allow you to control the flow of your program. They include if, for, and while.\n\nIf Statements\nThe if statement evaluates a condition and executes the corresponding block of code:\nvar x = 10;\nif (x &gt; 5) {\n    print(\"x is greater than 5\");\n} else {\n    print(\"x is 5 or less\");\n}\n\n\nFor Loops\nThe for loop is used for iteration:\nfor (var i = 0; i &lt; 5; i = i + 1) {\n    print(\"Iteration: \" + i);\n}\n\n\nWhile Loops\nThe while loop repeats a block of code as long as a condition is true:\nvar count = 0;\nwhile (count &lt; 3) {\n    print(\"Count: \" + count);\n    count = count + 1;\n}"
+  },
+  {
+    "objectID": "beginner.html#functions-1",
+    "href": "beginner.html#functions-1",
+    "title": "Vasuki Beginner’s Documentation",
+    "section": "Functions",
+    "text": "Functions\nFunctions in Vasuki allow you to encapsulate reusable blocks of code.\n\nDefining Functions\nFunctions are defined using the def keyword:\ndef add(a, b) {\n    return a + b;\n}\n\n\nCalling Functions\nYou can call a function by using its name and passing the required arguments:\nvar result = add(3, 4);\nprint(\"Result: \" + result);  // Output: Result: 7"
+  },
+  {
+    "objectID": "beginner.html#arrays-1",
+    "href": "beginner.html#arrays-1",
+    "title": "Vasuki Beginner’s Documentation",
+    "section": "Arrays",
+    "text": "Arrays\nArrays in Vasuki are used to store collections of values.\n\nCreating Arrays\nYou can create an array using square brackets:\nvar arr = [1, 2, 3];\n\n\nAccessing Elements\nArray elements are accessed using one-based indexing:\nprint(arr[1]);  // Output: 1\nprint(arr[2]);  // Output: 2"
+  },
+  {
+    "objectID": "beginner.html#special-features",
+    "href": "beginner.html#special-features",
+    "title": "Vasuki Beginner’s Documentation",
+    "section": "Special Features",
+    "text": "Special Features\nVasuki includes several unique features that make it stand out. These features are designed to enhance flexibility, readability, and debugging capabilities.\n\n\nDual Scoping Mechanisms\nVasuki supports dual scoping mechanisms, which include static scoping and dynamic scoping. These mechanisms determine how variables are resolved during program execution.\n\nStatic Scoping:\nVariables are resolved based on their declaration location in the code. This ensures predictable behavior, as the variable’s value is determined by the structure of the program.\nDynamic Scoping:\nVariables are resolved in the context of the caller’s environment if they are not found in the static scope. This provides additional flexibility, especially in scenarios involving closures or nested function calls.\n\n\nExample: Static and Dynamic Scoping\nvar globalVar = 100;\n\ndef testScope() {\n    print(globalVar);  // Resolves via static scope\n}\n\ntestScope();  // Output: 100\nExplanation:\nIn this example, the variable globalVar is declared in the global scope. The function testScope accesses globalVar using static scoping, as it is resolved in the environment where it was declared.\n\n\n\n\nControl Structures with Return Values\nControl structures in Vasuki, such as if, for, and while, return the value of the last executed statement within their block. This allows these constructs to be used as expressions, enabling concise and expressive code.\n\nExample: If Statement with Return Value\nvar x = 10;\nvar result = if (x &gt; 5) { x } else { 0 };\nprint(\"Result: \" + result);  // Output: Result: 10\nExplanation:\nIn this example, the if statement evaluates the condition x &gt; 5. Since the condition is true, the value of x (10) is returned and assigned to the variable result.\n\n\nExample: For Loop with Return Value\nvar sum = 0;\nfor (var i = 1; i &lt;= 3; i = i + 1) {\n    sum = sum + i;\n}\nprint(\"Sum: \" + sum);  // Output: Sum: 6\nExplanation:\nThe for loop iterates from 1 to 3, adding each value to sum. The final value of sum is returned after the loop completes.\n\n\n\n\nImplicit Return on Omitted Semicolons\nIn Vasuki, if a semicolon is omitted at the end of a statement, the language treats it as an implicit return. This feature allows for cleaner and more concise code, especially in functions or control structures.\n\nExample: Implicit Return in Functions\ndef multiply(a, b) {\n    a * b  // Implicitly returns the product\n}\n\nprint(multiply(3, 4));  // Output: 12\nExplanation:\nIn this example, the function multiply does not explicitly use the return keyword. Instead, the last expression a * b is implicitly returned.\n\n\nExample: Implicit Return in Control Structures\nvar result = if (x &gt; 5) { x } else { 0 };\nprint(\"Result: \" + result);  // Output: Result: 10\nExplanation:\nThe if statement implicitly returns the value of the executed block, which is assigned to the variable result.\n\n\n\n\nError Handling\nVasuki provides detailed error messages to help you debug your code. Below are some common error types and how to handle them.\n\nSyntax Errors\nSyntax errors occur when the code violates Vasuki’s grammatical rules.\nExample: Missing Semicolon\nvar x = 10  // Missing semicolon\nError Message:\nSyntaxError: Expected ';' at the end of the statement.\nSolution:\nAdd the missing semicolon:\nvar x = 10;\n\n\nRuntime Errors\nRuntime errors occur during program execution, such as dividing by zero or accessing undefined variables.\nExample: Division by Zero\nvar result = 10 / 0;  // Division by zero\nError Message:\nRuntimeError: Division by zero.\nSolution:\nEnsure that the denominator is not zero:\nvar denominator = 2;\nvar result = 10 / denominator;\n\n\nLexical/Parsing Errors\nLexical or parsing errors occur when the lexer or parser encounters invalid input.\nExample: Invalid Variable Name\nvar 123abc = 10;  // Invalid variable name\nError Message:\nLexicalError: Invalid token '123abc'.\nSolution:\nUse a valid variable name:\nvar validName = 10;"
+  }
+]

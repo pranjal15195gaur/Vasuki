@@ -1,0 +1,35 @@
+/* Base styles for header and buttons */
+.header-logo {
+    text-align: center;
+    margin: 20px;
+  }
+  
+  .track-options {
+    text-align: center;
+    margin-top: 30px;
+  }
+  
+  .track-options .btn {
+    margin: 0 10px;
+    padding: 10px 20px;
+    font-size: 1.2em;
+    text-decoration: none;
+    border-radius: 5px;
+  }
+  
+  /* Dark Mode Styles */
+  body.dark-mode {
+    background-color: #121212;
+    color: #e0e0e0;
+  }
+  
+  body.dark-mode a.btn {
+    background-color: #333;
+    color: #fff;
+  }
+  
+  /* Optional: Transition for smooth theme change */
+  body {
+    transition: background-color 0.3s, color 0.3s;
+  }
+  
